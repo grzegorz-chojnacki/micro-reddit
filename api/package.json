@@ -1,0 +1,16 @@
+{
+  "name": "reddit-api",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "nodemailer": "^6.6.0",
+    "passport": "^0.4.1",
+    "pg": "^8.6.0",
+    "socket.io": "^4.0.1"
+  },
+  "scripts": {
+    "serve": "nodemon main.js"
+  }
+}

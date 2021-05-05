@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-router.route("/r").get((req, res) => {
+router.route("/").get((req, res) => {
+  // const query = req.query.q || "";
+  // const page = req.query.p  || 0;
+
   res.json([
     { id: 1, name: "A", text: "aaa" },
     { id: 2, name: "B", text: "bbb" },
@@ -10,5 +13,7 @@ router.route("/r").get((req, res) => {
     { id: 5, name: "E", text: "eee" },
   ]);
 });
+
+router.use((_, res) => res.status(400).json('Bad Request'));
 
 module.exports = router;

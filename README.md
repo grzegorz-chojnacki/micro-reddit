@@ -131,7 +131,7 @@
 
 | Metoda | Użytkownik                      # | Payload # | Opis                 # |
 | ------ | --------------------------------- | --------- | ---------------------- |
-| GET    | `/api/home?q=query&p=page`        |           | Paczka redditów        |
+| GET    | `/api/u/home?q=query&p=page`      |           | Paczka redditów        |
 | PUT    | `/api/u`                          | user      | Modyfikacja konta      |
 | POST   | `/api/u/:user/password`           | email     | Reset hasła (na email) |
 | POST   | `/api/u/:user/activate?t=token`   |           | Aktywacja (z emaila)   |

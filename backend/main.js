@@ -26,6 +26,9 @@ const fs = require("fs");
 // Express
 app.use(express.json());
 
+app.use("/api/r", require("./routes/reddit"));
+app.use("/api/u", require("./routes/user"));
+
 app.use("/", (_, res) => {
   const root = "../frontend/dist/"
   const index = "index.html"
@@ -35,10 +38,6 @@ app.use("/", (_, res) => {
     res.status(500).send("File not found")
   }
 });
-
-app.use("/api", require("./routes/api"));
-
-app.use((_, res) => res.status(404).json('Not Found'));
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`)

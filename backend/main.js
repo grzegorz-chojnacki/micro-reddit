@@ -16,8 +16,6 @@ const db = new (require("pg").Client)({
   password: process.env.PGPASSWORD,
 });
 // db.connect();
-const redditService = require("./service/reddit")(db);
-const userService   = require("./service/user")(db);
 
 // Other setup
 const fs = require("fs");
@@ -28,8 +26,10 @@ const fs = require("fs");
 // Express
 app.use(express.json());
 
-app.use("/api/r", require("./routes/reddit"));
-app.use("/api/u", require("./routes/user"));
+const redditService = require("./service/reddit")(db);
+const userService   = require("./service/user")(db);
+app.use("/api/r", require("./routes/reddit")(redditService));
+app.use("/api/u", require("./routes/user")(userService));
 
 app.use("/", (_, res) => {
   const root = "../frontend/dist/"

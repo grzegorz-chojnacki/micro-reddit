@@ -11,83 +11,68 @@ const oneify = n => {
 module.exports = redditService => {
   // For reddits
   router.route("/")
-    .get((req, res) => {
+    .get(async (req, res) => {
       const { query, page } = pagination(req);
 
-      res.json({
-        query, page, reddits: [
-          { id: 1, name: "A", text: "aaa" },
-          { id: 2, name: "B", text: "bbb" },
-          { id: 3, name: "C", text: "ccc" },
-          { id: 4, name: "D", text: "ddd" },
-          { id: 5, name: "E", text: "eee" },
-        ]
-      });
+      const reddits = await redditService.getAll(page, query);
+      res.json(reddits);
     })
-    .post((req, res) => {
+    .post(async (req, res) => {
       const reddit = req.body;
-      res.json({...reddit, id: 1000 });
+
+      const id = await redditService.add(reddit);
+      res.json({ ...reddit, id });
     });
 
   // For reddit
   router.route("/:redditId")
-    .get((req, res) => {
+    .get(async (req, res) => {
       const { redditId } = req.params;
-      res.json({ id: redditId, name: "Z", text: "zzz" });
+      const reddit = await redditService.get(redditId);
+      res.json(reddit);
     })
-    .put((req, res) => {
-      const oldReddit = { id: 12, name: "X", text: "xxx" };
-      const newReddit = req.body;
-      res.json({ ...oldReddit, ...newReddit });
+    .put(async (req, res) => {
+      const reddit = req.body;
+      const updated = await redditService.update(reddit);
+      res.json(updated);
     });
 
   // For reddit posts
   router.route("/:redditId/p")
-    .get((req, res) => {
+    .get(async (req, res) => {
       const { query, page } = pagination(req);
       const { redditId } = req.params;
 
-      res.json({
-        redditId, query, page,
-        posts: [
-          { id: 1, name: "Aaa", text: "Aaa aaa", comments: [{}] },
-          { id: 2, name: "Bbb", text: "Bbb bbb", comments: [{}] },
-          { id: 3, name: "Ccc", text: "Ccc ccc", comments: [{}] },
-        ]
-      });
+      const posts = await redditService.getPosts(redditId, page, query);
+      res.json(posts);
     })
-    .post((req, res) => {
+    .post(async (req, res) => {
       const post = req.body;
-      res.json({ ...post, id: 2000 });
+      const id = await redditService.addPost(post);
+      res.json({ ...post, id });
     });
 
   // For reddit post
   router.route("/:redditId/p/:postId")
     // Replaced by WebSocket (?)
-    .get((req, res) => {
-      const { query, page } = pagination(req);
-      const { redditId, postId} = req.params
+    .get(async (req, res) => {
+      const { redditId, postId} = req.params;
 
-      res.json({
-        redditId,
-        post: {
-          id: postId,
-          name: "Wrr",
-          text: "Wrr wrr",
-          score: 100
-        },
-      });
+      const post = await redditService.getPost(redditId, postId);
+      res.json(post);
     })
-    .post((req, res) => {
-      const post = req.body;
-      res.json({ ...post, id: 5326 });
+    .delete(async (req, res) => {
+      const { redditId, postId} = req.params;
+
+      await redditService.deletePost(redditId, postId);
+      res.sendStatus(200)
     })
-    .delete((req, res) => { res.sendStatus(200) })
-    .patch((req, res) => {
+    .patch(async (req, res) => {
+      const { redditId, postId} = req.params;
       const vote = oneify(Number.parseInt(req.body.vote) || 0);
-      const post = { id: 99, name: "Ooo", text: "Uuu", score: 100 };
 
-      res.json({ ...post, score: post.score + vote });
+      const score = await redditService.votePost(redditId, postId, vote);
+      res.json(score);
     })
 
   router.use((_, res) => res.status(400).json('Bad Request'));

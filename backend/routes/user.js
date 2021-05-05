@@ -1,10 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
-const pagination = req => ({
-  query: req.query.q || "",
-  page: req.query.p  || 0
-});
+const { pagination } = require("../utils.js")
 
 // For users
 router.route("/")

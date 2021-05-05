@@ -1,14 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const { pagination } = require("../utils.js");
 
-const pagination = req => ({
-  query: req.query.q || "",
-  page: req.query.p  || 0
-});
-
-const oneify = n => (n !== 0)
-  ? (n > 0) ? 1 : -1
-  : 0;
+const oneify = n => {
+  if (n === 0) return 0;
+  else if (n > 0) return 1;
+  else return -1;
+};
 
 // For reddits
 router.route("/")

@@ -8,12 +8,12 @@ const pagination = req => ({
 
 const oneify = n => (n !== 0)
   ? (n > 0) ? 1 : -1
-  : 0
+  : 0;
 
 // For reddits
 router.route("/")
   .get((req, res) => {
-    const { query, page } = pagination(req)
+    const { query, page } = pagination(req);
 
     res.json({
       query, page, reddits: [
@@ -26,27 +26,27 @@ router.route("/")
     });
   })
   .post((req, res) => {
-    const reddit = req.body
+    const reddit = req.body;
     res.json({...reddit, id: 1000 });
   });
 
 // For reddit
 router.route("/:redditId")
   .get((req, res) => {
-    const { redditId } = req.params
-    res.json({ id: redditId, name: "Z", text: "zzz" })
+    const { redditId } = req.params;
+    res.json({ id: redditId, name: "Z", text: "zzz" });
   })
   .put((req, res) => {
-    const oldReddit = { id: 12, name: "X", text: "xxx" }
-    const newReddit = req.body
-    res.json({ ...oldReddit, ...newReddit })
+    const oldReddit = { id: 12, name: "X", text: "xxx" };
+    const newReddit = req.body;
+    res.json({ ...oldReddit, ...newReddit });
   });
 
 // For reddit posts
 router.route("/:redditId/p")
   .get((req, res) => {
-    const { query, page } = pagination(req)
-    const { redditId } = req.params
+    const { query, page } = pagination(req);
+    const { redditId } = req.params;
 
     res.json({
       redditId, query, page,
@@ -58,7 +58,7 @@ router.route("/:redditId/p")
     });
   })
   .post((req, res) => {
-    const post = req.body
+    const post = req.body;
     res.json({ ...post, id: 2000 });
   });
 
@@ -66,7 +66,7 @@ router.route("/:redditId/p")
 router.route("/:redditId/p/:postId")
   // Replaced by WebSocket (?)
   .get((req, res) => {
-    const { query, page } = pagination(req)
+    const { query, page } = pagination(req);
     const { redditId, postId} = req.params
 
     res.json({
@@ -80,15 +80,15 @@ router.route("/:redditId/p/:postId")
     });
   })
   .post((req, res) => {
-    const post = req.body
+    const post = req.body;
     res.json({ ...post, id: 5326 });
   })
   .delete((req, res) => { res.sendStatus(200) })
   .patch((req, res) => {
-    const vote = oneify(Number.parseInt(req.body.vote) || 0)
-    const post = { id: 99, name: "Ooo", text: "Uuu", score: 100 }
+    const vote = oneify(Number.parseInt(req.body.vote) || 0);
+    const post = { id: 99, name: "Ooo", text: "Uuu", score: 100 };
 
-    res.json({ ...post, score: post.score + vote })
+    res.json({ ...post, score: post.score + vote });
   })
 
 router.use((_, res) => res.status(400).json('Bad Request'));

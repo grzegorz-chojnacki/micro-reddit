@@ -184,10 +184,10 @@
 
 [^wipe]:
 - Dla danego użytkownika
+  - Wylogowanie go
   - Usunięcie konta
   - Usunięcie komentarzy
   - Usunięcie postów
-  - Wylogowanie go
 - Dla pozostałych
   - Jeżeli post był zbanowanego użytkownika - **(1)**, inaczej - **(2)**
     1. Przekierowanie użytkowników na reddit
@@ -199,14 +199,14 @@ type role    = 'user' | 'mod' | 'admin'
 type uuid    = string
 type url     = string
 type Null<T> = T | null
-type vote    = -1 | 0 | +1 // Użytkownik dał downvote, nie zagłosował lub dał upvote
+type vote    = -1 | 0 | +1 // Downvote, brak głosu lub upvote
 
 interface User {
   id:       uuid
   admin:    boolean
   username: string
   password: Null<string> // Hasło jest null gdy pobieramy innych użytkowników
-  email:    string
+  email:    Null<string> // Podobnie jak wyżej
   created:  Date
 }
 
@@ -249,7 +249,7 @@ interface Comment {
   id:      uuid
   user:    User
   text:    string
-  parent:  Null<uuid> // Komentarz do innego komentarza lub dla postu
+  parent:  Null<uuid> // Komentarz do innego komentarza lub do postu
   voted:   vote
   score:   number
   created: Date

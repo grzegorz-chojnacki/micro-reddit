@@ -132,12 +132,12 @@
 | Metoda | Użytkownik                      # | Payload # | Opis                 # |
 | ------ | --------------------------------- | --------- | ---------------------- |
 | GET    | `/api/u/home?q=query&p=page`      |           | Paczka redditów        |
-| PUT    | `/api/u`                          | user      | Modyfikacja konta      |
+| PUT    | `/api/u/:user`                    | user      | Modyfikacja konta      |
+| DELETE | `/api/u/:user`                    |           | Usunięcie konta        |
 | POST   | `/api/u/:user/password`           | email     | Reset hasła (na email) |
 | POST   | `/api/u/:user/activate?t=token`   |           | Aktywacja (z emaila)   |
 | POST   | `/api/u/r`                        | reddit-id | Subskrybcja            |
 | DELETE | `/api/u/r/:reddit`                |           | Anulowanie subskrybcji |
-| DELETE | `/api/u`                          |           | Usunięcie konta        |
 | POST   | `/api/r`                          | reddit    | Dodanie reddita        |
 | POST   | `/api/r/:reddit/p`                | post      | Dodanie postu          |
 | PATCH  | `/api/r/:reddit/p/:post/vote`     | -1/0/-1   | Głosowanie na post     |

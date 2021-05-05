@@ -18,6 +18,7 @@ const http = require("http").createServer(app);
 // db.connect();
 
 // Other setup
+const fs = require("fs");
 // const axios      = require("axios");
 // const passport   = require("passport");
 // const nodemailer = require("nodemailer");
@@ -25,7 +26,16 @@ const http = require("http").createServer(app);
 // Express
 app.use(express.json());
 
-app.get("/", (req, res) => res.send('<html></html>'));
+app.use("/", (_, res) => {
+  const root = "../frontend/dist/"
+  const index = "index.html"
+  if (fs.existsSync(`${root}${index}`)) {
+    res.sendFile(index, { root })
+  } else {
+    res.status(500).send("File not found")
+  }
+});
+
 app.use("/api", require("./routes/api"));
 
 app.use((_, res) => res.status(404).json('Not Found'));

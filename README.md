@@ -119,37 +119,37 @@
     - Usunięcie użytkownika (administrator)
 
 ## Backend
-| Metoda | Publiczny                       # | Payload # | Opis                 # |
-| ------ | --------------------------------- | --------- | ---------------------- |
-| GET    | `/`                               |           | Frontend               |
-| GET    | `/api/r?q=query&p=page`           |           | Paczka redditów        |
-| GET    | `/api/r/:reddit`                  |           | Metadane reddita       |
-| GET    | `/api/r/:reddit/p?q=query&p=page` |           | Paczka postów          |
-| GET    | `/api/u`                          |           | Dane konta             |
-| POST   | `/api/u`                          | user      | Rejestracja            |
-| WS     | `/api/r/:reddit/p/:post`          |           | Pokój postu            |
+| Metoda | Publiczny                        # | Payload | Opis                 # |
+| ------ | ---------------------------------- | ------- | ---------------------- |
+| GET    | `/`                                |         | Frontend               |
+| GET    | `/api/r?q=query&p=page`            |         | Paczka redditów        |
+| GET    | `/api/r/:reddit`                   |         | Metadane reddita       |
+| GET    | `/api/r/:reddit/p?q=query&p=page`  |         | Paczka postów          |
+| GET    | `/api/u`                           |         | Dane konta             |
+| POST   | `/api/u`                           | user    | Rejestracja            |
+| WS     | `/api/r/:reddit/p/:post`           |         | Pokój postu            |
 
-| Metoda | Użytkownik                      # | Payload # | Opis                 # |
-| ------ | --------------------------------- | --------- | ---------------------- |
-| GET    | `/api/u/home?q=query&p=page`      |           | Paczka redditów        |
-| PUT    | `/api/u/:user`                    | user      | Modyfikacja konta      |
-| DELETE | `/api/u/:user`                    |           | Usunięcie konta        |
-| POST   | `/api/u/:user/password`           | email     | Reset hasła (na email) |
-| POST   | `/api/u/:user/activate?t=token`   |           | Aktywacja (z emaila)   |
-| POST   | `/api/u/r`                        | reddit-id | Subskrybcja            |
-| DELETE | `/api/u/r/:reddit`                |           | Anulowanie subskrybcji |
-| POST   | `/api/r`                          | reddit    | Dodanie reddita        |
-| POST   | `/api/r/:reddit/p`                | post      | Dodanie postu          |
-| PATCH  | `/api/r/:reddit/p/:post/vote`     | -1/0/-1   | Głosowanie na post     |
+| Metoda | Użytkownik                       # | Payload | Opis                 # |
+| ------ | ---------------------------------- | ------- | ---------------------- |
+| GET    | `/api/u/:user/home?q=query&p=page` |         | Paczka redditów        |
+| PUT    | `/api/u/:user`                     | user    | Modyfikacja konta      |
+| DELETE | `/api/u/:user`                     |         | Usunięcie konta        |
+| POST   | `/api/u/:user/password`            | email   | Reset hasła (na email) |
+| POST   | `/api/u/:user/activate?t=token`    |         | Aktywacja (z emaila)   |
+| PUT    | `/api/u/r/:reddit`                 |         | Subskrybcja            |
+| DELETE | `/api/u/r/:reddit`                 |         | Anulowanie subskrybcji |
+| POST   | `/api/r`                           | reddit  | Dodanie reddita        |
+| POST   | `/api/r/:reddit/p`                 | post    | Dodanie postu          |
+| PATCH  | `/api/r/:reddit/p/:post/vote`      | -1/0/-1 | Głosowanie na post     |
 
-| Metoda | Moderator                       # | Payload # | Opis                 # |
-| ------ | --------------------------------- | --------- | ---------------------- |
-| PUT    | `/api/r/:reddit`                  | reddit    | Edycja metadanych      |
-| DELETE | `/api/r/:reddit/p/:post`          |           | Usunięcie postu        |
+| Metoda | Moderator                        # | Payload | Opis                 # |
+| ------ | ---------------------------------- | ------- | ---------------------- |
+| PUT    | `/api/r/:reddit`                   | reddit  | Edycja metadanych      |
+| DELETE | `/api/r/:reddit/p/:post`           |         | Usunięcie postu        |
 
-| Metoda | Administrator                   # | Payload # | Opis                 # |
-| ------ | --------------------------------- | --------- | ---------------------- |
-| GET    | `/api/stats`                      |           | Statystyki (?)         |
+| Metoda | Administrator                    # | Payload | Opis                 # |
+| ------ | ---------------------------------- | ------- | ---------------------- |
+| GET    | `/api/stats`                       |         | Statystyki (?)         |
 
 
 ### WebSocket API

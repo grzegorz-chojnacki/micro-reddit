@@ -6,6 +6,11 @@ const pagination = req => ({
   page: req.query.p  || 0
 });
 
+const oneify = n => (n !== 0)
+  ? (n > 0) ? 1 : -1
+  : 0
+
+// For reddits
 router.route("/")
   .get((req, res) => {
     const { query, page } = pagination(req)
@@ -25,9 +30,10 @@ router.route("/")
     res.json({...reddit, id: 1000 });
   });
 
-router.route("/:reddit")
+// For reddit
+router.route("/:redditId")
   .get((req, res) => {
-    const redditId = req.params.reddit
+    const { redditId } = req.params
     res.json({ id: redditId, name: "Z", text: "zzz" })
   })
   .put((req, res) => {
@@ -36,10 +42,11 @@ router.route("/:reddit")
     res.json({ ...oldReddit, ...newReddit })
   });
 
-router.route("/:reddit/p")
+// For reddit posts
+router.route("/:redditId/p")
   .get((req, res) => {
     const { query, page } = pagination(req)
-    const redditId = req.params.reddit
+    const { redditId } = req.params
 
     res.json({
       redditId, query, page,
@@ -55,6 +62,34 @@ router.route("/:reddit/p")
     res.json({ ...post, id: 2000 });
   });
 
+// For reddit post
+router.route("/:redditId/p/:postId")
+  // Replaced by WebSocket (?)
+  .get((req, res) => {
+    const { query, page } = pagination(req)
+    const { redditId, postId} = req.params
+
+    res.json({
+      redditId,
+      post: {
+        id: postId,
+        name: "Wrr",
+        text: "Wrr wrr",
+        score: 100
+      },
+    });
+  })
+  .post((req, res) => {
+    const post = req.body
+    res.json({ ...post, id: 5326 });
+  })
+  .delete((req, res) => { res.sendStatus(200) })
+  .patch((req, res) => {
+    const vote = oneify(Number.parseInt(req.body.vote) || 0)
+    const post = { id: 99, name: "Ooo", text: "Uuu", score: 100 }
+
+    res.json({ ...post, score: post.score + vote })
+  })
 
 router.use((_, res) => res.status(400).json('Bad Request'));
 

@@ -5,54 +5,69 @@ const { pagination } = require("../utils.js")
 module.exports = userService => {
   // For users
   router.route("/")
-    .get((req, res) => {
-      res.json({ id: 1, admin: true, username: 'root' });
+    .get(async (req, res) => {
+      res.json(await userService.get(1));
     })
-    .post((req, res) => {
+    .post(async (req, res) => {
       const user = req.body;
-      res.json({ ...user, id: 1337 });
+      const id = await userService.add(user);
+      res.json({...user, id});
     });
 
   // For user
   router.route("/:userId")
-    .put((req, res) => {
+    .put(async (req, res) => {
       const { userId } = req.params;
-      const user = req.body;
-      res.json({ ...user, id: userId });
+      const user = {...req.body, id: userId};
+
+      const updated = await userService.update(user);
+
+      res.json(updated);
     })
-    .delete((req, res) => { res.sendStatus(200); });
+    .delete(async (req, res) => {
+      const { userId } = req.params;
+
+      await userService.delete(userId);
+      res.sendStatus(200);
+    });
 
   // For subscriptions
   router.route("/:userId/r/:redditId")
-    .put((req, res) => {
+    .put(async (req, res) => {
       const { userId, redditId } = req.params;
+
+      userService.setSubscribe(userId, redditId, true);
       res.sendStatus(200);
     })
-    .delete((req, res) => {
+    .delete(async (req, res) => {
       const { userId, redditId } = req.params;
+
+      userService.setSubscribe(userId, redditId, false);
       res.sendStatus(200);
     });
 
   // For password
   router.route("/:userId/password")
-    .post((req, res) => {
+    .post(async (req, res) => {
       const { userId } = req.params;
       const email = req.body;
+      const randomPassword = '';
+
+      userService.setPassword(userId, randomPassword);
+      // emailService.sendEmail(email, passwordResetEmail);
+
       res.sendStatus(200);
     });
 
   // For homepage
   router.route("/:userId/home")
-    .get((req, res) => {
+    .get(async (req, res) => {
       const { userId } = req.params;
       const { query, page } = pagination(req);
-      res.json({
-        userId, query, page, reddits: [
-          { id: 1, name: "A", text: "aaa" },
-          { id: 3, name: "C", text: "ccc" },
-          { id: 5, name: "E", text: "eee" },
-        ]
-      });
+
+      const reddits = userService.getHome(userId, page, query);
+
+      res.json(reddits);
     });
 
   router.use((_, res) => res.status(400).json('Bad Request'));

@@ -26,9 +26,15 @@
   - [ ] **DST** Tworzenie postów w ramach danego (sub)reddita
   - [ ] **DST** Możliwość przechodzenia pomiędzy subredditami
   - [ ] **DST** Głosowanie na posty
-  - [ ] Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze),
-        ankietę (uwaga na próby wielokrotnego głosowania - Uniemożliwić je)
-  - [ ] **DST** dynamiczny (i hierarchiczny ***BDB***) system komentarzy (socket.io)
+  - [ ] Post może zawierać:
+    - [ ] **DST** tekst,
+    - [ ] **DST** link,
+    - [ ] **DST** wideo (z Youtube),
+    - [ ] **DST** obrazek (na serwerze),
+    - [ ] ankietę (uwaga na próby wielokrotnego głosowania - Uniemożliwić je)
+  - [ ] system komentarzy (socket.io)
+    - [ ] **DST** dynamiczny
+    - [ ] ***BDB*** hierarchiczny
   - [ ] Wymagane podstrony
     - [ ] **DST** (przynajmniej jeden) Home użytkownika z opcjami sortowania
           (Best, Hot - Tempo przyrostu polubień, New)

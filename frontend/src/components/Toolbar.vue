@@ -1,7 +1,7 @@
 <template>
-  <nav class="navbar navbar-dark bg-dark">
+  <nav class="navbar navbar-dark sticky-top bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand">Reddit</a>
+      <a class="navbar-brand" href="/">Reddit</a>
       <form class="d-flex">
         <input
           class="form-control me-2 flex-grow"

@@ -24,6 +24,8 @@ const fs = require("fs");
 // const nodemailer = require("nodemailer");
 
 // Express
+const cors = require('cors');
+app.use(cors());
 app.use(express.json());
 
 const redditService = require("./services/reddit")(db);

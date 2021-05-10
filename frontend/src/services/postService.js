@@ -1,5 +1,8 @@
+import axios from 'axios'
+import { api } from '@/common'
+
 export const postService = {
-  getAll() {
-    return Promise.resolve([{id: 1, text: 'abc'}, {id: 2, text: 'abc'}])
+  async getAll() {
+    return (await axios.get(`${api}/r`)).data
   }
 }

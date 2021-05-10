@@ -102,7 +102,7 @@
 - [AccountView](/account)
   - Ustawienia użytkownika
 
-- [RedditView](/r/:reddit)
+- [RedditView](/r/:redditId)
   - Lista postów
   - Pole wyszukiwania postów
   - Boczny panel akcji dla użytkownika
@@ -112,7 +112,7 @@
   - Boczny panel akcji dla administratora
     - Usunięcie reddita
 
-- [PostView](/r/:reddit/p/:post)
+- [PostView](/r/:reddit/p/:postId)
   - Post
     - Treść postu
     - Głosowanie

@@ -11,16 +11,22 @@
 <script>
 import Post from '@/components/Post.vue'
 
+import { postService } from '@/services/postService.js'
+
 export default {
   name: 'MainView',
-  props: {
-    isHome: Boolean
-  },
+  components: { Post },
+  props: { isHome: Boolean },
   data() {
     return {
-      posts: [{id: 1, text: 'abc'}, {id: 2, text: 'abc'}]
+      postService,
+      posts: []
     }
   },
-  components: { Post }
+  created() {
+    this.postService.getAll().then(posts => {
+      this.posts = posts
+    })
+  }
 }
 </script>

@@ -26,8 +26,8 @@ const fs = require("fs");
 // Express
 app.use(express.json());
 
-const redditService = require("./service/reddit")(db);
-const userService   = require("./service/user")(db);
+const redditService = require("./services/reddit")(db);
+const userService   = require("./services/user")(db);
 app.use("/api/r", require("./routes/reddit")(redditService));
 app.use("/api/u", require("./routes/user")(userService));
 

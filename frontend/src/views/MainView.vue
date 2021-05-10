@@ -1,10 +1,11 @@
 <template>
   <div>
+    <aside>
+      <button @click="fetchNext">Fetch</button>
+    </aside>
     <main>
       <Post v-for="post of posts" :post="post" :key="post.id"/>
     </main>
-    <aside>
-    </aside>
   </div>
 </template>
 
@@ -20,13 +21,19 @@ export default {
   data() {
     return {
       postService,
+      page: 0,
+      search: 'new',
       posts: []
     }
   },
-  created() {
-    this.postService.getAll().then(posts => {
-      this.posts = posts
-    })
+  created() { this.fetchNext() },
+  methods: {
+    fetchNext() {
+      this.postService.getAll(this.page, this.search).then(posts => {
+        this.posts = this.posts.concat(posts)
+        this.page++
+      })
+    }
   }
 }
 </script>

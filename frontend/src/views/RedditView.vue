@@ -6,6 +6,7 @@
 
 export default {
   name: 'RedditView',
+  props: { redditId: String },
   components: {}
 }
 </script>

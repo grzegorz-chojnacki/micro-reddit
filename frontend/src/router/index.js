@@ -7,27 +7,26 @@ import RedditView from '@/views/RedditView.vue'
 const routes = [
   {
     path: '/',
-    name: 'MainView',
+    props: { isHome: false },
     component: MainView
   },
   {
     path: '/home',
-    name: 'MainView',
+    props: { isHome: true },
     component: MainView
   },
   {
     path: '/account',
-    name: 'AccountView',
     component: AccountView
   },
   {
     path: '/r/:redditId',
-    name: 'RedditView',
+    props: true,
     component: RedditView
   },
   {
     path: '/r/:redditId/p/:postId',
-    name: 'PostView',
+    props: true,
     component: PostView
   },
 ]

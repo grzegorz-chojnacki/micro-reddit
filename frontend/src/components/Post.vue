@@ -21,8 +21,26 @@
       <p class="card-text">{{ post.text }}</p>
     </div>
 
-    <footer class="card-footer">
-      <span class="material-icons">face</span>
+    <footer class="card-footer" >
+      <div class="btn-group btn-group-sm" role="group">
+        <input type="radio" class="btn-check" autocomplete="off"
+          :name="post.id"
+          :id="post.id + 'upvote'"
+          :checked="post.voted === 1">
+        <label class="btn btn-outline-primary" :for="post.id + 'upvote'">
+          <span class="material-icons add">add</span>
+        </label>
+
+        <input type="radio" class="btn-check" autocomplete="off"
+          :name="post.id"
+          :id="post.id + 'downvote'"
+          :checked="post.voted === -1">
+        <label class="btn btn-outline-primary" :for="post.id + 'downvote'">
+          <span class="material-icons remove">remove</span>
+        </label>
+      </div>
+
+      <span class="vote">{{ post.score }}</span>
     </footer>
   </section>
 </template>
@@ -36,6 +54,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   section { margin: 1em 0 }
+
+  .material-icons, .btn-outline-primary { line-height: initial }
+
+  .checked {
+    &.add { color: red }
+    &.remove { color: blue }
+  }
 </style>

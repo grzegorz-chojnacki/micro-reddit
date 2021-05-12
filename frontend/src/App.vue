@@ -13,10 +13,3 @@ export default {
   components: { Toolbar }
 }
 </script>
-
-
-<style lang="scss">
-.icons {
-    @extend .material-icons !optional;
-}
-</style>

@@ -37,3 +37,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  main {
+    max-width: 1000px;
+    padding: 0.5em;
+    margin: 0 auto;
+  }
+</style>

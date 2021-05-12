@@ -15,5 +15,8 @@ export default {
 </script>
 
 
-<style>
+<style lang="scss">
+.icons {
+    @extend .material-icons !optional;
+}
 </style>

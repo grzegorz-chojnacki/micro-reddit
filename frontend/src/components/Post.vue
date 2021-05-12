@@ -20,6 +20,10 @@
       <img v-if="post.image" :src="post.image" class="card-img-top" :alt="post.name">
       <p class="card-text">{{ post.text }}</p>
     </div>
+
+    <footer class="card-footer">
+      <span class="material-icons">face</span>
+    </footer>
   </section>
 </template>
 

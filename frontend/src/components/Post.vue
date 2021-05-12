@@ -30,20 +30,26 @@
           :name="post.id"
           :id="post.id + 'upvote'"
           :checked="post.voted === 1">
-        <label class="btn btn-outline-primary" :for="post.id + 'upvote'">
+        <label class="btn btn-outline-dark" :for="post.id + 'upvote'">
           <span class="material-icons add">add</span>
+        </label>
+
+        <input type="radio" class="btn-check" disabled
+          :name="post.id"
+          :id="post.id + 'score'">
+        <label class="btn btn-outline-dark score" :for="post.id + 'score'">
+          <span class="vote">{{ post.score }}</span>
         </label>
 
         <input type="radio" class="btn-check" autocomplete="off"
           :name="post.id"
           :id="post.id + 'downvote'"
           :checked="post.voted === -1">
-        <label class="btn btn-outline-primary" :for="post.id + 'downvote'">
+        <label class="btn btn-outline-dark" :for="post.id + 'downvote'">
           <span class="material-icons remove">remove</span>
         </label>
       </div>
 
-      <span class="vote ms-3">{{ post.score }}</span>
     </footer>
   </section>
 </template>
@@ -60,7 +66,11 @@ export default {
 <style scoped lang="scss">
   section { margin: 1em 0 }
 
-  .material-icons, .btn-outline-primary { line-height: initial }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 0.5em;
+  }
 
   .yt-player {
     width: 100%;

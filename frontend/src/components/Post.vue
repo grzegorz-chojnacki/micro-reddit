@@ -50,6 +50,10 @@
         </label>
       </div>
 
+      <router-link class="btn mx-3"
+        :to="`/r/${post.reddit.id}/p/${post.id}#comments`">
+        Comments
+      </router-link>
     </footer>
   </section>
 </template>
@@ -70,6 +74,13 @@ export default {
     display: inline-flex;
     align-items: center;
     padding: 0 0.5em;
+  }
+
+  header > * {
+    a {
+      text-decoration: none;
+      color: initial;
+    }
   }
 
   .yt-player {

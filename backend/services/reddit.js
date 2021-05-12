@@ -11,11 +11,11 @@ module.exports = db => ({
   },
   getAll(page, order) {
     return Promise.resolve([
-      { id: 1, name: "A", text: "aaa", voted:  1, reddit: { name: 'Rrrr', id: 1 }},
-      { id: 2, name: "B", text: "bbb", voted: -1, reddit: { name: 'Rrrr', id: 1 }},
-      { id: 3, name: "C", text: "ccc", voted:  0, reddit: { name: 'Rrrr', id: 1 }},
-      { id: 4, name: "D", text: "ddd", voted: -1, reddit: { name: 'Rrrr', id: 1 }},
-      { id: 5, name: "E", text: "eee", voted:  1, reddit: { name: 'Rrrr', id: 1 }},
+      { id: 1, name: "A", score: 100, text: "aaa", voted:  1, reddit: { name: 'Rrrr', id: 1 }},
+      { id: 2, name: "B", score: 120, text: "bbb", voted: -1, reddit: { name: 'Rrrr', id: 1 }},
+      { id: 3, name: "C", score: 200, text: "ccc", voted:  0, reddit: { name: 'Rrrr', id: 1 }},
+      { id: 4, name: "D", score: 102, text: "ddd", voted: -1, reddit: { name: 'Rrrr', id: 1 }},
+      { id: 5, name: "E", score: 110, text: "eee", voted:  1, reddit: { name: 'Rrrr', id: 1 }},
     ]);
   },
   getPost(redditId, postId) {

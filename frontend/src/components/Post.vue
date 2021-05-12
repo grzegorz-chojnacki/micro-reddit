@@ -17,6 +17,9 @@
     </header>
 
     <div class="card-body">
+      <iframe v-if="post.video" :src="post.video" class="yt-player"
+        type="text/html" frameborder="0">
+      </iframe>
       <img v-if="post.image" :src="post.image" class="card-img-top" :alt="post.name">
       <p class="card-text">{{ post.text }}</p>
     </div>
@@ -40,7 +43,7 @@
         </label>
       </div>
 
-      <span class="vote">{{ post.score }}</span>
+      <span class="vote ms-3">{{ post.score }}</span>
     </footer>
   </section>
 </template>
@@ -59,8 +62,8 @@ export default {
 
   .material-icons, .btn-outline-primary { line-height: initial }
 
-  .checked {
-    &.add { color: red }
-    &.remove { color: blue }
+  .yt-player {
+    width: 100%;
+    height: 500px;
   }
 </style>

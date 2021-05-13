@@ -24,6 +24,11 @@ module.exports = db => ({
       name: "Wrr",
       text: "Wrr wrr",
       score: 100,
+      voted: 1,
+      reddit: {
+        id: redditId,
+        name: 'Rrrr'
+      }
     });
   },
   addPost(redditId, post) {

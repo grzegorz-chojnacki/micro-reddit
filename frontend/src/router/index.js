@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AccountView from '@/views/AccountView.vue'
 import MainView from '@/views/MainView.vue'
+import HomeView from '@/views/HomeView.vue'
 import PostView from '@/views/PostView.vue'
 import RedditView from '@/views/RedditView.vue'
 
@@ -8,14 +9,12 @@ const routes = [
   {
     path: '/',
     name: 'main',
-    props: { isHome: false },
     component: MainView
   },
   {
     path: '/home',
     name: 'home',
-    props: { isHome: true },
-    component: MainView
+    component: HomeView
   },
   {
     path: '/account',

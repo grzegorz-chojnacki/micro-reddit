@@ -1,5 +1,5 @@
 <template>
-  <Feed :fetchingFn="fetchMain"/>
+  <Feed :fetchingFn="fetchHome"/>
 </template>
 
 <script>
@@ -7,8 +7,8 @@ import Feed from '@/components/Feed.vue'
 import { postService } from '@/services/postService.js'
 
 export default {
-  name: 'MainView',
+  name: 'HomeView',
   components: { Feed },
-  data() { return { fetchMain: postService.getAll }}
+  data() { return { fetchHome: postService.getHome }}
 }
 </script>

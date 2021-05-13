@@ -11,7 +11,7 @@
       <h6 class="card-subtitle">
         <router-link
             :to="{ name: 'reddit', params: { redditId: post.reddit.id }}">
-          {{ post.name }}
+          {{ post.reddit.name }}
         </router-link>
       </h6>
     </header>

@@ -14,23 +14,22 @@ const db = new (require("pg").Client)({
 // Server setup
 const express = require("express");
 const app = express();
-// const io = require("socket.io")(https);
 // const nodemailer = require("nodemailer");
 
 const setupServer = mode => {
   const fs = require("fs");
-  if (mode === 'production') {
-    return require('https').createServer({
+  if (mode === "production") {
+    return require("https").createServer({
       key: fs.readFileSync("./ssl/key.pem"),
       cert: fs.readFileSync("./ssl/cert.pem"),
     }, app);
   } else {
-    app.use(require('cors')());
+    app.use(require("cors")());
     return require("http").createServer(app)
   }
 }
 
-const server = setupServer('development')
+const server = setupServer("development")
 
 // Express
 app.use(express.json());
@@ -71,13 +70,20 @@ passport.serializeUser((user, done) => {
 });
 
 // Routes & services
-const redditService = require("./services/reddit")(db);
-const userService   = require("./services/user")(db);
+const redditService  = require("./services/reddit")(db);
+const userService    = require("./services/user")(db);
+
 app.use("/api/r", require("./routes/reddit")(redditService));
 app.use("/api/u", require("./routes/user")(userService));
 
-const path = require('path')
-app.use("/", express.static(path.join(__dirname, '../frontend/dist')))
+const path = require("path")
+app.use("/", express.static(path.join(__dirname, "../frontend/dist")))
+
+// Socket.io
+const io = require("socket.io")(server, { cors: {}})
+const commentService = require("./services/comment")(db);
+
+io.of('/api').on("connection", commentService)
 
 server.listen(port, () => {
   console.log(`Server started on port ${port}`)

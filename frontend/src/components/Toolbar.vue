@@ -23,6 +23,11 @@
               Login
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#registerDialog">
+              Register
+            </a>
+          </li>
         </ul>
 
         <form class="d-flex">
@@ -38,13 +43,15 @@
     </div>
   </nav>
   <LoginDialog id="loginDialog"/>
+  <RegisterDialog id="registerDialog"/>
 </template>
 
 <script>
 import LoginDialog from '@/components/LoginDialog.vue'
+import RegisterDialog from '@/components/RegisterDialog.vue'
 
 export default {
-  components: { LoginDialog },
+  components: { LoginDialog, RegisterDialog },
   name: "Toolbar",
   props: {},
 };

@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-dark">
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
     <div class="container-fluid">
       <router-link class="navbar-brand" :to="{ name: 'main' }">
         Reddit
@@ -12,14 +12,16 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-sm-0">
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'home' }">
               Home
             </router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link">Login</a>
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginDialog">
+              Login
+            </a>
           </li>
         </ul>
 
@@ -35,10 +37,14 @@
       </div>
     </div>
   </nav>
+  <LoginDialog id="loginDialog"/>
 </template>
 
 <script>
+import LoginDialog from '@/components/LoginDialog.vue'
+
 export default {
+  components: { LoginDialog },
   name: "Toolbar",
   props: {},
 };

@@ -43,7 +43,7 @@
 - [ ] **DST** Wyszukiwarka (postów wg treści/subredditów wg nazwy)
 - [ ] ***BDB*** Powiadomienia o odpowiedziach lub zmianach w trendach dotyczący
       postów danego użytkownika (socket.io)
-- [ ] **DST** Wybór popularnych (według liczby postów i liczby uzytkowsników) subredditów
+- [ ] **DST** Wybór popularnych (według liczby postów i liczby użytkowników) subredditów
 
 ## Strona serwerowa
 - [ ] Struktura będzie zadana, wstępne dane do załadowania będą zapewnione

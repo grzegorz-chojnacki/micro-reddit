@@ -51,12 +51,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-main {
-  max-width: 1000px;
-  min-height: 100vh;
-  padding: 0.5em;
-  margin: 0 auto;
-}
-</style>

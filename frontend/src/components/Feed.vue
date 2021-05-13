@@ -1,11 +1,18 @@
 <template>
   <div>
-    <aside>
-      <button @click="fetchNext">Fetch</button>
-    </aside>
+    <aside></aside>
+
     <main>
       <Post v-for="post of posts" :post="post" :key="post.id"/>
     </main>
+
+    <footer>
+      <div class="d-flex justify-content-center mt-5">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -23,7 +30,17 @@ export default {
       posts: []
     }
   },
-  created() { this.fetchNext() },
+  created() {
+    this.fetchNext()
+    window.onscroll = () => {
+      const scrollHeight = window.pageYOffset + window.innerHeight
+      const fullHeight = document.documentElement.offsetHeight
+
+      if (scrollHeight >= fullHeight) {
+        this.fetchNext()
+      }
+    }
+  },
   methods: {
     fetchNext() {
       this.fetchingFn(this.page, this.search).then(posts => {
@@ -36,9 +53,10 @@ export default {
 </script>
 
 <style scoped>
-  main {
-    max-width: 1000px;
-    padding: 0.5em;
-    margin: 0 auto;
-  }
+main {
+  max-width: 1000px;
+  min-height: 100vh;
+  padding: 0.5em;
+  margin: 0 auto;
+}
 </style>

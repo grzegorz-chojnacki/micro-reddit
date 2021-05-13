@@ -65,7 +65,7 @@ module.exports = userService => {
       const { userId } = req.params;
       const { query, page } = pagination(req);
 
-      const reddits = userService.getHome(userId, page, query);
+      const reddits = await userService.getHome(userId, page, query);
 
       res.json(reddits);
     });

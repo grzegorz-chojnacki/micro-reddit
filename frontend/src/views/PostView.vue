@@ -17,20 +17,45 @@
 import Post from '@/components/Post.vue'
 
 import { postService } from '@/services/postService'
+import { api } from '@/common'
+import { io } from "socket.io-client";
 
 export default {
   name: 'PostView',
   props: { redditId: String, postId: String },
   components: { Post },
   data() {
-    return { postService, post: null }
+    return {
+      postService,
+      comments: [],
+      socket: null,
+      post: null
+    }
   },
-  created() { this.fetchPost() },
+  created() {
+    this.fetchPost()
+    this.initializeSocket()
+  },
+  unmounted() {
+    if (this.socket) { this.socket.disconnect() }
+  },
   methods: {
     fetchPost() {
       this.postService
         .get(this.redditId, this.postId)
         .then(post => this.post = post)
+    },
+
+    initializeSocket() {
+      this.socket = io.connect(`${api}`)
+
+      this.socket.on('connect', () => {
+        this.socket.emit("room", '1222');
+      })
+
+      this.socket.on('message', msg => {
+        console.log(msg)
+      })
     }
   }
 }

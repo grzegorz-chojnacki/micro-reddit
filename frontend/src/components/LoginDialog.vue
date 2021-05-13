@@ -10,8 +10,12 @@
           <p>Modal body text goes here.</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button ref="dismiss" type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-primary" @click="login">
+            Login
+          </button>
         </div>
       </div>
     </div>
@@ -21,6 +25,11 @@
 <script>
 export default {
   name: 'LoginDialog',
+  methods: {
+    login() {
+      this.$refs.dismiss.click()
+    }
+  }
 }
 </script>
 

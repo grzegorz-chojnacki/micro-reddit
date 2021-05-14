@@ -14,30 +14,32 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-sm-0">
           <li class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'reddit-list' }">
+              Explore
+            </router-link>
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'home' }">
               Home
             </router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginDialog">
+            <span class="nav-link" data-bs-toggle="modal" data-bs-target="#loginDialog">
               Login
-            </a>
+            </span>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#registerDialog">
+            <span class="nav-link" data-bs-toggle="modal" data-bs-target="#registerDialog">
               Register
-            </a>
+            </span>
           </li>
         </ul>
 
-        <form class="d-flex">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Reddit name"
-            aria-label="Search"
-          />
-          <button class="btn btn-primary" type="submit">Search</button>
+        <form class="d-flex" @submit.prevent="onSubmit">
+          <input class="form-control me-2" type="search" v-model="search"
+            placeholder="Reddit name" aria-label="Search"/>
+          <button class="btn btn-primary" :disabled="search === ''"
+            type="submit">Search</button>
         </form>
       </div>
     </div>
@@ -53,9 +55,16 @@ import RegisterDialog from '@/components/RegisterDialog.vue'
 export default {
   components: { LoginDialog, RegisterDialog },
   name: "Toolbar",
-  props: {},
+  data(){ return { search: '' }},
+  methods: {
+    onSubmit() {
+      this.$router.push({ name: 'reddit-list', query: { q: this.search }})
+      this.search = ''
+    }
+  }
 };
 </script>
 
 <style scoped>
+span.nav-link { cursor: pointer }
 </style>

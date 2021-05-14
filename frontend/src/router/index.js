@@ -4,6 +4,7 @@ import MainView from '@/views/MainView.vue'
 import HomeView from '@/views/HomeView.vue'
 import PostView from '@/views/PostView.vue'
 import RedditView from '@/views/RedditView.vue'
+import RedditListView from '@/views/RedditListView.vue'
 
 const routes = [
   {
@@ -20,6 +21,11 @@ const routes = [
     path: '/account',
     name: 'account',
     component: AccountView
+  },
+  {
+    path: '/r',
+    name: 'reddit-list',
+    component: RedditListView
   },
   {
     path: '/r/:redditId',

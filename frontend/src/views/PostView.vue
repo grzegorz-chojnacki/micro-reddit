@@ -32,7 +32,7 @@ export default {
       post: null
     }
   },
-  created() {
+  mounted() {
     this.fetchPost()
     this.initializeSocket()
   },

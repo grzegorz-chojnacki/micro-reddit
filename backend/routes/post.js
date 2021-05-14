@@ -9,8 +9,17 @@ const oneify = n => {
 };
 
 module.exports = postService => {
+  // For main page posts
+  router.route("/p")
+    .get(async (req, res) => {
+      const { query, page } = pagination(req);
+
+      const posts = await postService.getMain(page, query);
+      res.json(posts);
+    })
+
   // For posts
-  router.route("/")
+  router.route("/r/:redditId/p")
     .get(async (req, res) => {
       const { redditId } = req.params;
       const { query, page } = pagination(req);
@@ -27,7 +36,7 @@ module.exports = postService => {
     });
 
   // For post
-  router.route("/:postId")
+  router.route("/r/:redditId/p/:postId")
     .get(async (req, res) => {
       const { redditId, postId } = req.params;
 

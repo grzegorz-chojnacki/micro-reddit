@@ -34,4 +34,13 @@ module.exports = db => ({
   vote(redditId, postId, vote) {
     return Promise.resolve(100 + vote);
   },
+  getMain(page, order) {
+    return Promise.resolve([
+      { id: 1, name: "A", score: 100, text: "aaa", voted:  1, reddit: { name: 'Rrrr', id: 1 }},
+      { id: 2, name: "B", score: 120, text: "bbb", voted:  0, reddit: { name: 'Rrrr', id: 2 }},
+      { id: 3, name: "C", score: 200, text: "ccc", voted:  1, reddit: { name: 'Rrrr', id: 1 }},
+      { id: 4, name: "D", score: 102, text: "ddd", voted:  0, reddit: { name: 'Rrrr', id: 3 }},
+      { id: 5, name: "E", score: 110, text: "eee", voted: -1, reddit: { name: 'Rrrr', id: 2 }},
+    ]);
+  }
 });

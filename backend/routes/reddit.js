@@ -2,15 +2,9 @@ const express = require("express");
 const router = express.Router();
 const { pagination } = require("../utils.js");
 
-const oneify = n => {
-  if (n === 0) return 0;
-  else if (n > 0) return 1;
-  else return -1;
-};
-
 module.exports = redditService => {
   // For reddits
-  router.route("/")
+  router.route("/r")
     .get(async (req, res) => {
       const { query, page } = pagination(req);
 
@@ -25,7 +19,7 @@ module.exports = redditService => {
     });
 
   // For reddit
-  router.route("/:redditId")
+  router.route("/r/:redditId")
     .get(async (req, res) => {
       const { redditId } = req.params;
       const reddit = await redditService.get(redditId);

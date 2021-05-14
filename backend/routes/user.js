@@ -4,7 +4,7 @@ const { pagination } = require("../utils.js")
 
 module.exports = userService => {
   // For users
-  router.route("/")
+  router.route("/u")
     .get(async (req, res) => {
       res.json(await userService.get(1));
     })
@@ -15,7 +15,7 @@ module.exports = userService => {
     });
 
   // For user
-  router.route("/:userId")
+  router.route("/u/:userId")
     .put(async (req, res) => {
       const { userId } = req.params;
       const user = {...req.body, id: userId};
@@ -32,7 +32,7 @@ module.exports = userService => {
     });
 
   // For subscriptions
-  router.route("/:userId/r/:redditId")
+  router.route("/u/:userId/r/:redditId")
     .put(async (req, res) => {
       const { userId, redditId } = req.params;
 
@@ -47,7 +47,7 @@ module.exports = userService => {
     });
 
   // For password
-  router.route("/:userId/password")
+  router.route("/u/:userId/password")
     .post(async (req, res) => {
       const { userId } = req.params;
       const email = req.body;
@@ -59,8 +59,8 @@ module.exports = userService => {
       res.sendStatus(200);
     });
 
-  // For homepage
-  router.route("/:userId/home")
+  // For homepage posts
+  router.route("/u/:userId/home")
     .get(async (req, res) => {
       const { userId } = req.params;
       const { query, page } = pagination(req);

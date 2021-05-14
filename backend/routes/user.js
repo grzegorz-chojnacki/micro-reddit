@@ -70,6 +70,5 @@ module.exports = userService => {
       res.json(reddits);
     });
 
-  router.use((_, res) => res.status(400).json('Bad Request'));
   return router;
 }

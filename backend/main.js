@@ -70,14 +70,16 @@ passport.serializeUser((user, done) => {
 });
 
 // Routes & services
-const redditService  = require("./services/reddit")(db);
-const userService    = require("./services/user")(db);
-
-app.use("/api/r", require("./routes/reddit")(redditService));
-app.use("/api/u", require("./routes/user")(userService));
-
 const path = require("path")
 app.use("/", express.static(path.join(__dirname, "../frontend/dist")))
+
+const userService   = require("./services/user")(db);
+const redditService = require("./services/reddit")(db);
+const postService   = require("./services/post")(db);
+
+app.use("/api/u", require("./routes/user")(userService));
+app.use("/api/r", require("./routes/reddit")(redditService));
+app.use("/api/r/:redditId/p", require("./routes/post")(postService));
 
 // Socket.io
 const io = require("socket.io")(server, { cors: {}})

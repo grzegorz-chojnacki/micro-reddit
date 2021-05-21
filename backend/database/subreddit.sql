@@ -1,0 +1,11 @@
+INSERT INTO subreddit (name, description) VALUES
+    ('bohemians', 'Quisque non diam in elit'),
+    ('pottery', 'Nulla facilisi. Cras tincidunt mi'),
+    ('veterinarians', 'Sed et eleifend neque. Maecenas'),
+    ('cheese', 'Suspendisse aliquet massa libero, ac'),
+    ('tigers', 'Pellentesque ac tortor ut risus'),
+    ('death', 'Aliquam rutrum nulla sem, et'),
+    ('jewelry', 'Morbi sed nisi elementum, laoreet'),
+    ('earthquake', 'Nullam elementum sodales neque a'),
+    ('volleyball', 'Sed mollis scelerisque nulla. Nulla'),
+    ('journalism', 'Aenean ullamcorper ligula in sollicitudin');

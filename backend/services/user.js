@@ -13,7 +13,15 @@ module.exports = db => ({
   },
 
   async add(user) {
-    return Promise.resolve(1337);
+    const { rows } = await db.query(`
+      INSERT INTO reddit_user
+        (nickname, activation_guid, activation_expire_date, password, email)
+      VALUES
+        ('${user.username}', NULL, NULL, '${user.password}', '${user.email}')
+      RETURNING id
+    `);
+
+    return rows[0].id
   },
 
   async update(user) {

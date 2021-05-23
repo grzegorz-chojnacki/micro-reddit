@@ -29,11 +29,6 @@ module.exports = db => ({
     return rows[0].id
   },
 
-  async update(redditId, postId, post) {
-    const oldPost = { id: 12, name: "X", text: "xxx" };
-    return Promise.resolve({ ...oldPost, ...post });
-  },
-
   async getAll(redditId, page, query) {
     const { rows } = await db.query(`
       SELECT p.id, title AS name, content AS text, image_path AS image,
@@ -59,7 +54,19 @@ module.exports = db => ({
   },
 
   async vote(redditId, postId, vote) {
-    return Promise.resolve(100 + vote);
+    // TODO: pass user id to method
+    const userId = 1;
+    await db.query(`
+      UPDATE post_vote SET vote = '${vote}'
+      WHERE post_id = ${postId} AND user_id = ${userId}
+    `);
+
+    const { votes } = db.query(`
+      SELECT sum(vote) AS votes
+      FROM post_vote
+      WHERE post_id = ${postId}
+    `);
+    return { votes }
   },
 
   async getMain(page, query) {

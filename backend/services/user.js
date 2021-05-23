@@ -25,7 +25,15 @@ module.exports = db => ({
   },
 
   async update(user) {
-    return Promise.resolve({ ...user, username: 'New' });
+    const { id, username, email } = await db.query(`
+      UPDATE reddit_user SET
+        nickname = '${user.username}',
+        password = '${user.password}',
+        email = '${user.email}'
+      WHERE id = ${user.id}
+      RETURNING id, nickname AS username, email
+    `);
+    return { id, username, email }
   },
 
   async delete(userId) {

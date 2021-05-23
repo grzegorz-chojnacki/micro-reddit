@@ -161,7 +161,7 @@
 ### WebSocket API
 | Publiczne         # | Payload  # | Opis                           # |
 | ------------------- | ---------- | -------------------------------- |
-| `get`               |            | Zapytanie o pełne dane postu     |
+| `comments`          |            | Komentarze                       |
 
 | Użytkownik        # | Payload  # | Opis                           # |
 | ------------------- | ---------- | -------------------------------- |
@@ -180,7 +180,6 @@
 
 | Serwer            # | Payload  # | Opis                           # |
 | ------------------- | ---------- | -------------------------------- |
-| `get`               | post       | Pełne dane postu                 |
 | `comment`           | comment    | Dodanie komentarza do listy      |
 | `upvote`/`downvote` | comment-id | Zmiana liczby głosów komentarza  |
 | `survey`            | survey     | Wynik ankiety                    |

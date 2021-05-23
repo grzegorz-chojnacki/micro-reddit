@@ -17,15 +17,14 @@ module.exports = db => ({
 
   async add(redditId, post) {
     // TODO: pass user id to method
-
+    const userId = 1;
     const { rows } = await db.query(`
       INSERT INTO post
         (title, content, image_path, video_url, creation_date, subreddit_id, user_id)
       VALUES
-        ('${post.name}', '${post.text}', '${post.image}', '${post.video}', '${post.created}', ${redditId}, 1)
+        ('${post.name}', '${post.text}', '${post.image}', '${post.video}', '${post.created}', ${redditId}, ${userId})
       RETURNING id
     `);
-
     return rows[0].id
   },
 
@@ -49,17 +48,24 @@ module.exports = db => ({
   },
 
   async delete(redditId, postId) {
-    await db.query(`DELETE FROM post WHERE id = ${postId} AND subreddit_id = ${redditId}`);
+    await db.query(`DELETE FROM post WHERE id = ${postId}`);
     return true;
   },
 
   async vote(redditId, postId, vote) {
     // TODO: pass user id to method
     const userId = 1;
-    await db.query(`
-      UPDATE post_vote SET vote = '${vote}'
-      WHERE post_id = ${postId} AND user_id = ${userId}
-    `);
+    if (vote === 0) {
+      await db.query(`
+        DELETE FROM post_vote
+        WHERE post_id = ${postId} AND user_id = ${userId}
+      `);
+    } else {
+      await db.query(`
+        UPDATE post_vote SET vote = '${vote}'
+        WHERE post_id = ${postId} AND user_id = ${userId}
+      `);
+    }
 
     const { votes } = db.query(`
       SELECT sum(vote) AS votes

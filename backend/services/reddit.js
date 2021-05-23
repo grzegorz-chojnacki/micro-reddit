@@ -46,11 +46,11 @@ module.exports = db => ({
   },
 
   async getAll(page, query) {
-      return (await db.query(`
-        SELECT id, name, description AS text
-        FROM subreddit
-        WHERE name LIKE '%${query}%'
-        LIMIT 10 OFFSET ${page * 10}
-      `)).rows;
+    return (await db.query(`
+      SELECT id, name, description AS text
+      FROM subreddit
+      WHERE name LIKE '%${query}%'
+      LIMIT 10 OFFSET ${page * 10}
+    `)).rows;
   },
 });

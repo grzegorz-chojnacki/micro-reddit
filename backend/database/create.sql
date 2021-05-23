@@ -18,7 +18,8 @@ CREATE TABLE user_role (
     role_id integer NOT NULL,
     CONSTRAINT fk_user_role_user
         FOREIGN KEY(user_id)
-        REFERENCES reddit_user(id),
+        REFERENCES reddit_user(id)
+        ON DELETE CASCADE,
     CONSTRAINT fk_user_role_role
         FOREIGN KEY(role_id)
         REFERENCES role(id)
@@ -36,10 +37,12 @@ CREATE TABLE subreddit_moderator (
     subreddit_id integer NOT NULL,
     CONSTRAINT fk_subreddit_moderator_user
         FOREIGN KEY(user_id)
-        REFERENCES reddit_user(id),
+        REFERENCES reddit_user(id)
+        ON DELETE CASCADE,
     CONSTRAINT fk_subreddit_moderator_subreddit
         FOREIGN KEY(subreddit_id)
         REFERENCES subreddit(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE subreddit_user (
@@ -48,10 +51,12 @@ CREATE TABLE subreddit_user (
     subreddit_id integer NOT NULL,
     CONSTRAINT fk_subreddit_user_user
         FOREIGN KEY(user_id)
-        REFERENCES reddit_user(id),
+        REFERENCES reddit_user(id)
+        ON DELETE CASCADE,
     CONSTRAINT fk_subreddit_user_subreddit
         FOREIGN KEY(subreddit_id)
         REFERENCES subreddit(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE post (
@@ -65,10 +70,12 @@ CREATE TABLE post (
     user_id integer NOT NULL,
     CONSTRAINT fk_post_user
         FOREIGN KEY(user_id)
-        REFERENCES reddit_user(id),
+        REFERENCES reddit_user(id)
+        ON DELETE CASCADE,
     CONSTRAINT fk_post_subreddit
         FOREIGN KEY(subreddit_id)
         REFERENCES subreddit(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE post_vote (
@@ -78,10 +85,12 @@ CREATE TABLE post_vote (
     post_id integer NOT NULL,
     CONSTRAINT fk_post_vote_user
         FOREIGN KEY(user_id)
-        REFERENCES reddit_user(id),
+        REFERENCES reddit_user(id)
+        ON DELETE CASCADE,
     CONSTRAINT fk_post_vote_post
         FOREIGN KEY(post_id)
         REFERENCES post(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE comment (
@@ -92,13 +101,16 @@ CREATE TABLE comment (
     post_id integer NOT NULL,
     CONSTRAINT fk_comment_user
         FOREIGN KEY(user_id)
-        REFERENCES reddit_user(id),
+        REFERENCES reddit_user(id)
+        ON DELETE CASCADE,
     CONSTRAINT fk_comment_parent_comment
         FOREIGN KEY(parent_comment_id)
-        REFERENCES comment(id),
+        REFERENCES comment(id)
+        ON DELETE CASCADE,
     CONSTRAINT fk_comment_post
         FOREIGN KEY(post_id)
         REFERENCES post(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE survey (
@@ -108,6 +120,7 @@ CREATE TABLE survey (
     CONSTRAINT fk_survey_post
         FOREIGN KEY(post_id)
         REFERENCES post(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE survey_answer (
@@ -117,6 +130,7 @@ CREATE TABLE survey_answer (
     CONSTRAINT fk_survey_answer_survey
         FOREIGN KEY(survey_id)
         REFERENCES survey(id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE survey_user_answer (
@@ -125,8 +139,10 @@ CREATE TABLE survey_user_answer (
     user_id integer NOT NULL,
     CONSTRAINT fk_survey_user_answer_user
         FOREIGN KEY(user_id)
-        REFERENCES reddit_user(id),
+        REFERENCES reddit_user(id)
+        ON DELETE CASCADE,
     CONSTRAINT fk_survey_user_answer_answer
         FOREIGN KEY(answer_id)
         REFERENCES survey_answer(id)
+        ON DELETE CASCADE
 );

@@ -29,7 +29,8 @@ module.exports = db => ({
   },
 
   async delete(userId) {
-    return Promise.resolve(true);
+    await db.query(`DELETE FROM reddit_user WHERE id = ${userId}`);
+    return true;
   },
 
   async getHome(userId, page, order) {

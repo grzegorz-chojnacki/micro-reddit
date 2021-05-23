@@ -54,7 +54,9 @@ module.exports = db => ({
   },
 
   async delete(redditId, postId) {
-    return Promise.resolve(true);
+    await db.query(`DELETE FROM post_vote WHERE post_id = ${postId}`);
+    await db.query(`DELETE FROM post WHERE id = ${postId} AND subreddit_id = ${redditId}`);
+    return true;
   },
 
   async vote(redditId, postId, vote) {

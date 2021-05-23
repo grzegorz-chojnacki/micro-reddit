@@ -52,7 +52,6 @@ export default {
       })
 
       this.socket.on('comments', comments => {
-        console.log(comments)
         this.comments = comments;
       })
     }

@@ -6,7 +6,7 @@
       <Post v-for="post of posts" :post="post" :key="post.id"/>
     </main>
 
-    <footer><LoadingIndicator/></footer>
+    <footer><LoadingIndicator :done="sourceExhausted"/></footer>
   </div>
 </template>
 
@@ -22,7 +22,8 @@ export default {
     return {
       page: 0,
       search: 'new',
-      posts: []
+      posts: [],
+      sourceExhausted: false
     }
   },
   created() {
@@ -41,6 +42,7 @@ export default {
       this.fetchingFn(this.page, this.search).then(posts => {
         this.posts = this.posts.concat(posts)
         this.page++
+        this.sourceExhausted = posts.length === 0
       })
     }
   }

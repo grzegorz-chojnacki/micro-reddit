@@ -4,7 +4,7 @@
       v-for="reddit of reddits" :reddit="reddit" :key="reddit.id"/>
   </main>
 
-  <footer><LoadingIndicator/></footer>
+  <footer><LoadingIndicator :done="sourceExhausted"/></footer>
 </template>
 
 <script>
@@ -19,7 +19,8 @@ export default {
     return {
       page: 0,
       search: '',
-      reddits: []
+      reddits: [],
+      sourceExhausted: false
     }
   },
   created() {
@@ -36,9 +37,9 @@ export default {
   methods: {
     fetchNext() {
       redditService.getAll(this.page, this.search).then(reddits => {
-        console.log(reddits)
         this.reddits = this.reddits.concat(reddits)
         this.page++
+        this.sourceExhausted = reddits.length === 0
       })
     }
   }

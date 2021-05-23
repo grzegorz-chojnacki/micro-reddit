@@ -24,7 +24,10 @@ const setupServer = mode => {
       cert: fs.readFileSync("./ssl/cert.pem"),
     }, app);
   } else {
-    app.use(require("cors")());
+    app.use(require("cors")({
+      credentials: true,
+      origin: 'http://localhost:4200'
+    }));
     return require("http").createServer(app)
   }
 }
@@ -33,6 +36,7 @@ const server = setupServer("development")
 
 // Express
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(require("cookie-parser")());
 app.use(require("express-session")({
     secret: process.env.SECRET,
@@ -46,27 +50,35 @@ const passportLocal = require("passport-local");
 app.use(passport.initialize());
 app.use(passport.session());
 
-const validateUser = (username, password, done) => {
-  done(null, { id: 1 });
-};
-
-passport.use(new passportLocal.Strategy(validateUser));
-
-passport.deserializeUser((id, done) => {
-  let user = {
-      id,
-      username: "tomek",
-      password: "tajne"
+passport.use(new passportLocal.Strategy(async (username, password, done) => {
+  try {
+    const { rows } = await db.query(`
+      SELECT id FROM reddit_user
+      WHERE nickname = '${username}' AND password = '${password}'
+    `);
+    done(null, { id: rows[0].id });
+    //  return done(null, false, { message: 'Incorrect credentials.' });
+  } catch (err) {
+    done(err)
   }
-  done(null, {
-      id: user.id,
-      username: user.username,
-      password: user.password
-  });
+}));
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const { username, password } = (await db.query(`
+      SELECT nickname AS username, password FROM reddit_user WHERE id = ${id}
+    `)).rows[0];
+
+    done(null, { id, username, password });
+  } catch (err) {
+    done(err);
+  }
 });
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
+passport.serializeUser((user, done) => { done(null, user.id) });
+
+app.post("/api/login", passport.authenticate("local"), (req, res) => {
+  res.send("logged")
 });
 
 // Routes & services

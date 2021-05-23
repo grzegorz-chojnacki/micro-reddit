@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       page: 0,
-      search: 'new',
+      query: '',
       posts: [],
       sourceExhausted: false
     }
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     fetchNext() {
-      this.fetchingFn(this.page, this.search).then(posts => {
+      this.fetchingFn(this.page, this.query).then(posts => {
         this.posts = this.posts.concat(posts)
         this.page++
         this.sourceExhausted = posts.length === 0

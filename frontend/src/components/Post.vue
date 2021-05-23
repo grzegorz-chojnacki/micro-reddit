@@ -20,8 +20,12 @@
       <iframe v-if="post.video" :src="embedYoutube(post.video)" class="yt-player"
         type="text/html" frameborder="0">
       </iframe>
-      <img v-if="post.image" :src="post.image" class="card-img-top" :alt="post.name">
-      <p class="card-text">{{ post.text }}</p>
+
+      <div class="img-container rounded-2 bg-dark">
+        <img v-if="post.image" :src="post.image"  :alt="post.name">
+      </div>
+
+      <p class="card-text mt-3">{{ post.text }}</p>
     </div>
 
     <footer class="card-footer" >
@@ -74,6 +78,17 @@ export default {
 
 <style scoped lang="scss">
   section { margin: 1em 0 }
+
+  .img-container {
+    overflow: hidden;
+    max-height: 800px;
+
+    img {
+      box-shadow: 0 0 1em black;
+      display: block;
+      margin: 0 auto;
+    }
+  }
 
   .btn {
     display: inline-flex;

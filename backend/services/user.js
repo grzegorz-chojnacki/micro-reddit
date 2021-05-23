@@ -25,11 +25,24 @@ module.exports = db => ({
   },
 
   async getHome(userId, page, order) {
-    return Promise.resolve([
-      { id: 1, name: "A", score: 100, text: "aaa", voted:  1, reddit: { name: 'Rrrr', id: 1 }},
-      { id: 3, name: "C", score: 200, text: "ccc", voted:  0, reddit: { name: 'Rrrr', id: 1 }},
-      { id: 5, name: "E", score: 110, text: "eee", voted:  1, reddit: { name: 'Rrrr', id: 1 }},
-    ]);
+    const { rows } = await db.query(`
+      SELECT p.id, title AS name, content AS text, image_path AS image,
+             video_url AS video, s.name AS reddit_name, s.id as reddit_id
+      FROM post AS p
+      INNER JOIN subreddit AS s
+        ON s.id = subreddit_id
+      INNER JOIN subreddit_user as su
+        ON su.id = s.id
+      WHERE su.user_id = ${userId}
+      LIMIT 10 OFFSET ${page * 10}
+    `);
+
+    return rows.map(({ id, name, text, image, video, reddit_name, reddit_id }) => {
+      return { id, name, text, image, video, reddit: {
+        id: reddit_id,
+        name: reddit_name
+      }}
+    })
   },
 
   async setPassword(userId, password) {

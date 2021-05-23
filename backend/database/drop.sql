@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS survey_user_answer;
+DROP TABLE IF EXISTS survey_answer;
+DROP TABLE IF EXISTS survey;
+DROP TABLE IF EXISTS comment;
+DROP TABLE IF EXISTS post_vote;
+DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS subreddit_user;
+DROP TABLE IF EXISTS subreddit_moderator;
+DROP TABLE IF EXISTS subreddit;
+DROP TABLE IF EXISTS user_role;
+DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS reddit_user;

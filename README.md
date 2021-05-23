@@ -223,9 +223,15 @@ interface Reddit {
   mods:    User[]
 }
 
+interface SimpleReddit {
+  id:      uuid
+  name:    string
+}
+
 // Interfejs WebSocket
 interface Post {
   id:       uuid
+  reddit:   SimpleReddit
   name:     string
   text:     string
   image:    Null<url> // URL do zasobu na serwerze

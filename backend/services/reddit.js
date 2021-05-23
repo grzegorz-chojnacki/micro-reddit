@@ -19,10 +19,12 @@ module.exports = db => ({
   async add(reddit) {
     return Promise.resolve(1000);
   },
+
   async update(reddit) {
     const oldReddit = { id: 12, name: "X", text: "xxx" };
     return Promise.resolve({ ...oldReddit, ...reddit });
   },
+
   async getAll(page, query) {
     if (query) {
       return (await db.query(`
@@ -38,5 +40,6 @@ module.exports = db => ({
         LIMIT 10 OFFSET ${page * 10}
       `)).rows;
     }
-  }
+  },
+
 });

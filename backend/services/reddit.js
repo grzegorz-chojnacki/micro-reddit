@@ -17,7 +17,20 @@ module.exports = db => ({
   },
 
   async add(reddit) {
-    return Promise.resolve(1000);
+    const { rows } = await db.query(`
+      INSERT INTO subreddit (name, description)
+      VALUES ('${reddit.name}', '${reddit.text}')
+      RETURNING id
+    `);
+
+    // TODO: pass user id to method
+
+    // await db.query(`
+    //   INSERT INTO subreddit_moderator (user_id, subreddit_id)
+    //   VALUES ('${userId}', '${rows[0].id}')
+    // `);
+
+    return rows[0].id
   },
 
   async update(reddit) {

@@ -6,17 +6,12 @@
         v-for="comment of comments" :comment="comment" :key="comment.id"/>
     </section>
   </main>
-  <div v-else>
-    <div class="d-flex justify-content-center mt-5">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-  </div>
+  <div v-else><LoadingIndicator/></div>
 </template>
 
 <script>
 import Post from '@/components/Post.vue'
+import LoadingIndicator from '@/components/LoadingIndicator.vue'
 import Comment from '@/components/Comment.vue'
 
 import { postService } from '@/services/postService'
@@ -26,7 +21,7 @@ import { io } from "socket.io-client";
 export default {
   name: 'PostView',
   props: { redditId: String, postId: String },
-  components: { Post, Comment },
+  components: { Post, Comment, LoadingIndicator },
   data() {
     return {
       postService,

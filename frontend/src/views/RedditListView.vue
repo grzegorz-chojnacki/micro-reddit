@@ -4,22 +4,17 @@
       v-for="reddit of reddits" :reddit="reddit" :key="reddit.id"/>
   </main>
 
-  <footer>
-    <div class="d-flex justify-content-center mt-5">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-  </footer>
+  <footer><LoadingIndicator/></footer>
 </template>
 
 <script>
 import Reddit from '@/components/Reddit.vue'
+import LoadingIndicator from '@/components/LoadingIndicator.vue'
 import { redditService } from '@/services/redditService'
 
 export default {
   name: 'RedditListView',
-  components: { Reddit },
+  components: { Reddit, LoadingIndicator },
   data() {
     return {
       page: 0,

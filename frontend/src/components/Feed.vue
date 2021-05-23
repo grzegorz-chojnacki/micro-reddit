@@ -6,22 +6,17 @@
       <Post v-for="post of posts" :post="post" :key="post.id"/>
     </main>
 
-    <footer>
-      <div class="d-flex justify-content-center mt-5">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    </footer>
+    <footer><LoadingIndicator/></footer>
   </div>
 </template>
 
 <script>
 import Post from '@/components/Post.vue'
+import LoadingIndicator from '@/components/LoadingIndicator.vue'
 
 export default {
   name: 'Feed',
-  components: { Post },
+  components: { Post, LoadingIndicator },
   props: { fetchingFn: Function },
   data() {
     return {

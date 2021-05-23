@@ -58,7 +58,6 @@ module.exports = db => ({
       FROM post AS p
       INNER JOIN subreddit AS s
         ON s.id = subreddit_id
-      WHERE title LIKE '%${query}%'
       LIMIT 10 OFFSET ${page * 10}
     `);
 

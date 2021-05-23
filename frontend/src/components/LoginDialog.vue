@@ -23,10 +23,13 @@
 </template>
 
 <script>
+import { loginService } from '@/services/loginService.js'
+
 export default {
   name: 'LoginDialog',
   methods: {
     login() {
+      loginService.login('flutherhole', 'flutherhole')
       this.$refs.dismiss.click()
     }
   }

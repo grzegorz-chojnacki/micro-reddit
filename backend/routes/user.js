@@ -5,9 +5,6 @@ const { pagination } = require("../utils.js")
 module.exports = userService => {
   // For users
   router.route("/u")
-    .get(async (req, res) => {
-      res.json(await userService.get(1));
-    })
     .post(async (req, res) => {
       const user = req.body;
       const id = await userService.add(user);
@@ -16,6 +13,10 @@ module.exports = userService => {
 
   // For user
   router.route("/u/:userId")
+    .get(async (req, res) => {
+      const { userId } = req.params;
+      res.json(await userService.get(userId));
+    })
     .put(async (req, res) => {
       const { userId } = req.params;
       const user = {...req.body, id: userId};

@@ -1,27 +1,42 @@
 module.exports = db => ({
-  get(userId) {
-    return Promise.resolve({ id: 1, admin: true, username: 'root' });
+  async get(userId) {
+    const { id, username, role } = (await db.query(`
+      SELECT ru.id, nickname AS username, role_name AS role
+      FROM reddit_user AS ru
+      INNER JOIN user_role AS ur
+        ON ur.id = ru.id
+      INNER JOIN role AS r ON r.id = role_id
+      WHERE ru.id = ${userId}
+    `)).rows[0];
+
+    return { id, username, admin: role == 'administrator' }
   },
-  add(user) {
+
+  async add(user) {
     return Promise.resolve(1337);
   },
-  update(user) {
+
+  async update(user) {
     return Promise.resolve({ ...user, username: 'New' });
   },
-  delete(userId) {
+
+  async delete(userId) {
     return Promise.resolve(true);
   },
-  getHome(userId, page, order) {
+
+  async getHome(userId, page, order) {
     return Promise.resolve([
       { id: 1, name: "A", score: 100, text: "aaa", voted:  1, reddit: { name: 'Rrrr', id: 1 }},
       { id: 3, name: "C", score: 200, text: "ccc", voted:  0, reddit: { name: 'Rrrr', id: 1 }},
       { id: 5, name: "E", score: 110, text: "eee", voted:  1, reddit: { name: 'Rrrr', id: 1 }},
     ]);
   },
-  setPassword(userId, password) {
+
+  async setPassword(userId, password) {
     return Promise.resolve(true);
   },
-  setSubscribe(userId, redditId, state) {
+
+  async setSubscribe(userId, redditId, state) {
     return Promise.resolve(true);
   },
 });

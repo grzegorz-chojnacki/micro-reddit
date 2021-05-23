@@ -213,7 +213,6 @@ interface User {
   username: string
   password: Null<string> // Hasło jest null gdy pobieramy innych użytkowników
   email:    Null<string> // Podobnie jak wyżej
-  created:  Date
 }
 
 interface Reddit {

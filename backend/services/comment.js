@@ -15,6 +15,5 @@ module.exports = db => socket => {
     }))
 
     socket.emit('comments', comments);
-    socket.to(postId).emit('message', `Room: Hello in ${postId}!`);
   });
 }

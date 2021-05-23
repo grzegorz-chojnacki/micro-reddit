@@ -2,6 +2,8 @@
   <main v-if="post !== null">
     <Post :post="post"/>
     <section id="comments">
+      <Comment class="my-2"
+        v-for="comment of comments" :comment="comment" :key="comment.id"/>
     </section>
   </main>
   <div v-else>
@@ -15,6 +17,7 @@
 
 <script>
 import Post from '@/components/Post.vue'
+import Comment from '@/components/Comment.vue'
 
 import { postService } from '@/services/postService'
 import { api } from '@/common'
@@ -23,7 +26,7 @@ import { io } from "socket.io-client";
 export default {
   name: 'PostView',
   props: { redditId: String, postId: String },
-  components: { Post },
+  components: { Post, Comment },
   data() {
     return {
       postService,
@@ -50,11 +53,12 @@ export default {
       this.socket = io.connect(`${api}`)
 
       this.socket.on('connect', () => {
-        this.socket.emit("room", '1222');
+        this.socket.emit("room", this.postId);
       })
 
-      this.socket.on('message', msg => {
-        console.log(msg)
+      this.socket.on('comments', comments => {
+        console.log(comments)
+        this.comments = comments;
       })
     }
   }

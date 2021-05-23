@@ -51,13 +51,22 @@ module.exports = db => ({
     return Promise.resolve(100 + vote);
   },
 
-  async getMain(page, order) {
-    return Promise.resolve([
-      { id: 1, name: "A", score: 100, text: "aaa", voted:  1, reddit: { name: 'Rrrr', id: 1 }},
-      { id: 2, name: "B", score: 120, text: "bbb", voted:  0, reddit: { name: 'Rrrr', id: 2 }},
-      { id: 3, name: "C", score: 200, text: "ccc", voted:  1, reddit: { name: 'Rrrr', id: 1 }},
-      { id: 4, name: "D", score: 102, text: "ddd", voted:  0, reddit: { name: 'Rrrr', id: 3 }},
-      { id: 5, name: "E", score: 110, text: "eee", voted: -1, reddit: { name: 'Rrrr', id: 2 }},
-    ]);
+  async getMain(page, query) {
+    const { rows } = await db.query(`
+      SELECT p.id, title AS name, content AS text, image_path AS image,
+             video_url AS video, s.name AS reddit_name, s.id as reddit_id
+      FROM post AS p
+      INNER JOIN subreddit AS s
+        ON s.id = subreddit_id
+      WHERE title LIKE '%${query}%'
+      LIMIT 10 OFFSET ${page * 10}
+    `);
+
+    return rows.map(({ id, name, text, image, video, reddit_name, reddit_id }) => {
+      return { id, name, text, image, video, reddit: {
+        id: reddit_id,
+        name: reddit_name
+      }}
+    })
   },
 });

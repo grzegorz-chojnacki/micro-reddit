@@ -17,25 +17,32 @@ module.exports = db => ({
   },
 
   async add(reddit) {
+    // TODO: pass user id to method
+    const userId = 1;
+
     const { rows } = await db.query(`
       INSERT INTO subreddit (name, description)
       VALUES ('${reddit.name}', '${reddit.text}')
       RETURNING id
     `);
 
-    // TODO: pass user id to method
-
-    // await db.query(`
-    //   INSERT INTO subreddit_moderator (user_id, subreddit_id)
-    //   VALUES ('${userId}', '${rows[0].id}')
-    // `);
+    await db.query(`
+      INSERT INTO subreddit_moderator (user_id, subreddit_id)
+      VALUES ('${userId}', '${rows[0].id}')
+    `);
 
     return rows[0].id
   },
 
   async update(reddit) {
-    const oldReddit = { id: 12, name: "X", text: "xxx" };
-    return Promise.resolve({ ...oldReddit, ...reddit });
+    const rows = await db.query(`
+      UPDATE subreddit SET
+        title = '${reddit.name}',
+        description = '${reddit.text}',
+      WHERE id = ${reddit.id}
+      RETURNING id, title AS name, description AS text
+    `);
+    return rows[0]
   },
 
   async getAll(page, query) {

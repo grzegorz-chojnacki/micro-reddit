@@ -17,7 +17,7 @@
     </header>
 
     <div class="card-body">
-      <iframe v-if="post.video" :src="post.video" class="yt-player"
+      <iframe v-if="post.video" :src="embedYoutube(post.video)" class="yt-player"
         type="text/html" frameborder="0">
       </iframe>
       <img v-if="post.image" :src="post.image" class="card-img-top" :alt="post.name">
@@ -63,6 +63,11 @@ export default {
   name: 'Post',
   props: {
     post: Object
+  },
+  methods: {
+    embedYoutube(url) {
+      return url.replace('watch?v=', 'embed/')
+    }
   }
 }
 </script>

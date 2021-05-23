@@ -1,9 +1,14 @@
 <template>
-  <div v-if="!done" class="d-flex justify-content-center mt-5">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden">Loading...</span>
+  <section class="d-flex justify-content-center my-5">
+    <div v-if="!done">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
-  </div>
+    <div v-else>
+      <p><em>That's it</em></p>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -12,3 +17,7 @@ export default {
   props: { done: Boolean }
 }
 </script>
+
+<style lang="scss" scoped>
+em { opacity: 0.5 }
+</style>

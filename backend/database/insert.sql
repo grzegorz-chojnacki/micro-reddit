@@ -1,3 +1,165 @@
+INSERT INTO reddit_user (nickname, activation_guid, activation_expire_date, password, email) VALUES
+ ('flutherhole', NULL, NULL, 'flutherhole', 'flutherhole@example.com'),
+ ('freezetrace', NULL, NULL, 'freezetrace', 'freezetrace@example.com'),
+ ('ahullcloser', NULL, NULL, 'ahullcloser', 'ahullcloser@example.com'),
+ ('frayjackrabbit', NULL, NULL, 'frayjackrabbit', 'frayjackrabbit@example.com'),
+ ('churchgoerchine', NULL, NULL, 'churchgoerchine', 'churchgoerchine@example.com'),
+ ('shroudslastage', NULL, NULL, 'shroudslastage', 'shroudslastage@example.com'),
+ ('jestannoyance', NULL, NULL, 'jestannoyance', 'jestannoyance@example.com'),
+ ('neighvirtually', NULL, NULL, 'neighvirtually', 'neighvirtually@example.com'),
+ ('absorbedpolice', NULL, NULL, 'absorbedpolice', 'absorbedpolice@example.com'),
+ ('forkeddule', NULL, NULL, 'forkeddule', 'forkeddule@example.com'),
+ ('poweredscold', NULL, NULL, 'poweredscold', 'poweredscold@example.com'),
+ ('discourseconvention', NULL, NULL, 'discourseconvention', 'discourseconvention@example.com'),
+ ('etcslimeball', NULL, NULL, 'etcslimeball', 'etcslimeball@example.com'),
+ ('boatillness', NULL, NULL, 'boatillness', 'boatillness@example.com'),
+ ('kumquatsgoogle', NULL, NULL, 'kumquatsgoogle', 'kumquatsgoogle@example.com'),
+ ('becomebandage', NULL, NULL, 'becomebandage', 'becomebandage@example.com'),
+ ('obesemeek', NULL, NULL, 'obesemeek', 'obesemeek@example.com'),
+ ('erstsamsung', NULL, NULL, 'erstsamsung', 'erstsamsung@example.com'),
+ ('intriguedextrous', NULL, NULL, 'intriguedextrous', 'intriguedextrous@example.com'),
+ ('thiefloincloth', NULL, NULL, 'thiefloincloth', 'thiefloincloth@example.com');
+
+INSERT INTO role (role_name) VALUES ('moderator');
+
+INSERT INTO role (role_name) VALUES ('administrator');
+
+INSERT INTO user_role (user_id, role_id) VALUES
+(4, 1),
+(5, 1),
+(17, 1),
+(2, 1),
+(8, 1),
+(9, 1),
+(6, 1),
+(7, 1),
+(6, 1),
+(20, 1),
+(19, 1),
+(12, 2),
+(13, 2);
+
+INSERT INTO subreddit (name, description) VALUES
+    ('bohemians', 'Quisque non diam in elit'),
+    ('pottery', 'Nulla facilisi. Cras tincidunt mi'),
+    ('veterinarians', 'Sed et eleifend neque. Maecenas'),
+    ('cheese', 'Suspendisse aliquet massa libero, ac'),
+    ('tigers', 'Pellentesque ac tortor ut risus'),
+    ('death', 'Aliquam rutrum nulla sem, et'),
+    ('jewelry', 'Morbi sed nisi elementum, laoreet'),
+    ('earthquake', 'Nullam elementum sodales neque a'),
+    ('volleyball', 'Sed mollis scelerisque nulla. Nulla'),
+    ('journalism', 'Aenean ullamcorper ligula in sollicitudin');
+
+INSERT INTO subreddit_moderator (user_id, subreddit_id) VALUES
+(4, 1),
+(5, 1),
+(17, 10),
+(2, 2),
+(8, 3),
+(9, 4),
+(6, 5),
+(7, 6),
+(6, 7),
+(20, 8),
+(19, 9);
+
+INSERT INTO subreddit_user (subreddit_id, user_id) VALUES
+(1, 12),
+(1, 13),
+(1, 18),
+(1, 19),
+(1, 2),
+(1, 20),
+(1, 3),
+(1, 4),
+(1, 5),
+(10, 1),
+(10, 10),
+(10, 15),
+(10, 16),
+(10, 17),
+(10, 19),
+(10, 3),
+(10, 4),
+(10, 6),
+(10, 8),
+(2, 14),
+(2, 15),
+(2, 2),
+(2, 3),
+(2, 4),
+(2, 6),
+(2, 8),
+(2, 9),
+(3, 11),
+(3, 12),
+(3, 14),
+(3, 19),
+(3, 3),
+(3, 6),
+(3, 8),
+(3, 9),
+(4, 11),
+(4, 12),
+(4, 13),
+(4, 14),
+(4, 2),
+(4, 4),
+(4, 5),
+(4, 6),
+(4, 7),
+(4, 8),
+(4, 9),
+(5, 11),
+(5, 12),
+(5, 14),
+(5, 19),
+(5, 2),
+(5, 20),
+(5, 3),
+(5, 4),
+(5, 6),
+(5, 8),
+(5, 9),
+(6, 1),
+(6, 11),
+(6, 12),
+(6, 14),
+(6, 15),
+(6, 18),
+(6, 2),
+(6, 3),
+(6, 6),
+(6, 7),
+(7, 11),
+(7, 13),
+(7, 18),
+(7, 19),
+(7, 2),
+(7, 20),
+(7, 3),
+(7, 5),
+(7, 6),
+(8, 11),
+(8, 13),
+(8, 14),
+(8, 16),
+(8, 18),
+(8, 20),
+(8, 4),
+(8, 5),
+(8, 6),
+(8, 9),
+(9, 13),
+(9, 16),
+(9, 18),
+(9, 19),
+(9, 2),
+(9, 3),
+(9, 7),
+(9, 8);
+
 INSERT INTO post (title, content, image_path, video_url, creation_date, subreddit_id, user_id) VALUES
 ('lorem ipsum', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. ', 'https://source.unsplash.com/random/200x200?sig=1', NULL, '2021-04-19T10:54:39', 1, 13),
 ('dolor sit', 'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. ', 'https://source.unsplash.com/random/200x200?sig=2', NULL, '2021-04-10T15:54:35', 2, 3),
@@ -119,3 +281,131 @@ INSERT INTO post (title, content, image_path, video_url, creation_date, subreddi
 ('augue congue', 'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. ', 'https://source.unsplash.com/random/200x200?sig=118', NULL, '2021-04-06T11:35:05', 8, 14),
 ('elementum Morbi', 'Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. ', 'https://source.unsplash.com/random/200x200?sig=119', NULL, '2021-04-30T02:33:13', 9, 3),
 ('in ipsum', 'Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. ', 'https://source.unsplash.com/random/200x200?sig=120', NULL, '2021-04-09T10:25:27', 10, 10);
+
+INSERT INTO post_vote (vote, user_id, post_id) VALUES
+(-1, 20, 26),
+(1, 20, 5),
+(1, 13, 11),
+(1, 18, 40),
+(1, 15, 24),
+(1, 3, 26),
+(-1, 9, 31),
+(1, 17, 27),
+(-1, 16, 39),
+(1, 6, 23),
+(1, 7, 13),
+(1, 10, 38),
+(-1, 11, 10),
+(-1, 10, 36),
+(1, 20, 26),
+(1, 12, 34),
+(1, 2, 39),
+(1, 14, 32),
+(-1, 2, 19),
+(-1, 17, 23),
+(1, 18, 38),
+(1, 3, 16),
+(1, 15, 21),
+(-1, 5, 16),
+(1, 9, 2),
+(1, 2, 1),
+(1, 6, 10),
+(-1, 13, 14),
+(1, 2, 22),
+(-1, 15, 3);
+
+INSERT INTO comment (content, parent_comment_id, user_id, post_id) VALUES
+('Lorem ipsum dolor', NULL, 1, 40),
+('Class aptent taciti', NULL, 18, 67),
+('Fusce ac turpis', NULL, 14, 78),
+('Suspendisse in justo', NULL, 16, 71),
+('Nulla facilisi.', 5, 6, 40),
+('Sed pretium blandit', NULL, 6, 20),
+('Duis sagittis ipsum', NULL, 6, 28),
+('Proin ut ligula', NULL, 14, 24),
+('Proin quam.', NULL, 13, 116),
+('Ut ultrices ultrices', NULL, 14, 69),
+('Nulla quam.', 27, 6, 7),
+('Integer nec odio', NULL, 19, 95),
+('Curabitur tortor.', NULL, 15, 5),
+('Quisque volutpat condimentum', NULL, 5, 54),
+('Suspendisse in justo', NULL, 12, 31),
+('Curabitur sit amet', NULL, 16, 64),
+('Aenean laoreet.', NULL, 3, 94),
+('Praesent libero.', NULL, 8, 50),
+('Aenean quam.', NULL, 5, 86),
+('Ut fringilla.', 15, 2, 55),
+('Praesent blandit dolor', NULL, 17, 17),
+('Cras metus.', NULL, 16, 58),
+('Nulla ut felis', NULL, 14, 91),
+('Vestibulum lacinia arcu', NULL, 13, 95),
+('Fusce ac turpis', NULL, 13, 40),
+('Etiam ultrices.', 30, 12, 93),
+('Ut ultrices ultrices', NULL, 18, 10),
+('Vestibulum nisi lectus', NULL, 13, 33),
+('Nulla quis sem', NULL, 2, 105),
+('Aenean quam.', 11, 4, 7),
+('Nam nec ante', NULL, 3, 9),
+('Integer euismod lacus', NULL, 5, 85),
+('Nulla facilisi.', NULL, 7, 61),
+('Ut orci risus', NULL, 15, 25),
+('Duis sagittis ipsum', NULL, 17, 45),
+('Proin ut ligula', NULL, 12, 20),
+('Nunc feugiat mi', 4, 6, 111),
+('In vel mi', NULL, 6, 77),
+('Integer id quam', NULL, 3, 97),
+('Maecenas aliquet mollis', NULL, 10, 17);
+
+INSERT INTO survey (question, post_id) VALUES ('Which recent news story is the most interesting?', 9);
+
+INSERT INTO survey (question, post_id) VALUES ('What is your favorite number?', 20);
+
+INSERT INTO survey (question, post_id) VALUES ('What was your favorite restaurant when you were a child? ', 25);
+
+INSERT INTO survey_answer (answer, survey_id) VALUES ('COVID-19', 1);
+
+INSERT INTO survey_answer (answer, survey_id) VALUES ('Exams', 1);
+
+INSERT INTO survey_answer (answer, survey_id) VALUES ('5', 2);
+
+INSERT INTO survey_answer (answer, survey_id) VALUES ('10', 2);
+
+INSERT INTO survey_answer (answer, survey_id) VALUES ('12', 2);
+
+INSERT INTO survey_answer (answer, survey_id) VALUES ('McDonalds', 3);
+
+INSERT INTO survey_answer (answer, survey_id) VALUES ('Pizza Hut', 3);
+
+INSERT INTO survey_answer (answer, survey_id) VALUES ('KFC', 3);
+
+INSERT INTO survey_answer (answer, survey_id) VALUES ('Burger King', 3);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (1, 3);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (1, 19);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (2, 7);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (1, 8);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (3, 17);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (3, 3);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (3, 10);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (4, 6);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (4, 8);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (5, 1);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (6, 2);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (6, 12);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (7, 14);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (8, 11);
+
+INSERT INTO survey_user_answer (answer_id, user_id) VALUES (8, 19);

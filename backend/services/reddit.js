@@ -1,15 +1,29 @@
 module.exports = db => ({
-  get(redditId) {
-    return Promise.resolve({ id: redditId, name: "Z", text: "zzz" });
+  async get(redditId) {
+    const { id, name, text } = (await db.query(`
+      SELECT id, name, description AS text
+      FROM subreddit WHERE id = ${redditId}
+    `)).rows[0];
+
+    const mods = (await db.query(`
+      SELECT ru.id, ru.nickname
+      FROM subreddit_moderator AS sm
+      INNER JOIN reddit_user AS ru
+      ON sm.user_id = ru.id
+      WHERE subreddit_id = ${redditId}
+    `)).rows;
+
+    return { id, name, text, mods }
   },
-  add(reddit) {
+
+  async add(reddit) {
     return Promise.resolve(1000);
   },
-  update(reddit) {
+  async update(reddit) {
     const oldReddit = { id: 12, name: "X", text: "xxx" };
     return Promise.resolve({ ...oldReddit, ...reddit });
   },
-  getAll(page, order) {
+  async getAll(page, order) {
     return Promise.resolve([
       { id: 1, name: "A", text: "aaa" },
       { id: 2, name: "B", text: "bbb" },

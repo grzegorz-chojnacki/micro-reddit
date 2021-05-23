@@ -9,7 +9,7 @@ const db = new (require("pg").Client)({
   user:     process.env.PGUSER,
   password: process.env.PGPASSWORD,
 });
-// db.connect();
+db.connect();
 
 // Server setup
 const express = require("express");

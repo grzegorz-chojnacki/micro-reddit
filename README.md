@@ -221,9 +221,6 @@ interface Reddit {
   name:    string
   text:    string
   mods:    User[]
-  posts:   number
-  users:   number
-  created: Date
 }
 
 // Interfejs WebSocket

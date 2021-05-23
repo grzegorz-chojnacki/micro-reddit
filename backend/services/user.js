@@ -25,7 +25,7 @@ module.exports = db => ({
   },
 
   async update(user) {
-    const { id, username, email } = await db.query(`
+    const rows = await db.query(`
       UPDATE reddit_user SET
         nickname = '${user.username}',
         password = '${user.password}',
@@ -33,7 +33,7 @@ module.exports = db => ({
       WHERE id = ${user.id}
       RETURNING id, nickname AS username, email
     `);
-    return { id, username, email }
+    return rows[0]
   },
 
   async delete(userId) {

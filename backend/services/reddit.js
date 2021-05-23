@@ -23,13 +23,20 @@ module.exports = db => ({
     const oldReddit = { id: 12, name: "X", text: "xxx" };
     return Promise.resolve({ ...oldReddit, ...reddit });
   },
-  async getAll(page, order) {
-    return Promise.resolve([
-      { id: 1, name: "A", text: "aaa" },
-      { id: 2, name: "B", text: "bbb" },
-      { id: 3, name: "C", text: "ccc" },
-      { id: 4, name: "D", text: "ddd" },
-      { id: 5, name: "E", text: "eee" },
-    ]);
+  async getAll(page, query) {
+    if (query) {
+      return (await db.query(`
+        SELECT id, name, description AS text
+        FROM subreddit
+        WHERE name LIKE '%${query}%'
+        LIMIT 10 OFFSET ${page * 10}
+      `)).rows;
+    } else {
+      return (await db.query(`
+        SELECT id, name, description AS text
+        FROM subreddit
+        LIMIT 10 OFFSET ${page * 10}
+      `)).rows;
+    }
   }
 });

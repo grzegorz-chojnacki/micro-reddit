@@ -1,4 +1,6 @@
-module.exports = db => ({
+const db = require("../config/db");
+
+module.exports = ({
   async get(userId) {
     const { id, username, role } = (await db.query(`
       SELECT ru.id, nickname AS username, role_name AS role

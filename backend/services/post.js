@@ -1,4 +1,6 @@
-module.exports = db => ({
+const db = require("../config/db");
+
+module.exports = ({
   async get(redditId, postId) {
     const { id, name, text, image, video, reddit_name } = (await db.query(`
       SELECT p.id, title AS name, content AS text, image_path AS image,

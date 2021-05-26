@@ -1,4 +1,6 @@
-module.exports = db => socket => {
+const db = require("../config/db");
+
+module.exports = socket => {
   console.log("Socket connected");
 
   socket.on("room", async postId => {

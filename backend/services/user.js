@@ -43,7 +43,7 @@ module.exports = ({
     return true;
   },
 
-  async getHome(userId, page, order) {
+  async getHome(userId, page, /* order */) {
     const { rows } = await db.query(`
       SELECT p.id, title AS name, content AS text, image_path AS image,
              video_url AS video, s.name AS reddit_name, s.id as reddit_id
@@ -64,11 +64,11 @@ module.exports = ({
     });
   },
 
-  async setPassword(userId, password) {
+  async setPassword(/* userId, password */) {
     return Promise.resolve(true);
   },
 
-  async setSubscribe(userId, redditId, state) {
+  async setSubscribe(/* userId, redditId, state */) {
     return Promise.resolve(true);
   },
 });

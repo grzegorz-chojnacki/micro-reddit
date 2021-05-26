@@ -49,12 +49,12 @@ module.exports = ({
     });
   },
 
-  async delete(redditId, postId) {
+  async delete(_redditId, postId) {
     await db.query(`DELETE FROM post WHERE id = ${postId}`);
     return true;
   },
 
-  async vote(redditId, postId, vote) {
+  async vote(_redditId, postId, vote) {
     // TODO: pass user id to method
     const userId = 1;
     if (vote === 0) {
@@ -77,7 +77,7 @@ module.exports = ({
     return { votes };
   },
 
-  async getMain(page, query) {
+  async getMain(page, /* query */) {
     const { rows } = await db.query(`
       SELECT p.id, title AS name, content AS text, image_path AS image,
              video_url AS video, s.name AS reddit_name, s.id as reddit_id

@@ -2,7 +2,7 @@ module.exports = db => socket => {
   console.log("Socket connected");
 
   socket.on("room", async postId => {
-    socket.join(postId)
+    socket.join(postId);
 
     const comments = (await db.query(`
       SELECT c.id, content AS text, user_id, nickname AS username
@@ -12,8 +12,8 @@ module.exports = db => socket => {
       WHERE c.id = ${postId}
     `)).rows.map(({ id, text, user_id, username }) => ({
       id, text, user: { username, id: user_id }
-    }))
+    }));
 
-    socket.emit('comments', comments);
+    socket.emit("comments", comments);
   });
-}
+};

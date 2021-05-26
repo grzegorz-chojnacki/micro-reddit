@@ -12,7 +12,7 @@ module.exports = db => ({
     return { id, name, text, image, video, reddit: {
       id: redditId,
       name: reddit_name
-    }}
+    }};
   },
 
   async add(redditId, post) {
@@ -25,7 +25,7 @@ module.exports = db => ({
         ('${post.name}', '${post.text}', '${post.image}', '${post.video}', '${post.created}', ${redditId}, ${userId})
       RETURNING id
     `);
-    return rows[0].id
+    return rows[0].id;
   },
 
   async getAll(redditId, page, query) {
@@ -43,8 +43,8 @@ module.exports = db => ({
       return { id, name, text, image, video, reddit: {
         id: redditId,
         name: reddit_name
-      }}
-    })
+      }};
+    });
   },
 
   async delete(redditId, postId) {
@@ -72,7 +72,7 @@ module.exports = db => ({
       FROM post_vote
       WHERE post_id = ${postId}
     `);
-    return { votes }
+    return { votes };
   },
 
   async getMain(page, query) {
@@ -89,7 +89,7 @@ module.exports = db => ({
       return { id, name, text, image, video, reddit: {
         id: reddit_id,
         name: reddit_name
-      }}
-    })
+      }};
+    });
   },
 });

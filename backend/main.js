@@ -1,5 +1,5 @@
 require("dotenv").config();
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 8080;
 
 // Database setup
 const db = new (require("pg").Client)({
@@ -26,13 +26,13 @@ const setupServer = mode => {
   } else {
     app.use(require("cors")({
       credentials: true,
-      origin: 'http://localhost:4200'
+      origin: "http://localhost:4200"
     }));
-    return require("http").createServer(app)
+    return require("http").createServer(app);
   }
-}
+};
 
-const server = setupServer("development")
+const server = setupServer("development");
 
 // Express
 app.use(express.json());
@@ -59,7 +59,7 @@ passport.use(new passportLocal.Strategy(async (username, password, done) => {
     done(null, { id: rows[0].id });
     //  return done(null, false, { message: 'Incorrect credentials.' });
   } catch (err) {
-    done(err)
+    done(err);
   }
 }));
 
@@ -75,15 +75,17 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-passport.serializeUser((user, done) => { done(null, user.id) });
+passport.serializeUser((user, done) => {
+ done(null, user.id); 
+});
 
 app.post("/api/login", passport.authenticate("local"), (req, res) => {
-  res.send("logged")
+  res.send("logged");
 });
 
 // Routes & services
-const path = require("path")
-app.use("/", express.static(path.join(__dirname, "../frontend/dist")))
+const path = require("path");
+app.use("/", express.static(path.join(__dirname, "../frontend/dist")));
 
 const userService   = require("./services/user")(db);
 const redditService = require("./services/reddit")(db);
@@ -94,11 +96,11 @@ app.use("/api", require("./routes/reddit")(redditService));
 app.use("/api", require("./routes/post")(postService));
 
 // Socket.io
-const io = require("socket.io")(server, { cors: {}})
+const io = require("socket.io")(server, { cors: {}});
 const commentService = require("./services/comment")(db);
 
-io.of('/api').on("connection", commentService)
+io.of("/api").on("connection", commentService);
 
 server.listen(port, () => {
-  console.log(`Server started on port ${port}`)
+  console.log(`Server started on port ${port}`);
 });

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { pagination } = require("../utils.js")
+const { pagination } = require("../utils.js");
 
 module.exports = userService => {
   // For users
@@ -52,7 +52,7 @@ module.exports = userService => {
     .post(async (req, res) => {
       const { userId } = req.params;
       const email = req.body;
-      const randomPassword = '';
+      const randomPassword = "";
 
       userService.setPassword(userId, randomPassword);
       // emailService.sendEmail(email, passwordResetEmail);
@@ -72,4 +72,4 @@ module.exports = userService => {
     });
 
   return router;
-}
+};

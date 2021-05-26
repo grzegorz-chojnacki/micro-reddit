@@ -13,7 +13,7 @@ module.exports = db => ({
       WHERE subreddit_id = ${redditId}
     `)).rows;
 
-    return { id, name, text, mods }
+    return { id, name, text, mods };
   },
 
   async add(reddit) {
@@ -31,7 +31,7 @@ module.exports = db => ({
       VALUES ('${userId}', '${rows[0].id}')
     `);
 
-    return rows[0].id
+    return rows[0].id;
   },
 
   async update(reddit) {
@@ -42,7 +42,7 @@ module.exports = db => ({
       WHERE id = ${reddit.id}
       RETURNING id, title AS name, description AS text
     `);
-    return rows[0]
+    return rows[0];
   },
 
   async getAll(page, query) {

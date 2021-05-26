@@ -16,7 +16,7 @@ module.exports = postService => {
 
       const posts = await postService.getMain(page, query);
       res.json(posts);
-    })
+    });
 
   // For posts
   router.route("/r/:redditId/p")
@@ -47,7 +47,7 @@ module.exports = postService => {
       const { redditId, postId } = req.params;
 
       await postService.delete(redditId, postId);
-      res.sendStatus(200)
+      res.sendStatus(200);
     })
     .patch(async (req, res) => {
       const { redditId, postId } = req.params;
@@ -55,7 +55,7 @@ module.exports = postService => {
 
       const score = await postService.vote(redditId, postId, vote);
       res.json(score);
-    })
+    });
 
   return router;
-}
+};

@@ -9,7 +9,7 @@ module.exports = db => ({
       WHERE ru.id = ${userId}
     `)).rows[0];
 
-    return { id, username, admin: role == 'administrator' }
+    return { id, username, admin: role == "administrator" };
   },
 
   async add(user) {
@@ -21,7 +21,7 @@ module.exports = db => ({
       RETURNING id
     `);
 
-    return rows[0].id
+    return rows[0].id;
   },
 
   async update(user) {
@@ -33,7 +33,7 @@ module.exports = db => ({
       WHERE id = ${user.id}
       RETURNING id, nickname AS username, email
     `);
-    return rows[0]
+    return rows[0];
   },
 
   async delete(userId) {
@@ -58,8 +58,8 @@ module.exports = db => ({
       return { id, name, text, image, video, reddit: {
         id: reddit_id,
         name: reddit_name
-      }}
-    })
+      }};
+    });
   },
 
   async setPassword(userId, password) {

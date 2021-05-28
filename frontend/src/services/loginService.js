@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { api } from '@/common'
+import { api, Subject } from '@/common'
+
+let isAuthenticated = Subject(false);
 
 export const loginService = {
   async login(username, password) {
@@ -12,6 +14,8 @@ export const loginService = {
       withCredentials: true
     });
 
-    console.log(res)
+    isAuthenticated.next(res.data === "logged");
   },
+  get isAuthenticated() { return isAuthenticated.asObservable(); },
+  logout() { isAuthenticated.next(false); }
 }

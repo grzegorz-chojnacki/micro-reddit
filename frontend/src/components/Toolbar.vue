@@ -24,14 +24,15 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <span class="nav-link" data-bs-toggle="modal" data-bs-target="#loginDialog">
-              Login
-            </span>
-          </li>
-          <li class="nav-item">
             <span class="nav-link" data-bs-toggle="modal" data-bs-target="#registerDialog">
               Register
             </span>
+          </li>
+          <li class="nav-item">
+            <span v-if="!isAuthenticated" class="nav-link" data-bs-toggle="modal" data-bs-target="#loginDialog">
+              Login
+            </span>
+            <span v-else class="nav-link" @click="logout">Logout</span>
           </li>
         </ul>
 
@@ -51,16 +52,23 @@
 <script>
 import LoginDialog from '@/components/LoginDialog.vue'
 import RegisterDialog from '@/components/RegisterDialog.vue'
+import { loginService } from '@/services/loginService'
 
 export default {
   components: { LoginDialog, RegisterDialog },
   name: "Toolbar",
-  data(){ return { search: '' }},
+  data(){ return { search: '', isAuthenticated: false }},
+  created() {
+    loginService.isAuthenticated.subscribe(status => {
+      this.isAuthenticated = status;
+    });
+  },
   methods: {
     onSubmit() {
       this.$router.push({ name: 'reddit-list', query: { q: this.search }})
       this.search = ''
-    }
+    },
+    logout() { loginService.logout(); }
   }
 };
 </script>

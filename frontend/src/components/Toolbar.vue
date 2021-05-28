@@ -36,6 +36,10 @@
           </li>
         </ul>
 
+        <div v-if="isAuthenticated" id="username">
+          <span class="navbar-text">{{ user.username }}</span>
+        </div>
+
         <form class="d-flex" @submit.prevent="onSubmit">
           <input class="form-control me-2" type="search" v-model="search"
             placeholder="Reddit name" aria-label="Search"/>
@@ -57,11 +61,10 @@ import { loginService } from '@/services/loginService'
 export default {
   components: { LoginDialog, RegisterDialog },
   name: "Toolbar",
-  data(){ return { search: '', isAuthenticated: false }},
+  data(){ return { search: '', isAuthenticated: false, user: {} }},
   created() {
-    loginService.isAuthenticated.subscribe(status => {
-      this.isAuthenticated = status;
-    });
+    loginService.isAuthenticated.subscribe(status => { this.isAuthenticated = status; });
+    loginService.user.subscribe(user => { this.user = user; });
   },
   methods: {
     onSubmit() {
@@ -75,4 +78,9 @@ export default {
 
 <style scoped>
 span.nav-link { cursor: pointer }
+
+#username {
+  margin-right: 1em;
+}
+
 </style>

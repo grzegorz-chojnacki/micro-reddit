@@ -28,14 +28,10 @@ const server = setupServer("development");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(require("cookie-parser")());
-app.use(require("express-session")({
-    secret: process.env.SECRET,
-    resave: false,
-    saveUninitialized: false
-}));
+app.use(require("./config/session"));
 
 // Passport
-const passport = require("./config/passport");
+const passport = require("./config/authentication");
 
 app.use(passport.initialize());
 app.use(passport.session());

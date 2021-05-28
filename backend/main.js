@@ -37,7 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.post("/api/login", passport.authenticate("local"), (req, res) => {
-  res.send(req.isAuthenticated());
+  res.send(req.user);
 });
 
 // Routes & services

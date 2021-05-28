@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require("../config/authentication");
 const router = express.Router();
 const { pagination } = require("../utils.js");
 
@@ -13,7 +14,10 @@ module.exports = userService => {
 
   // For user
   router.route("/u/:userId")
-    .get(async (req, res) => {
+    .get(/* passport.authenticate("local"), */ async (req, res) => {
+      console.log(req);
+      passport.authenticate("local", (e, u) => console.log(e, u))(req, res);
+
       const { userId } = req.params;
       res.json(await userService.get(userId));
     })

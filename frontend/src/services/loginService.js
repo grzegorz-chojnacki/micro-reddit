@@ -14,7 +14,7 @@ export const loginService = {
       withCredentials: true
     });
 
-    isAuthenticated.next(res.data === "logged");
+    isAuthenticated.next(res.data === true);
   },
   get isAuthenticated() { return isAuthenticated.asObservable(); },
   logout() { isAuthenticated.next(false); }

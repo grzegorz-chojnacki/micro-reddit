@@ -32,7 +32,6 @@ passport.serializeUser((user, done) => {
 });
 
 const isAuthenticated = (req, res, next) => {
-  console.log('logged', req.user, req.sessionID)
   if (req.isAuthenticated()) return next();
   else return res.sendStatus(401);
 };

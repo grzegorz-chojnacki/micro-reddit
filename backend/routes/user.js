@@ -66,7 +66,6 @@ module.exports = userService => {
   router.route("/u/home").all(isAuthenticated)
     .get(async (req, res) => {
       const userId = req.user.id;
-      console.log(userId);
       const { query, page } = pagination(req);
 
       const reddits = await userService.getHome(userId, page, query);

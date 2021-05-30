@@ -10,15 +10,18 @@
         <form @submit.prevent="" class="modal-body">
           <div class="mb-3">
             <label for="usernameRegister" class="form-label">Username</label>
-            <input v-model="username" type="username" class="form-control" id="usernameRegister">
+            <input v-model="username" type="username" class="form-control"
+              id="usernameRegister">
           </div>
           <div class="mb-3">
             <label for="emailRegister" class="form-label">Email</label>
-            <input v-model="email" type="email" class="form-control" id="emailRegister">
+            <input v-model="email" type="email" class="form-control"
+              id="emailRegister" autocomplete="email">
           </div>
           <div class="mb-3">
             <label for="passwordRegister" class="form-label">Password</label>
-            <input v-model="password" type="password" class="form-control" id="passwordRegister">
+            <input v-model="password" type="password" class="form-control"
+              id="passwordRegister" autocomplete="new-password">
           </div>
         </form>
 

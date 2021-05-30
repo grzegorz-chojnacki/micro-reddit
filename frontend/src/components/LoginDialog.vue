@@ -10,11 +10,13 @@
         <form @submit.prevent="" class="modal-body">
           <div class="mb-3">
             <label for="usernameLogin" class="form-label">Username</label>
-            <input v-model="username" type="username" class="form-control" id="usernameLogin">
+            <input v-model="username" type="text" class="form-control"
+              id="usernameLogin" autocomplete="username">
           </div>
           <div class="mb-3">
             <label for="passwordLogin" class="form-label">Password</label>
-            <input v-model="password" type="password" class="form-control" id="passwordLogin">
+            <input v-model="password" type="password" class="form-control"
+              id="passwordLogin" autocomplete="current-password">
           </div>
         </form>
 

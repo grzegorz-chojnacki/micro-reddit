@@ -1,4 +1,8 @@
-export const api = 'https://localhost:8080/api'
+import axios from 'axios'
+
+export const baseURL = 'https://localhost:8080/api'
+
+export const api = axios.create({ withCredentials: true, baseURL })
 
 export const Subject = value => {
   let observers = []

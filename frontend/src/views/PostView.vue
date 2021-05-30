@@ -15,7 +15,7 @@ import LoadingIndicator from '@/components/LoadingIndicator.vue'
 import Comment from '@/components/Comment.vue'
 
 import { postService } from '@/services/postService'
-import { api } from '@/common'
+import { baseURL } from '@/common'
 import { io } from "socket.io-client";
 
 export default {
@@ -45,7 +45,7 @@ export default {
     },
 
     initializeSocket() {
-      this.socket = io.connect(`${api}`)
+      this.socket = io.connect(`${baseURL}`)
 
       this.socket.on('connect', () => {
         this.socket.emit("room", this.postId);

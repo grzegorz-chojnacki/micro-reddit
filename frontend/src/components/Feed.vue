@@ -1,50 +1,54 @@
 <template>
   <div>
-    <aside></aside>
+    <aside />
 
     <main>
-      <Post v-for="post of posts" :post="post" :key="post.id"/>
+      <Post
+        v-for="post of posts"
+        :key="post.id"
+        :post="post"
+      />
     </main>
 
-    <footer><LoadingIndicator :done="sourceExhausted"/></footer>
+    <footer><LoadingIndicator :done="sourceExhausted" /></footer>
   </div>
 </template>
 
 <script>
-import Post from '@/components/Post.vue'
-import LoadingIndicator from '@/components/LoadingIndicator.vue'
+import Post from "@/components/Post.vue";
+import LoadingIndicator from "@/components/LoadingIndicator.vue";
 
 export default {
-  name: 'Feed',
+  name: "Feed",
   components: { Post, LoadingIndicator },
   props: { fetchingFn: Function },
   data() {
     return {
       page: 0,
-      query: '',
+      query: "",
       posts: [],
       sourceExhausted: false
-    }
+    };
   },
   created() {
-    this.fetchNext()
+    this.fetchNext();
     window.onscroll = () => {
-      const scrollHeight = window.pageYOffset + window.innerHeight
-      const fullHeight = document.documentElement.offsetHeight
+      const scrollHeight = window.pageYOffset + window.innerHeight;
+      const fullHeight = document.documentElement.offsetHeight;
 
       if (scrollHeight >= fullHeight) {
-        this.fetchNext()
+        this.fetchNext();
       }
-    }
+    };
   },
   methods: {
     fetchNext() {
       this.fetchingFn(this.page, this.query).then(posts => {
-        this.posts = this.posts.concat(posts)
-        this.page++
-        this.sourceExhausted = posts.length === 0
-      })
+        this.posts = this.posts.concat(posts);
+        this.page++;
+        this.sourceExhausted = posts.length === 0;
+      });
     }
   }
-}
+};
 </script>

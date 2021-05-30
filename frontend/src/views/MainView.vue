@@ -1,14 +1,16 @@
 <template>
-  <Feed :fetchingFn="fetchMain"/>
+  <Feed :fetching-fn="fetchMain" />
 </template>
 
 <script>
-import Feed from '@/components/Feed.vue'
-import { postService } from '@/services/postService.js'
+import Feed from "@/components/Feed.vue";
+import { postService } from "@/services/postService.js";
 
 export default {
-  name: 'MainView',
+  name: "MainView",
   components: { Feed },
-  data() { return { fetchMain: postService.getAll }}
+  data() {
+ return { fetchMain: postService.getAll };
 }
+};
 </script>

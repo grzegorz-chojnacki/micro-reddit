@@ -1,26 +1,26 @@
-import axios from 'axios'
+import axios from "axios";
 
-export const baseURL = 'https://localhost:8080/api'
+export const baseURL = "https://localhost:8080/api";
 
-export const api = axios.create({ withCredentials: true, baseURL })
+export const api = axios.create({ withCredentials: true, baseURL });
 
 export const Subject = value => {
-  let observers = []
+  let observers = [];
   return {
     asObservable: () => ({
       subscribe: observer => {
-        observers = [...observers, observer]
-        observer(value)
+        observers = [...observers, observer];
+        observer(value);
         return {
           unsubscribe: () => {
-            observers = observers.filter(o => o !== observer)
+            observers = observers.filter(o => o !== observer);
           }
-        }
+        };
       },
     }),
     next: newValue => {
-      value = newValue
-      observers.forEach(o => o(value))
+      value = newValue;
+      observers.forEach(o => o(value));
     }
-  }
-}
+  };
+};

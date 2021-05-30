@@ -2,60 +2,99 @@
   <section class="card">
     <header class="card-header">
       <h5 class="card-title">
-        <router-link :to="{
+        <router-link
+          :to="{
             name: 'post',
-            params: { redditId: post.reddit.id, postId: post.id }}">
+            params: { redditId: post.reddit.id, postId: post.id }}"
+        >
           {{ post.name }}
         </router-link>
       </h5>
       <h6 class="card-subtitle">
         <router-link
-            :to="{ name: 'reddit', params: { redditId: post.reddit.id }}">
+          :to="{ name: 'reddit', params: { redditId: post.reddit.id }}"
+        >
           {{ post.reddit.name }}
         </router-link>
       </h6>
     </header>
 
     <div class="card-body">
-      <iframe v-if="post.video" :src="embedYoutube(post.video)" class="yt-player"
-        type="text/html" frameborder="0">
-      </iframe>
+      <iframe
+        v-if="post.video"
+        :src="embedYoutube(post.video)"
+        class="yt-player"
+        type="text/html"
+        frameborder="0"
+      />
 
       <div class="img-container rounded-2 bg-dark">
-        <img v-if="post.image" :src="post.image"  :alt="post.name">
+        <img
+          v-if="post.image"
+          :src="post.image"
+          :alt="post.name"
+        >
       </div>
 
-      <p class="card-text mt-3">{{ post.text }}</p>
+      <p class="card-text mt-3">
+        {{ post.text }}
+      </p>
     </div>
 
-    <footer class="card-footer" >
-      <div class="btn-group btn-group-sm" role="group">
-        <input type="radio" class="btn-check" autocomplete="off"
-          :name="post.id"
+    <footer class="card-footer">
+      <div
+        class="btn-group btn-group-sm"
+        role="group"
+      >
+        <input
           :id="post.id + 'upvote'"
-          :checked="post.voted === 1">
-        <label class="btn btn-outline-dark" :for="post.id + 'upvote'">
+          type="radio"
+          class="btn-check"
+          autocomplete="off"
+          :name="post.id"
+          :checked="post.voted === 1"
+        >
+        <label
+          class="btn btn-outline-dark"
+          :for="post.id + 'upvote'"
+        >
           <span class="material-icons add">add</span>
         </label>
 
-        <input type="radio" class="btn-check" disabled
+        <input
+          :id="post.id + 'score'"
+          type="radio"
+          class="btn-check"
+          disabled
           :name="post.id"
-          :id="post.id + 'score'">
-        <label class="btn btn-outline-dark score" :for="post.id + 'score'">
+        >
+        <label
+          class="btn btn-outline-dark score"
+          :for="post.id + 'score'"
+        >
           <span class="vote">{{ post.score }}</span>
         </label>
 
-        <input type="radio" class="btn-check" autocomplete="off"
-          :name="post.id"
+        <input
           :id="post.id + 'downvote'"
-          :checked="post.voted === -1">
-        <label class="btn btn-outline-dark" :for="post.id + 'downvote'">
+          type="radio"
+          class="btn-check"
+          autocomplete="off"
+          :name="post.id"
+          :checked="post.voted === -1"
+        >
+        <label
+          class="btn btn-outline-dark"
+          :for="post.id + 'downvote'"
+        >
           <span class="material-icons remove">remove</span>
         </label>
       </div>
 
-      <router-link class="btn mx-3"
-        :to="`/r/${post.reddit.id}/p/${post.id}#comments`">
+      <router-link
+        class="btn mx-3"
+        :to="`/r/${post.reddit.id}/p/${post.id}#comments`"
+      >
         Comments
       </router-link>
     </footer>
@@ -64,16 +103,16 @@
 
 <script>
 export default {
-  name: 'Post',
+  name: "Post",
   props: {
     post: Object
   },
   methods: {
     embedYoutube(url) {
-      return url.replace('watch?v=', 'embed/')
+      return url.replace("watch?v=", "embed/");
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">

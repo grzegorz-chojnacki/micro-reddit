@@ -5,7 +5,7 @@
 <script>
 
 export default {
-  name: 'AccountView',
+  name: "AccountView",
   components: {}
-}
+};
 </script>

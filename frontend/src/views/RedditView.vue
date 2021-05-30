@@ -1,15 +1,17 @@
 <template>
-  <Feed :fetchingFn="fetchReddit"/>
+  <Feed :fetching-fn="fetchReddit" />
 </template>
 
 <script>
-import Feed from '@/components/Feed.vue'
-import { postService } from '@/services/postService.js'
+import Feed from "@/components/Feed.vue";
+import { postService } from "@/services/postService.js";
 
 export default {
-  name: 'RedditView',
-  props: { redditId: String },
+  name: "RedditView",
   components: { Feed },
-  data() { return { fetchReddit: postService.getAllReddit(this.redditId) }}
+  props: { redditId: String },
+  data() {
+ return { fetchReddit: postService.getAllReddit(this.redditId) };
 }
+};
 </script>

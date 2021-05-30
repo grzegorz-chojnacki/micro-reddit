@@ -1,14 +1,16 @@
 <template>
-  <Feed :fetchingFn="fetchHome"/>
+  <Feed :fetching-fn="fetchHome" />
 </template>
 
 <script>
-import Feed from '@/components/Feed.vue'
-import { postService } from '@/services/postService.js'
+import Feed from "@/components/Feed.vue";
+import { postService } from "@/services/postService.js";
 
 export default {
-  name: 'HomeView',
+  name: "HomeView",
   components: { Feed },
-  data() { return { fetchHome: postService.getHome }}
+  data() {
+ return { fetchHome: postService.getHome };
 }
+};
 </script>

@@ -4,18 +4,20 @@
       <h6 class="card-title">
         <strong>{{ comment.user.username }}</strong> wrote:
       </h6>
-      <p class="card-text">{{ comment.text }}</p>
+      <p class="card-text">
+        {{ comment.text }}
+      </p>
     </div>
   </section>
 </template>
 
 <script>
 export default {
-  name: 'Comment',
+  name: "Comment",
   props: {
     comment: Object
   }
-}
+};
 </script>
 
 <style scoped lang="scss">

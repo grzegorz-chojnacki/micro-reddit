@@ -10,27 +10,21 @@ export const loginService = {
     data.append('username', username);
     data.append('password', password);
 
-    const res = await axios.post(`${api}/login`, data, {
+    const { user } = (await axios.post(`${api}/login`, data, {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       withCredentials: true
-    });
+    })).data;
 
-    const { user, sessionID } = res.data;
-
-    console.log(user, sessionID);
-
-    if (user && sessionID) {
-      localStorage.setItem("sessionID", sessionID);
-      const userData = (await axios.get(`${api}/u/${user.id}`), { withCredentials: true }).data;
-      console.log(userData)
+    if (user) {
+      const userData = (await axios.get(`${api}/u/${user.id}`, { withCredentials: true })).data;
       isAuthenticatedSource.next(true);
-      userSource.next(user);
+      userSource.next(userData);
     }
   },
   get isAuthenticated() { return isAuthenticatedSource.asObservable(); },
   get user() { return userSource.asObservable(); },
-  logout() {
-    localStorage.removeItem("sessionID");
+  async logout() {
+    await axios.post(`${api}/logout`, { withCredentials: true });
     isAuthenticatedSource.next(false);
     userSource.next(null);
   }

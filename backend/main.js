@@ -1,4 +1,5 @@
 require("dotenv").config();
+const fs = require("fs");
 const port = process.env.PORT || 8080;
 
 // Server setup
@@ -6,26 +7,17 @@ const express = require("express");
 const app = express();
 // const nodemailer = require("nodemailer");
 
-const setupServer = mode => {
-  const fs = require("fs");
-  if (mode === "production") {
-    return require("https").createServer({
-      key: fs.readFileSync("./ssl/key.pem"),
-      cert: fs.readFileSync("./ssl/cert.pem"),
-    }, app);
-  } else {
-    app.use(require("cors")({
-      credentials: true,
-      origin: "http://localhost:4200",
-      exposedHeaders: ["set-cookie"]
-    }));
-    return require("http").createServer(app);
-  }
-};
-
-const server = setupServer("development");
+const server = require("https").createServer({
+  key: fs.readFileSync("./ssl/key.pem"),
+  cert: fs.readFileSync("./ssl/cert.pem"),
+}, app);
 
 // Express
+app.use(require("cors")({
+  credentials: true,
+  origin: "http://localhost:4200",
+  exposedHeaders: ["set-cookie"]
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(require("cookie-parser")());
@@ -38,11 +30,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.post("/api/login", passport.authenticate("local"), (req, res) => {
-  const { user, sessionID } = req;
-  console.log(user, sessionID);
+  const { user } = req;
   req.login(user, err => err && console.error(err));
 
-  res.send({ user, sessionID });
+  res.send({ user });
+});
+
+app.post("/api/logout", (req, res) => {
+  req.logout();
+  res.sendStatus(200);
 });
 
 // Routes & services

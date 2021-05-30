@@ -1,4 +1,4 @@
-export const api = 'http://localhost:8080/api'
+export const api = 'https://localhost:8080/api'
 
 export const Subject = value => {
   let observers = []

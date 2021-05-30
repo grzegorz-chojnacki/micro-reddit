@@ -1,5 +1,4 @@
 const express = require("express");
-const passport = require("../config/authentication");
 const router = express.Router();
 const { pagination } = require("../utils.js");
 
@@ -14,12 +13,13 @@ module.exports = userService => {
 
   // For user
   router.route("/u/:userId")
-    .get(/* passport.authenticate("local"), */ async (req, res) => {
-      console.log(req);
-      passport.authenticate("local", (e, u) => console.log(e, u))(req, res);
-
-      const { userId } = req.params;
-      res.json(await userService.get(userId));
+    .get(async (req, res) => {
+      if (req.isAuthenticated()) {
+        const { userId } = req.params;
+        res.json(await userService.get(userId));
+      } else {
+        res.sendStatus(400);
+      }
     })
     .put(async (req, res) => {
       const { userId } = req.params;
@@ -55,7 +55,7 @@ module.exports = userService => {
   router.route("/u/:userId/password")
     .post(async (req, res) => {
       const { userId } = req.params;
-      const email = req.body;
+      // const email = req.body;
       const randomPassword = "";
 
       userService.setPassword(userId, randomPassword);

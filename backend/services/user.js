@@ -5,13 +5,13 @@ module.exports = ({
     const { id, username, role } = (await db.query(`
       SELECT ru.id, nickname AS username, role_name AS role
       FROM reddit_user AS ru
-      INNER JOIN user_role AS ur
+      LEFT JOIN user_role AS ur
         ON ur.id = ru.id
-      INNER JOIN role AS r ON r.id = role_id
+      LEFT JOIN role AS r ON r.id = role_id
       WHERE ru.id = ${userId}
     `)).rows[0];
 
-    return { id, username, admin: role == "administrator" };
+    return { id, username, admin: role === "administrator" };
   },
 
   async add(user) {

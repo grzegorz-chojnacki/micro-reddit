@@ -5,18 +5,21 @@ const { pagination } = require("../utils.js");
 
 module.exports = userService => {
   // For adding users
-  router.route("/u").all(isAuthenticated)
+  router.route("/u")
     .post(async (req, res) => {
-      const user = req.body;
-      const id = await userService.add(user);
-      res.json({...user, id});
+      try {
+        const user = req.body;
+        await userService.add(user);
+        res.sendStatus(200);
+      } catch (e) {
+        res.sendStatus(500);
+      }
     });
 
   // For logged user
   router.route("/u").all(isAuthenticated)
     .get(async (req, res) => {
-      const userId = req.user.id;
-      res.json(await userService.get(userId));
+      res.json(await userService.get(req.user.id));
     })
     .put(async (req, res) => {
       const userId = req.user.id;

@@ -32,8 +32,7 @@ app.use(passport.session());
 app.post("/api/login", passport.authenticate("local"), (req, res) => {
   const { user } = req;
   req.login(user, err => err && console.error(err));
-
-  res.send({ user });
+  res.send(user);
 });
 
 app.post("/api/logout", (req, res) => {

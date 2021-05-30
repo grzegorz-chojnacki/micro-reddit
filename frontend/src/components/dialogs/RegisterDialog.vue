@@ -42,7 +42,7 @@
 import { userService } from '@/services/userService.js'
 
 export default {
-  name: 'RegisterDialog',
+  name: 'RedditDialog',
   data() {
     return {
       username: '',

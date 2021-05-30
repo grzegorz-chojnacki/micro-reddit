@@ -34,6 +34,12 @@
             </span>
             <span v-else class="nav-link" @click="logout">Logout</span>
           </li>
+          <li class="nav-item">
+            <span class="nav-link material-icons add"
+              data-bs-toggle="modal" data-bs-target="#redditDialog">
+              add
+            </span>
+          </li>
         </ul>
 
         <span v-if="isAuthenticated" id="username" class="navbar-text">{{ user.username }}</span>
@@ -47,17 +53,20 @@
       </div>
     </div>
   </nav>
+
   <LoginDialog id="loginDialog"/>
   <RegisterDialog id="registerDialog"/>
+  <RedditDialog id="redditDialog"/>
 </template>
 
 <script>
-import LoginDialog from '@/components/LoginDialog.vue'
-import RegisterDialog from '@/components/RegisterDialog.vue'
+import LoginDialog from '@/components/dialogs/LoginDialog.vue'
+import RegisterDialog from '@/components/dialogs/RegisterDialog.vue'
+import RedditDialog from '@/components/dialogs/RedditDialog.vue'
 import { userService } from '@/services/userService'
 
 export default {
-  components: { LoginDialog, RegisterDialog },
+  components: { LoginDialog, RegisterDialog, RedditDialog },
   name: "Toolbar",
   data(){ return { search: '', isAuthenticated: false, user: {} }},
   created() {

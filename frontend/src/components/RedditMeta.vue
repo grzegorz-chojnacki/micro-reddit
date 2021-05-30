@@ -14,11 +14,26 @@
         community
       </h6>
     </header>
+
     <div class="card-body">
       <p class="card-text">
         {{ reddit.text }}
       </p>
     </div>
+  </section>
+
+  <section class="card mt-3">
+    <header class="card-header">
+      <h5 class="card-title">
+        Moderators
+      </h5>
+    </header>
+
+    <ul class="list-group list-group-flush">
+      <li v-for="user of reddit.mods" :key="user" class="list-group-item">
+        {{ user.name }}
+      </li>
+    </ul>
   </section>
 </template>
 

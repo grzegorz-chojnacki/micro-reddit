@@ -8,7 +8,7 @@ module.exports = ({
     `)).rows[0];
 
     const mods = (await db.query(`
-      SELECT ru.id, ru.nickname
+      SELECT ru.id, ru.nickname AS name
       FROM subreddit_moderator AS sm
       INNER JOIN reddit_user AS ru
       ON sm.user_id = ru.id

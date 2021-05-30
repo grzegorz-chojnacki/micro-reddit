@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { pagination } = require("../utils.js");
+const { isAuthenticated } = require("../config/authentication");
 
 module.exports = redditService => {
   // For reddits
@@ -11,11 +12,9 @@ module.exports = redditService => {
       const reddits = await redditService.getAll(page, query);
       res.json(reddits);
     })
-    .post(async (req, res) => {
-      const reddit = req.body;
-
-      const id = await redditService.add(reddit);
-      res.json({ ...reddit, id });
+    .post(isAuthenticated, async (req, res) => {
+      const id = await redditService.add(req.body, req.user.id);
+      res.json({ id });
     });
 
   // For reddit

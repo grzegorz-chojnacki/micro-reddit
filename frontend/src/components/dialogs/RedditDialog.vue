@@ -14,8 +14,8 @@
           </div>
 
           <div class="mb-3">
-            <label for="emailRegister" class="form-label">Description</label>
-            <textarea v-model="text" class="form-control" id="emailRegister" rows="3"/>
+            <label for="description" class="form-label">Description</label>
+            <textarea v-model="text" class="form-control" id="description" rows="3"/>
           </div>
         </form>
 
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-// import { userService } from '@/services/userService.js'
+import { redditService } from '@/services/redditService.js'
 
 export default {
   name: 'RegisterDialog',
@@ -44,9 +44,10 @@ export default {
     }
   },
   methods: {
-    create() {
-      // userService.create(this.name, this.password, this.text)
-      this.$refs.dismiss.click()
+    async create() {
+      const redditId = await redditService.add(this.name, this.text);
+      this.$refs.dismiss.click();
+      this.$router.push({ name: "reddit", params: { redditId }})
     }
   }
 }

@@ -18,10 +18,7 @@ module.exports = ({
     return { id, name, text, mods };
   },
 
-  async add(reddit) {
-    // TODO: pass user id to method
-    const userId = 1;
-
+  async add(reddit, userId) {
     const { rows } = await db.query(`
       INSERT INTO subreddit (name, description)
       VALUES ('${reddit.name}', '${reddit.text}')

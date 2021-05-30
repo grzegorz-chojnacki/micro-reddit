@@ -1,28 +1,25 @@
 const express = require("express");
+const { isAuthenticated } = require("../config/authentication");
 const router = express.Router();
 const { pagination } = require("../utils.js");
 
 module.exports = userService => {
-  // For users
-  router.route("/u")
+  // For adding users
+  router.route("/u").all(isAuthenticated)
     .post(async (req, res) => {
       const user = req.body;
       const id = await userService.add(user);
       res.json({...user, id});
     });
 
-  // For user
-  router.route("/u/:userId")
+  // For logged user
+  router.route("/u").all(isAuthenticated)
     .get(async (req, res) => {
-      if (req.isAuthenticated()) {
-        const { userId } = req.params;
-        res.json(await userService.get(userId));
-      } else {
-        res.sendStatus(400);
-      }
+      const userId = req.user.id;
+      res.json(await userService.get(userId));
     })
     .put(async (req, res) => {
-      const { userId } = req.params;
+      const userId = req.user.id;
       const user = {...req.body, id: userId};
 
       const updated = await userService.update(user);
@@ -30,16 +27,17 @@ module.exports = userService => {
       res.json(updated);
     })
     .delete(async (req, res) => {
-      const { userId } = req.params;
+      const userId = req.user.id;
 
       await userService.delete(userId);
       res.sendStatus(200);
     });
 
-  // For subscriptions
-  router.route("/u/:userId/r/:redditId")
+  // For logged user subscriptions
+  router.route("/u/r/:redditId").all(isAuthenticated)
     .put(async (req, res) => {
-      const { userId, redditId } = req.params;
+      const userId = req.user.id;
+      const { redditId } = req.params;
 
       userService.setSubscribe(userId, redditId, true);
       res.sendStatus(200);
@@ -51,10 +49,10 @@ module.exports = userService => {
       res.sendStatus(200);
     });
 
-  // For password
-  router.route("/u/:userId/password")
+  // For logged user password
+  router.route("/u/password").all(isAuthenticated)
     .post(async (req, res) => {
-      const { userId } = req.params;
+      const userId = req.user.id;
       // const email = req.body;
       const randomPassword = "";
 
@@ -64,10 +62,11 @@ module.exports = userService => {
       res.sendStatus(200);
     });
 
-  // For homepage posts
-  router.route("/u/:userId/home")
+  // For logged user homepage posts
+  router.route("/u/home").all(isAuthenticated)
     .get(async (req, res) => {
-      const { userId } = req.params;
+      const userId = req.user.id;
+      console.log(userId);
       const { query, page } = pagination(req);
 
       const reddits = await userService.getHome(userId, page, query);

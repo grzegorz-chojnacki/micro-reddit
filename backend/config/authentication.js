@@ -31,4 +31,10 @@ passport.serializeUser((user, done) => {
  done(null, user.id);
 });
 
-module.exports = passport;
+const isAuthenticated = (req, res, next) => {
+  console.log('logged', req.user, req.sessionID)
+  if (req.isAuthenticated()) return next();
+  else return res.sendStatus(401);
+};
+
+module.exports = { passport, isAuthenticated };

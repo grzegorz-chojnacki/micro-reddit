@@ -24,7 +24,7 @@ app.use(require("cookie-parser")());
 app.use(require("./config/session"));
 
 // Passport
-const passport = require("./config/authentication");
+const { passport } = require("./config/authentication");
 
 app.use(passport.initialize());
 app.use(passport.session());

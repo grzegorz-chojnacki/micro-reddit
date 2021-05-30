@@ -5,7 +5,8 @@
         <router-link
           :to="{
             name: 'reddit',
-            params: { redditId: reddit.id }}"
+            params: { redditId: reddit.id },
+          }"
         >
           {{ reddit.name }}
         </router-link>
@@ -20,17 +21,15 @@
 <script>
 export default {
   name: "Reddit",
-  props: {
-    reddit: Object
-  }
+  props: { reddit: { type: Object, required: true } },
 };
 </script>
 
 <style scoped lang="scss">
-  .card-body > * {
-    a {
-      text-decoration: none;
-      color: initial;
-    }
+.card-body > * {
+  a {
+    text-decoration: none;
+    color: initial;
   }
+}
 </style>

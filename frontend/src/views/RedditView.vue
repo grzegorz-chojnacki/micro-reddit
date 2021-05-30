@@ -9,9 +9,9 @@ import { postService } from "@/services/postService.js";
 export default {
   name: "RedditView",
   components: { Feed },
-  props: { redditId: String },
+  props: { redditId: { type: String, required: true } },
   data() {
- return { fetchReddit: postService.getAllReddit(this.redditId) };
-}
+    return { fetchReddit: postService.getAllReddit(this.redditId) };
+  },
 };
 </script>

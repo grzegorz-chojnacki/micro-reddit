@@ -27,13 +27,16 @@ import { io } from "socket.io-client";
 export default {
   name: "PostView",
   components: { Post, Comment, LoadingIndicator },
-  props: { redditId: String, postId: String },
+  props: {
+    redditId: { type: String, required: true },
+    postId: { type: String, required: true },
+  },
   data() {
     return {
       postService,
       comments: [],
       socket: null,
-      post: null
+      post: null,
     };
   },
   mounted() {
@@ -42,14 +45,14 @@ export default {
   },
   unmounted() {
     if (this.socket) {
- this.socket.disconnect(); 
-}
+      this.socket.disconnect();
+    }
   },
   methods: {
     fetchPost() {
       this.postService
         .get(this.redditId, this.postId)
-        .then(post => this.post = post);
+        .then((post) => (this.post = post));
     },
 
     initializeSocket() {
@@ -59,10 +62,10 @@ export default {
         this.socket.emit("room", this.postId);
       });
 
-      this.socket.on("comments", comments => {
+      this.socket.on("comments", (comments) => {
         this.comments = comments;
       });
-    }
-  }
+    },
+  },
 };
 </script>

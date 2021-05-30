@@ -15,8 +15,8 @@
 export default {
   name: "Comment",
   props: {
-    comment: Object
-  }
+    comment: { type: Object, required: true },
+  },
 };
 </script>
 

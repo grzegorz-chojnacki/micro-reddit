@@ -21,13 +21,13 @@ import LoadingIndicator from "@/components/LoadingIndicator.vue";
 export default {
   name: "Feed",
   components: { Post, LoadingIndicator },
-  props: { fetchingFn: Function },
+  props: { fetchingFn: { type: Function, required: true } },
   data() {
     return {
       page: 0,
       query: "",
       posts: [],
-      sourceExhausted: false
+      sourceExhausted: false,
     };
   },
   created() {
@@ -43,12 +43,12 @@ export default {
   },
   methods: {
     fetchNext() {
-      this.fetchingFn(this.page, this.query).then(posts => {
+      this.fetchingFn(this.page, this.query).then((posts) => {
         this.posts = this.posts.concat(posts);
         this.page++;
         this.sourceExhausted = posts.length === 0;
       });
-    }
-  }
+    },
+  },
 };
 </script>

@@ -17,10 +17,12 @@
 <script>
 export default {
   name: "LoadingIndicator",
-  props: { done: Boolean }
+  props: { done: { type: Boolean, default: false } },
 };
 </script>
 
 <style lang="scss" scoped>
-em { opacity: 0.5 }
+em {
+  opacity: 0.5;
+}
 </style>

@@ -5,14 +5,15 @@
         <router-link
           :to="{
             name: 'post',
-            params: { redditId: post.reddit.id, postId: post.id }}"
+            params: { redditId: post.reddit.id, postId: post.id },
+          }"
         >
           {{ post.name }}
         </router-link>
       </h5>
       <h6 class="card-subtitle">
         <router-link
-          :to="{ name: 'reddit', params: { redditId: post.reddit.id }}"
+          :to="{ name: 'reddit', params: { redditId: post.reddit.id } }"
         >
           {{ post.reddit.name }}
         </router-link>
@@ -104,46 +105,46 @@
 <script>
 export default {
   name: "Post",
-  props: {
-    post: Object
-  },
+  props: { post: { type: Object, required: true } },
   methods: {
     embedYoutube(url) {
       return url.replace("watch?v=", "embed/");
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
-  section { margin: 1em 0 }
+section {
+  margin: 1em 0;
+}
 
-  .img-container {
-    overflow: hidden;
-    max-height: 800px;
+.img-container {
+  overflow: hidden;
+  max-height: 800px;
 
-    img {
-      box-shadow: 0 0 1em black;
-      display: block;
-      margin: 0 auto;
-    }
+  img {
+    box-shadow: 0 0 1em black;
+    display: block;
+    margin: 0 auto;
   }
+}
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 0 0.5em;
-  }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 0.5em;
+}
 
-  header > * {
-    a {
-      text-decoration: none;
-      color: initial;
-    }
+header > * {
+  a {
+    text-decoration: none;
+    color: initial;
   }
+}
 
-  .yt-player {
-    width: 100%;
-    height: 500px;
-  }
+.yt-player {
+  width: 100%;
+  height: 500px;
+}
 </style>

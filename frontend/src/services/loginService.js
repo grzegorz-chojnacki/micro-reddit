@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { api, Subject } from '@/common'
 
-let isAuthenticated = Subject(false);
-let user = Subject({});
+let isAuthenticatedSource = Subject(false);
+let userSource = Subject({});
 
 export const loginService = {
   async login(username, password) {
@@ -15,17 +15,23 @@ export const loginService = {
       withCredentials: true
     });
 
-    const userId = res.data.id;
-    console.log(res);
+    const { user, sessionID } = res.data;
 
-    if (Number.isInteger(userId)) {
-      isAuthenticated.next(true);
-      const userData = (await axios.get(`${api}/u/${userId}`)/* , { withCredentials: true } */).data;
+    console.log(user, sessionID);
+
+    if (user && sessionID) {
+      localStorage.setItem("sessionID", sessionID);
+      const userData = (await axios.get(`${api}/u/${user.id}`), { withCredentials: true }).data;
       console.log(userData)
-      user.next(userData);
+      isAuthenticatedSource.next(true);
+      userSource.next(user);
     }
   },
-  get isAuthenticated() { return isAuthenticated.asObservable(); },
-  get user() { return user.asObservable(); },
-  logout() { isAuthenticated.next(false); }
+  get isAuthenticated() { return isAuthenticatedSource.asObservable(); },
+  get user() { return userSource.asObservable(); },
+  logout() {
+    localStorage.removeItem("sessionID");
+    isAuthenticatedSource.next(false);
+    userSource.next(null);
+  }
 }

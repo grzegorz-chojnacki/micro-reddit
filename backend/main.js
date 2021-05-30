@@ -16,7 +16,8 @@ const setupServer = mode => {
   } else {
     app.use(require("cors")({
       credentials: true,
-      origin: "http://localhost:4200"
+      origin: "http://localhost:4200",
+      exposedHeaders: ["set-cookie"]
     }));
     return require("http").createServer(app);
   }
@@ -37,7 +38,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.post("/api/login", passport.authenticate("local"), (req, res) => {
-  res.send(req.user);
+  const { user, sessionID } = req;
+  console.log(user, sessionID);
+  req.login(user, err => err && console.error(err));
+
+  res.send({ user, sessionID });
 });
 
 // Routes & services

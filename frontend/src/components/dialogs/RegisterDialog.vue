@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="modal"
-    tabindex="-1">
+  <div class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -15,13 +13,9 @@
             aria-label="Close" />
         </div>
 
-        <form
-          class="modal-body"
-          @submit.prevent="">
+        <form class="modal-body" @submit.prevent="">
           <div class="mb-3">
-            <label
-              for="usernameRegister"
-              class="form-label">Username</label>
+            <label for="usernameRegister" class="form-label">Username</label>
             <input
               id="usernameRegister"
               v-model="username"
@@ -29,9 +23,7 @@
               class="form-control">
           </div>
           <div class="mb-3">
-            <label
-              for="emailRegister"
-              class="form-label">Email</label>
+            <label for="emailRegister" class="form-label">Email</label>
             <input
               id="emailRegister"
               v-model="email"
@@ -40,9 +32,7 @@
               autocomplete="email">
           </div>
           <div class="mb-3">
-            <label
-              for="passwordRegister"
-              class="form-label">Password</label>
+            <label for="passwordRegister" class="form-label">Password</label>
             <input
               id="passwordRegister"
               v-model="password"
@@ -60,10 +50,7 @@
             data-bs-dismiss="modal">
             Close
           </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click="register">
+          <button type="button" class="btn btn-primary" @click="register">
             Register
           </button>
         </div>
@@ -88,8 +75,8 @@ export default {
     register() {
       userService.register(this.username, this.password, this.email);
       this.$refs.dismiss.click();
-    }
-  }
+    },
+  },
 };
 </script>
 

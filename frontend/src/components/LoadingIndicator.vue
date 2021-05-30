@@ -1,9 +1,7 @@
 <template>
   <section class="d-flex justify-content-center my-5">
     <div v-if="!done">
-      <div
-        class="spinner-border"
-        role="status">
+      <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>

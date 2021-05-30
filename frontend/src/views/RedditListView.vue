@@ -1,11 +1,7 @@
 <template>
   <main>
-    <h2
-      v-if="query"
-      class="my-3">
-      <button
-        class="btn"
-        @click="clearQuery">
+    <h2 v-if="query" class="my-3">
+      <button class="btn" @click="clearQuery">
         <span class="material-icons clear">clear</span>
       </button>
       Results for "{{ query }}":
@@ -34,13 +30,13 @@ export default {
       page: 0,
       query: "",
       reddits: [],
-      sourceExhausted: false
+      sourceExhausted: false,
     };
   },
   watch: {
     $route() {
- this.reset(); 
-}
+      this.reset();
+    },
   },
   mounted() {
     this.fetchNext();
@@ -60,17 +56,17 @@ export default {
       this.fetchNext();
     },
     clearQuery() {
- this.$router.push({ name: "reddit-list" }); 
-},
+      this.$router.push({ name: "reddit-list" });
+    },
     fetchNext() {
       this.query = this.$route.query.q || "";
-      redditService.getAll(this.page, this.query).then(reddits => {
+      redditService.getAll(this.page, this.query).then((reddits) => {
         this.reddits = this.reddits.concat(reddits);
         this.page++;
         this.sourceExhausted = reddits.length === 0;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

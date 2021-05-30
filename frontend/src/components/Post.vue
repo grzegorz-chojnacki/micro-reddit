@@ -27,10 +27,7 @@
         frameborder="0" />
 
       <div class="img-container rounded-2 bg-dark">
-        <img
-          v-if="post.image"
-          :src="post.image"
-          :alt="post.name">
+        <img v-if="post.image" :src="post.image" :alt="post.name">
       </div>
 
       <p class="card-text mt-3">
@@ -39,9 +36,7 @@
     </div>
 
     <footer class="card-footer">
-      <div
-        class="btn-group btn-group-sm"
-        role="group">
+      <div class="btn-group btn-group-sm" role="group">
         <input
           :id="post.id + 'upvote'"
           type="radio"
@@ -49,9 +44,7 @@
           autocomplete="off"
           :name="post.id"
           :checked="post.voted === 1">
-        <label
-          class="btn btn-outline-dark"
-          :for="post.id + 'upvote'">
+        <label class="btn btn-outline-dark" :for="post.id + 'upvote'">
           <span class="material-icons add">add</span>
         </label>
 
@@ -61,9 +54,7 @@
           class="btn-check"
           disabled
           :name="post.id">
-        <label
-          class="btn btn-outline-dark score"
-          :for="post.id + 'score'">
+        <label class="btn btn-outline-dark score" :for="post.id + 'score'">
           <span class="vote">{{ post.score }}</span>
         </label>
 
@@ -74,9 +65,7 @@
           autocomplete="off"
           :name="post.id"
           :checked="post.voted === -1">
-        <label
-          class="btn btn-outline-dark"
-          :for="post.id + 'downvote'">
+        <label class="btn btn-outline-dark" :for="post.id + 'downvote'">
           <span class="material-icons remove">remove</span>
         </label>
       </div>

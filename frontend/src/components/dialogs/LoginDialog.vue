@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="modal"
-    tabindex="-1">
+  <div class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -15,13 +13,9 @@
             aria-label="Close" />
         </div>
 
-        <form
-          class="modal-body"
-          @submit.prevent="">
+        <form class="modal-body" @submit.prevent="">
           <div class="mb-3">
-            <label
-              for="usernameLogin"
-              class="form-label">Username</label>
+            <label for="usernameLogin" class="form-label">Username</label>
             <input
               id="usernameLogin"
               v-model="username"
@@ -30,9 +24,7 @@
               autocomplete="username">
           </div>
           <div class="mb-3">
-            <label
-              for="passwordLogin"
-              class="form-label">Password</label>
+            <label for="passwordLogin" class="form-label">Password</label>
             <input
               id="passwordLogin"
               v-model="password"
@@ -50,10 +42,7 @@
             data-bs-dismiss="modal">
             Close
           </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click="login">
+          <button type="button" class="btn btn-primary" @click="login">
             Login
           </button>
         </div>
@@ -77,8 +66,8 @@ export default {
     login() {
       userService.login(this.username, this.password);
       this.$refs.dismiss.click();
-    }
-  }
+    },
+  },
 };
 </script>
 

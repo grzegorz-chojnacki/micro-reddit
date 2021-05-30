@@ -10,7 +10,7 @@ export default {
   name: "HomeView",
   components: { Feed },
   data() {
- return { fetchHome: postService.getHome };
-}
+    return { fetchHome: postService.getHome };
+  },
 };
 </script>

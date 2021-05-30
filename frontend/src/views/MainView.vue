@@ -10,7 +10,7 @@ export default {
   name: "MainView",
   components: { Feed },
   data() {
- return { fetchMain: postService.getAll };
-}
+    return { fetchMain: postService.getAll };
+  },
 };
 </script>

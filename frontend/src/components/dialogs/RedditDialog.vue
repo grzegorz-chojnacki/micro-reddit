@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="modal"
-    tabindex="-1">
+  <div class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -15,13 +13,9 @@
             aria-label="Close" />
         </div>
 
-        <form
-          class="modal-body"
-          @submit.prevent="">
+        <form class="modal-body" @submit.prevent="">
           <div class="mb-3">
-            <label
-              for="nameReddit"
-              class="form-label">Name</label>
+            <label for="nameReddit" class="form-label">Name</label>
             <input
               id="nameReddit"
               v-model="name"
@@ -30,9 +24,7 @@
           </div>
 
           <div class="mb-3">
-            <label
-              for="description"
-              class="form-label">Description</label>
+            <label for="description" class="form-label">Description</label>
             <textarea
               id="description"
               v-model="text"
@@ -49,10 +41,7 @@
             data-bs-dismiss="modal">
             Close
           </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click="create">
+          <button type="button" class="btn btn-primary" @click="create">
             Create
           </button>
         </div>
@@ -76,9 +65,9 @@ export default {
     async create() {
       const redditId = await redditService.add(this.name, this.text);
       this.$refs.dismiss.click();
-      this.$router.push({ name: "reddit", params: { redditId }});
-    }
-  }
+      this.$router.push({ name: "reddit", params: { redditId } });
+    },
+  },
 };
 </script>
 

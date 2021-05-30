@@ -1,16 +1,19 @@
 import { api, Subject } from "@/common";
 
 const options = {
-  headers: {"Content-Type": "application/x-www-form-urlencoded" }
+  headers: { "Content-Type": "application/x-www-form-urlencoded" },
 };
 
 let userSource = Subject({});
 let isAuthenticatedSource = Subject(false);
 
-api.get("/u", options).then(({ data }) => {
-  userSource.next(data);
-  isAuthenticatedSource.next(true);
-}).catch(() => {});
+api
+  .get("/u", options)
+  .then(({ data }) => {
+    userSource.next(data);
+    isAuthenticatedSource.next(true);
+  })
+  .catch(() => {});
 
 export const userService = {
   async login(username, password) {
@@ -33,14 +36,14 @@ export const userService = {
     this.login(username, password);
   },
   get isAuthenticated() {
- return isAuthenticatedSource.asObservable(); 
-},
+    return isAuthenticatedSource.asObservable();
+  },
   get user() {
- return userSource.asObservable(); 
-},
+    return userSource.asObservable();
+  },
   async logout() {
     await api.post("/logout");
     isAuthenticatedSource.next(false);
     userSource.next(null);
-  }
+  },
 };

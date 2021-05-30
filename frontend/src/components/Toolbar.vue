@@ -77,21 +77,13 @@
       </div>
     </div>
   </nav>
-
-  <LoginDialog id="loginDialog" />
-  <RegisterDialog id="registerDialog" />
-  <RedditDialog id="redditDialog" />
 </template>
 
 <script>
-import LoginDialog from "@/components/dialogs/LoginDialog.vue";
-import RegisterDialog from "@/components/dialogs/RegisterDialog.vue";
-import RedditDialog from "@/components/dialogs/RedditDialog.vue";
 import { userService } from "@/services/userService";
 
 export default {
   name: "Toolbar",
-  components: { LoginDialog, RegisterDialog, RedditDialog },
   data() {
     return { search: "", isAuthenticated: false, user: {} };
   },

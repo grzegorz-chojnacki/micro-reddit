@@ -10,4 +10,7 @@ export const redditService = {
   async get(redditId) {
     return (await api.get(`/r/${redditId}`)).data;
   },
+  async addMod(redditId, username) {
+    await api.post(`/r/${redditId}/m/${username}`);
+  }
 };

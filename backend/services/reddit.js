@@ -44,6 +44,21 @@ module.exports = ({
     return rows[0];
   },
 
+  async addMod(redditId, username) {
+    const userId = (await db.query(`
+      SELECT id FROM reddit_user
+      WHERE nickname = '${username}'
+    `)).rows[0].id;
+
+    return await db.query(`
+      INSERT INTO subreddit_moderator (subreddit_id, user_id)
+      SELECT ${redditId}, ${userId}
+      WHERE NOT EXISTS (
+        SELECT * FROM subreddit_moderator AS sm
+        WHERE sm.id = ${userId})
+    `);
+  },
+
   async getAll(page, query) {
     return (await db.query(`
       SELECT id, name, description AS text

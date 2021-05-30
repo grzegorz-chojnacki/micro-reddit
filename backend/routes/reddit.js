@@ -30,5 +30,14 @@ module.exports = redditService => {
       res.json(updated);
     });
 
+  // For reddit mods
+  router.route("/r/:redditId/m/:username")
+    .post(async (req, res) => {
+      const { redditId, username } = req.params;
+      console.log(req.params);
+      await redditService.addMod(redditId, username);
+      res.sendStatus(200);
+    });
+
   return router;
 };

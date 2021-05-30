@@ -1,8 +1,8 @@
 <template>
   <div>
-    <main>
+    <section>
       <Post v-for="post of posts" :key="post.id" :post="post" />
-    </main>
+    </section>
 
     <footer><LoadingIndicator :done="sourceExhausted" /></footer>
   </div>

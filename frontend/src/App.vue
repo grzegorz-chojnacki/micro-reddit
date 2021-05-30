@@ -1,7 +1,9 @@
 <template>
   <div>
     <Toolbar />
-    <router-view />
+    <main>
+      <router-view />
+    </main>
   </div>
 </template>
 
@@ -14,7 +16,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 main {
   max-width: 1000px;
   min-height: 100vh;

@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { loginService } from '@/services/loginService.js'
+import { userService } from '@/services/userService.js'
 
 export default {
   name: 'RegisterDialog',
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     register() {
-      loginService.register(this.username, this.password, this.email)
+      userService.register(this.username, this.password, this.email)
       this.$refs.dismiss.click()
     }
   }

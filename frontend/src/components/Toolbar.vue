@@ -54,22 +54,22 @@
 <script>
 import LoginDialog from '@/components/LoginDialog.vue'
 import RegisterDialog from '@/components/RegisterDialog.vue'
-import { loginService } from '@/services/loginService'
+import { userService } from '@/services/userService'
 
 export default {
   components: { LoginDialog, RegisterDialog },
   name: "Toolbar",
   data(){ return { search: '', isAuthenticated: false, user: {} }},
   created() {
-    loginService.isAuthenticated.subscribe(status => { this.isAuthenticated = status; });
-    loginService.user.subscribe(user => { this.user = user; });
+    userService.isAuthenticated.subscribe(status => { this.isAuthenticated = status; });
+    userService.user.subscribe(user => { this.user = user; });
   },
   methods: {
     onSubmit() {
       this.$router.push({ name: 'reddit-list', query: { q: this.search }})
       this.search = ''
     },
-    logout() { loginService.logout(); }
+    logout() { userService.logout(); }
   }
 };
 </script>

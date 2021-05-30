@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { loginService } from '@/services/loginService.js'
+import { userService } from '@/services/userService.js'
 
 export default {
   name: 'LoginDialog',
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     login() {
-      loginService.login(this.username, this.password)
+      userService.login(this.username, this.password)
       this.$refs.dismiss.click()
     }
   }

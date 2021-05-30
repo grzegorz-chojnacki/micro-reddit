@@ -5,10 +5,10 @@ import HomeView from '@/views/HomeView.vue'
 import PostView from '@/views/PostView.vue'
 import RedditView from '@/views/RedditView.vue'
 import RedditListView from '@/views/RedditListView.vue'
-import { loginService } from '@/services/loginService'
+import { userService } from '@/services/userService'
 
 let isAuthenticated = false;
-loginService.isAuthenticated.subscribe(status => isAuthenticated = status);
+userService.isAuthenticated.subscribe(status => isAuthenticated = status);
 
 const isAuthenticatedGuard = (to, from, next) => isAuthenticated ? next() : next({ name: "main" });
 

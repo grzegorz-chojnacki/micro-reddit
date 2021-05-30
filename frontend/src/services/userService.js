@@ -7,7 +7,7 @@ const options = {
   headers: {'Content-Type': 'application/x-www-form-urlencoded' }
 };
 
-export const loginService = {
+export const userService = {
   async login(username, password) {
     const data = new URLSearchParams();
     data.append('username', username);

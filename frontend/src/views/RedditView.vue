@@ -38,7 +38,11 @@ main {
   gap: 1em;
 
   aside {
-    grid-area: aside;
+    display: none;
+    @media screen and (min-width: 800px) {
+      display: initial;
+      grid-area: aside;
+    }
   }
 
   section {

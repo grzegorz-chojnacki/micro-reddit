@@ -1,10 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
     <div class="container-fluid">
-      <router-link
-        class="navbar-brand"
-        :to="{ name: 'main' }"
-      >
+      <router-link class="navbar-brand" :to="{ name: 'main' }">
         Reddit
       </router-link>
 
@@ -15,32 +12,19 @@
         data-bs-target="#navbarNav"
         aria-controls="navbarNav"
         aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+        aria-label="Toggle navigation">
         <span class="navbar-toggler-icon" />
       </button>
 
-      <div
-        id="navbarNav"
-        class="collapse navbar-collapse"
-      >
+      <div id="navbarNav" class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto mb-2 mb-sm-0">
           <li class="nav-item">
-            <router-link
-              class="nav-link"
-              :to="{ name: 'reddit-list' }"
-            >
+            <router-link class="nav-link" :to="{ name: 'reddit-list' }">
               Explore
             </router-link>
           </li>
-          <li
-            v-if="isAuthenticated"
-            class="nav-item"
-          >
-            <router-link
-              class="nav-link"
-              :to="{ name: 'home' }"
-            >
+          <li v-if="isAuthenticated" class="nav-item">
+            <router-link class="nav-link" :to="{ name: 'home' }">
               Home
             </router-link>
           </li>
@@ -48,8 +32,7 @@
             <span
               class="nav-link"
               data-bs-toggle="modal"
-              data-bs-target="#registerDialog"
-            >
+              data-bs-target="#registerDialog">
               Register
             </span>
           </li>
@@ -58,49 +41,36 @@
               v-if="!isAuthenticated"
               class="nav-link"
               data-bs-toggle="modal"
-              data-bs-target="#loginDialog"
-            >
+              data-bs-target="#loginDialog">
               Login
             </span>
-            <span
-              v-else
-              class="nav-link"
-              @click="logout"
-            >Logout</span>
+            <span v-else class="nav-link" @click="logout">Logout</span>
           </li>
           <li class="nav-item">
             <span
               class="nav-link material-icons add"
               data-bs-toggle="modal"
-              data-bs-target="#redditDialog"
-            >
+              data-bs-target="#redditDialog">
               add
             </span>
           </li>
         </ul>
 
-        <span
-          v-if="isAuthenticated"
-          id="username"
-          class="navbar-text"
-        >{{ user.username }}</span>
+        <span v-if="isAuthenticated" id="username" class="navbar-text">
+          {{ user.username }}
+        </span>
 
-        <form
-          class="d-flex"
-          @submit.prevent="onSubmit"
-        >
+        <form class="d-flex" @submit.prevent="onSubmit">
           <input
             v-model="search"
             class="form-control me-2"
             type="search"
             placeholder="Reddit name"
-            aria-label="Search"
-          >
+            aria-label="Search">
           <button
             class="btn btn-primary"
             :disabled="search === ''"
-            type="submit"
-          >
+            type="submit">
             Search
           </button>
         </form>
@@ -122,32 +92,35 @@ import { userService } from "@/services/userService";
 export default {
   name: "Toolbar",
   components: { LoginDialog, RegisterDialog, RedditDialog },
-  data(){
- return { search: "", isAuthenticated: false, user: {} };
-},
+  data() {
+    return { search: "", isAuthenticated: false, user: {} };
+  },
   created() {
-    userService.isAuthenticated.subscribe(status => {
- this.isAuthenticated = status; 
-});
-    userService.user.subscribe(user => {
- this.user = user; 
-});
+    userService.isAuthenticated.subscribe((status) => {
+      this.isAuthenticated = status;
+    });
+    userService.user.subscribe((user) => {
+      this.user = user;
+    });
   },
   methods: {
     onSubmit() {
-      this.$router.push({ name: "reddit-list", query: { q: this.search }});
+      this.$router.push({ name: "reddit-list", query: { q: this.search } });
       this.search = "";
     },
     logout() {
- userService.logout(); 
-}
-  }
+      userService.logout();
+    },
+  },
 };
 </script>
 
 <style scoped>
-span.nav-link { cursor: pointer }
+span.nav-link {
+  cursor: pointer;
+}
 
-#username { margin-right: 1em; }
-
+#username {
+  margin-right: 1em;
+}
 </style>

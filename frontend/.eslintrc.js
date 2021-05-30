@@ -12,6 +12,20 @@ module.exports = {
     es2020: true,
   },
   rules: {
+    "vue/html-closing-bracket-newline": ["error", {
+      "singleline": "never",
+      "multiline": "never"
+    }],
+    "vue/max-attributes-per-line": ["error", {
+      "singleline": {
+        "max": 5,
+        "allowFirstLine": true
+      },
+      "multiline": {
+        "max": 5,
+        "allowFirstLine": false
+      }
+    }],
     "constructor-super": 2,
     "for-direction": 2,
     "getter-return": 2,

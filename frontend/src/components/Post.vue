@@ -6,15 +6,13 @@
           :to="{
             name: 'post',
             params: { redditId: post.reddit.id, postId: post.id },
-          }"
-        >
+          }">
           {{ post.name }}
         </router-link>
       </h5>
       <h6 class="card-subtitle">
         <router-link
-          :to="{ name: 'reddit', params: { redditId: post.reddit.id } }"
-        >
+          :to="{ name: 'reddit', params: { redditId: post.reddit.id } }">
           {{ post.reddit.name }}
         </router-link>
       </h6>
@@ -26,15 +24,13 @@
         :src="embedYoutube(post.video)"
         class="yt-player"
         type="text/html"
-        frameborder="0"
-      />
+        frameborder="0" />
 
       <div class="img-container rounded-2 bg-dark">
         <img
           v-if="post.image"
           :src="post.image"
-          :alt="post.name"
-        >
+          :alt="post.name">
       </div>
 
       <p class="card-text mt-3">
@@ -45,20 +41,17 @@
     <footer class="card-footer">
       <div
         class="btn-group btn-group-sm"
-        role="group"
-      >
+        role="group">
         <input
           :id="post.id + 'upvote'"
           type="radio"
           class="btn-check"
           autocomplete="off"
           :name="post.id"
-          :checked="post.voted === 1"
-        >
+          :checked="post.voted === 1">
         <label
           class="btn btn-outline-dark"
-          :for="post.id + 'upvote'"
-        >
+          :for="post.id + 'upvote'">
           <span class="material-icons add">add</span>
         </label>
 
@@ -67,12 +60,10 @@
           type="radio"
           class="btn-check"
           disabled
-          :name="post.id"
-        >
+          :name="post.id">
         <label
           class="btn btn-outline-dark score"
-          :for="post.id + 'score'"
-        >
+          :for="post.id + 'score'">
           <span class="vote">{{ post.score }}</span>
         </label>
 
@@ -82,20 +73,17 @@
           class="btn-check"
           autocomplete="off"
           :name="post.id"
-          :checked="post.voted === -1"
-        >
+          :checked="post.voted === -1">
         <label
           class="btn btn-outline-dark"
-          :for="post.id + 'downvote'"
-        >
+          :for="post.id + 'downvote'">
           <span class="material-icons remove">remove</span>
         </label>
       </div>
 
       <router-link
         class="btn mx-3"
-        :to="`/r/${post.reddit.id}/p/${post.id}#comments`"
-      >
+        :to="`/r/${post.reddit.id}/p/${post.id}#comments`">
         Comments
       </router-link>
     </footer>

@@ -6,8 +6,7 @@
         v-for="comment of comments"
         :key="comment.id"
         class="my-2"
-        :comment="comment"
-      />
+        :comment="comment" />
     </section>
   </main>
   <div v-else>

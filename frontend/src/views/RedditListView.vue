@@ -2,12 +2,10 @@
   <main>
     <h2
       v-if="query"
-      class="my-3"
-    >
+      class="my-3">
       <button
         class="btn"
-        @click="clearQuery"
-      >
+        @click="clearQuery">
         <span class="material-icons clear">clear</span>
       </button>
       Results for "{{ query }}":
@@ -17,8 +15,7 @@
       v-for="reddit of reddits"
       :key="reddit.id"
       class="my-2"
-      :reddit="reddit"
-    />
+      :reddit="reddit" />
   </main>
 
   <footer><LoadingIndicator :done="sourceExhausted" /></footer>

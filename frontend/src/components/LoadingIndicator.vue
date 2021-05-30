@@ -3,8 +3,7 @@
     <div v-if="!done">
       <div
         class="spinner-border"
-        role="status"
-      >
+        role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>

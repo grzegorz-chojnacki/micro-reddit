@@ -1,8 +1,7 @@
 <template>
   <div
     class="modal"
-    tabindex="-1"
-  >
+    tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -13,39 +12,33 @@
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
-            aria-label="Close"
-          />
+            aria-label="Close" />
         </div>
 
         <form
           class="modal-body"
-          @submit.prevent=""
-        >
+          @submit.prevent="">
           <div class="mb-3">
             <label
               for="usernameLogin"
-              class="form-label"
-            >Username</label>
+              class="form-label">Username</label>
             <input
               id="usernameLogin"
               v-model="username"
               type="text"
               class="form-control"
-              autocomplete="username"
-            >
+              autocomplete="username">
           </div>
           <div class="mb-3">
             <label
               for="passwordLogin"
-              class="form-label"
-            >Password</label>
+              class="form-label">Password</label>
             <input
               id="passwordLogin"
               v-model="password"
               type="password"
               class="form-control"
-              autocomplete="current-password"
-            >
+              autocomplete="current-password">
           </div>
         </form>
 
@@ -54,15 +47,13 @@
             ref="dismiss"
             type="button"
             class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
+            data-bs-dismiss="modal">
             Close
           </button>
           <button
             type="button"
             class="btn btn-primary"
-            @click="login"
-          >
+            @click="login">
             Login
           </button>
         </div>

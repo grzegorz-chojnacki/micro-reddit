@@ -6,8 +6,7 @@
       <Post
         v-for="post of posts"
         :key="post.id"
-        :post="post"
-      />
+        :post="post" />
     </main>
 
     <footer><LoadingIndicator :done="sourceExhausted" /></footer>

@@ -6,8 +6,7 @@
           :to="{
             name: 'reddit',
             params: { redditId: reddit.id },
-          }"
-        >
+          }">
           {{ reddit.name }}
         </router-link>
       </h5>

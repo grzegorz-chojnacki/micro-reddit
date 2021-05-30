@@ -1,8 +1,7 @@
 <template>
   <div
     class="modal"
-    tabindex="-1"
-  >
+    tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -13,38 +12,32 @@
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
-            aria-label="Close"
-          />
+            aria-label="Close" />
         </div>
 
         <form
           class="modal-body"
-          @submit.prevent=""
-        >
+          @submit.prevent="">
           <div class="mb-3">
             <label
               for="nameReddit"
-              class="form-label"
-            >Name</label>
+              class="form-label">Name</label>
             <input
               id="nameReddit"
               v-model="name"
               type="text"
-              class="form-control"
-            >
+              class="form-control">
           </div>
 
           <div class="mb-3">
             <label
               for="description"
-              class="form-label"
-            >Description</label>
+              class="form-label">Description</label>
             <textarea
               id="description"
               v-model="text"
               class="form-control"
-              rows="3"
-            />
+              rows="3" />
           </div>
         </form>
 
@@ -53,15 +46,13 @@
             ref="dismiss"
             type="button"
             class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
+            data-bs-dismiss="modal">
             Close
           </button>
           <button
             type="button"
             class="btn btn-primary"
-            @click="create"
-          >
+            @click="create">
             Create
           </button>
         </div>

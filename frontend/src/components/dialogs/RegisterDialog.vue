@@ -1,8 +1,7 @@
 <template>
   <div
     class="modal"
-    tabindex="-1"
-  >
+    tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
@@ -13,51 +12,43 @@
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
-            aria-label="Close"
-          />
+            aria-label="Close" />
         </div>
 
         <form
           class="modal-body"
-          @submit.prevent=""
-        >
+          @submit.prevent="">
           <div class="mb-3">
             <label
               for="usernameRegister"
-              class="form-label"
-            >Username</label>
+              class="form-label">Username</label>
             <input
               id="usernameRegister"
               v-model="username"
               type="username"
-              class="form-control"
-            >
+              class="form-control">
           </div>
           <div class="mb-3">
             <label
               for="emailRegister"
-              class="form-label"
-            >Email</label>
+              class="form-label">Email</label>
             <input
               id="emailRegister"
               v-model="email"
               type="email"
               class="form-control"
-              autocomplete="email"
-            >
+              autocomplete="email">
           </div>
           <div class="mb-3">
             <label
               for="passwordRegister"
-              class="form-label"
-            >Password</label>
+              class="form-label">Password</label>
             <input
               id="passwordRegister"
               v-model="password"
               type="password"
               class="form-control"
-              autocomplete="new-password"
-            >
+              autocomplete="new-password">
           </div>
         </form>
 
@@ -66,15 +57,13 @@
             ref="dismiss"
             type="button"
             class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
+            data-bs-dismiss="modal">
             Close
           </button>
           <button
             type="button"
             class="btn btn-primary"
-            @click="register"
-          >
+            @click="register">
             Register
           </button>
         </div>

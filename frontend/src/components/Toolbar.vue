@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
     <div class="container-fluid">
       <router-link class="navbar-brand" :to="{ name: 'main' }">
         Reddit
@@ -36,9 +36,7 @@
           </li>
         </ul>
 
-        <div v-if="isAuthenticated" id="username">
-          <span class="navbar-text">{{ user.username }}</span>
-        </div>
+        <span v-if="isAuthenticated" id="username" class="navbar-text">{{ user.username }}</span>
 
         <form class="d-flex" @submit.prevent="onSubmit">
           <input class="form-control me-2" type="search" v-model="search"
@@ -79,8 +77,6 @@ export default {
 <style scoped>
 span.nav-link { cursor: pointer }
 
-#username {
-  margin-right: 1em;
-}
+#username { margin-right: 1em; }
 
 </style>

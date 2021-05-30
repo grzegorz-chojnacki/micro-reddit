@@ -76,10 +76,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-section {
-  max-width: 400px;
-}
-
 header > * {
   a {
     text-decoration: none;

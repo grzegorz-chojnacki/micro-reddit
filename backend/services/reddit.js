@@ -55,7 +55,7 @@ module.exports = ({
       SELECT ${redditId}, ${userId}
       WHERE NOT EXISTS (
         SELECT * FROM subreddit_moderator AS sm
-        WHERE sm.id = ${userId})
+        WHERE sm.user_id = ${userId} AND sm.subreddit_id = ${redditId})
     `);
   },
 

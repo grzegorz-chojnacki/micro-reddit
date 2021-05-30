@@ -3,6 +3,7 @@
     <aside v-if="reddit">
       <RedditMeta :reddit="reddit" />
     </aside>
+
     <section>
       <Feed :fetching-fn="fetchReddit" />
     </section>
@@ -25,9 +26,12 @@ export default {
       reddit: null
     };
   },
+  created() {
+    redditService.reddit.subscribe(reddit => this.reddit = reddit);
+  },
   async mounted() {
-    this.reddit = await redditService.get(this.redditId);
-  }
+    await redditService.get(this.redditId);
+  },
 };
 </script>
 
@@ -35,6 +39,7 @@ export default {
 main {
   display: grid;
   grid-template: "feed aside";
+  grid-template-columns: auto 250px;
   gap: 1em;
 
   aside {

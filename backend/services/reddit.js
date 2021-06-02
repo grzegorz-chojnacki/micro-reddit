@@ -34,14 +34,13 @@ module.exports = ({
   },
 
   async update(reddit) {
-    const rows = await db.query(`
+    await db.query(`
       UPDATE subreddit SET
-        name = '${reddit.name}',
         description = '${reddit.text}'
       WHERE id = ${reddit.id}
       RETURNING id, name, description AS text
     `);
-    return rows[0];
+    return reddit;
   },
 
   async addMod(redditId, username) {

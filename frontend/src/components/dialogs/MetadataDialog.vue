@@ -4,7 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
-            Update {{ name }}'s metadata
+            Update {{ reddit.name }}'s metadata
           </h5>
           <button
             type="button"
@@ -60,20 +60,16 @@ export default {
   },
   watch: {
     reddit() {
-      this.name = this.reddit?.name || "";
       this.text = this.reddit?.text || "";
     }
   },
   methods: {
     async update() {
+      this.$refs.dismiss.click();
       await redditService.update({
-        id: this.reddit.id,
-        name: this.name,
+        ...this.reddit,
         text: this.text
       });
-
-      this.$router.go({ name: "reddit", params: { redditId: this.reddit.id } });
-      this.$refs.dismiss.click();
     },
   },
 };

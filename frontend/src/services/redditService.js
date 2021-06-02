@@ -10,12 +10,14 @@ export const redditService = {
     return (await api.post("/r", { name, text })).data.id;
   },
   async update(reddit) {
-    return await api.put(`/r/${reddit.id}`, reddit);
+    const { data } = (await api.put(`/r/${reddit.id}`, reddit));
+    redditSource.next(data);
+    return data;
   },
   async get(redditId) {
-    const res = (await api.get(`/r/${redditId}`)).data;
-    redditSource.next(res);
-    return res;
+    const { data } = await api.get(`/r/${redditId}`);
+    redditSource.next(data);
+    return data;
   },
   async addMod(redditId, username) {
     await api.post(`/r/${redditId}/m/${username}`);

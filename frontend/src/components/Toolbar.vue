@@ -46,7 +46,7 @@
             </span>
             <span v-else class="nav-link" @click="logout">Logout</span>
           </li>
-          <li class="nav-item">
+          <li v-if="isAuthenticated" class="nav-item">
             <span
               class="nav-link material-icons add"
               data-bs-toggle="modal"
@@ -68,10 +68,10 @@
             placeholder="Reddit name"
             aria-label="Search">
           <button
-            class="btn btn-primary"
-            :disabled="search === ''"
-            type="submit">
-            Search
+            class="btn btn-dark text-light"
+            type="submit"
+            :disabled="search === ''">
+            <span class="material-icons search">search</span>
           </button>
         </form>
       </div>
@@ -114,5 +114,10 @@ span.nav-link {
 
 #username {
   margin-right: 1em;
+}
+
+button.btn {
+  display: inline-flex;
+  align-items: center;
 }
 </style>

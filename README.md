@@ -59,6 +59,39 @@
 - socket.io (do wszelkich zastosowań "komunikacyjnych" wykorzystujących Websockets)
 - Wybrana biblioteka do obsługi poczty elektronicznej
 
+<hr>
+
+## Wersja **DST**
+- [ ] Użytkownicy
+  - [ ] Rejestracja
+  - [ ] Modyfikacja profilu użytkownika
+  - [x] Obsługa logowania (zwykłe)
+  - [ ] Edycja metadanych subreddita przez moderatora
+  - [ ] Dołączanie do konkretnych subredditów
+- [ ] Subreddity (`/r/nazwaSubreddita`)
+  - [ ] Tworzenie subredditów
+  - [ ] Tworzenie postów w ramach danego (sub)reddita
+  - [ ] Możliwość przechodzenia pomiędzy subredditami
+  - [ ] Głosowanie na posty
+  - [ ] Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
+  - [ ] Dynamiczny system komentarzy (socket.io)
+- [ ] Home użytkownika
+- [ ] Wyszukiwarka (postów według treści/subredditów według nazwy)
+- [ ] Wybór popularnych (według liczby postów i liczby użytkowników) subredditów
+
+## Wersja **DB**
+- [ ] Administratorzy
+  - [ ] Usuwanie/banowanie "niegrzecznych" użytkowników
+- [ ] Przypominanie hasła
+- [ ] Opcje wyświetlania postów w ramach subreddita
+- [ ] Opcjami sortowania home użytkownika (Best, Hot - Tempo przyrostu polubień, New)
+
+## Wersja **BDB**
+- [ ] Administratorzy
+  - [ ] Wgląd do statystyk (największe subreddity - hierarchia, hierachia polubień postów/suredditów)
+- [ ] Aktywacja konta po kliknięciu na "ograniczony czasowo link aktywacyjny"
+- [ ] Dynamiczny i hierarchiczny system komentarzy (socket.io)
+- [ ] Powiadomienia o odpowiedziach lub zmianach w trendach dotyczący postów danego użytkownika (socket.io)
 
 # Reddit API
 ## Frontend

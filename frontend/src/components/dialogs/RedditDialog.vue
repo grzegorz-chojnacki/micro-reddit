@@ -41,7 +41,7 @@
             data-bs-dismiss="modal">
             Close
           </button>
-          <button type="button" class="btn btn-primary" @click="create">
+          <button type="button" class="btn btn-primary" :disabled="isInvalid" @click="create">
             Create
           </button>
         </div>
@@ -60,6 +60,11 @@ export default {
       name: "",
       text: "",
     };
+  },
+  computed: {
+    isInvalid() {
+      return !this.name;
+    }
   },
   methods: {
     async create() {

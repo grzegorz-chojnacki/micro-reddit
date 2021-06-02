@@ -40,6 +40,15 @@
               class="form-control"
               autocomplete="new-password">
           </div>
+          <div class="mb-3">
+            <label for="passwordRetypeRegister" class="form-label">Confirm password</label>
+            <input
+              id="passwordRetypeRegister"
+              v-model="passwordRetype"
+              type="password"
+              class="form-control"
+              autocomplete="nope">
+          </div>
         </form>
 
         <div class="modal-footer">
@@ -50,7 +59,7 @@
             data-bs-dismiss="modal">
             Close
           </button>
-          <button type="button" class="btn btn-primary" @click="register">
+          <button type="button" class="btn btn-primary" @click="register" :disabled="isInvalid">
             Register
           </button>
         </div>
@@ -68,15 +77,25 @@ export default {
     return {
       username: "",
       password: "",
+      passwordRetype: "",
       email: "",
     };
   },
+  computed: {
+    isInvalid() {
+      return !(this.username && this.password && this.passwordRetype && this.email);
+    }
+  },
   methods: {
     register() {
-      userService.register(this.username, this.password, this.email);
-      this.$refs.dismiss.click();
+      if (this.password !== this.passwordRetype) {
+        this.password = this.passwordRetype = "";
+      } else {
+        userService.register(this.username, this.password, this.email);
+        this.$refs.dismiss.click();
+      }
     },
-  },
+  }
 };
 </script>
 

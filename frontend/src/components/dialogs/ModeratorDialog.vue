@@ -33,7 +33,7 @@
             data-bs-dismiss="modal">
             Close
           </button>
-          <button type="button" class="btn btn-primary" @click="add">
+          <button type="button" class="btn btn-primary" :disabled="isInvalid" @click="add">
             Add
           </button>
         </div>
@@ -49,6 +49,11 @@ export default {
   name: "ModeratorDialog",
   data() {
     return { username: "" };
+  },
+  computed: {
+    isInvalid() {
+      return !this.username;
+    }
   },
   methods: {
     add() {

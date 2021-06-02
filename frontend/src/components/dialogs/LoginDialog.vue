@@ -42,7 +42,7 @@
             data-bs-dismiss="modal">
             Close
           </button>
-          <button type="button" class="btn btn-primary" @click="login">
+          <button type="button" class="btn btn-primary" :disabled="isInvalid" @click="login">
             Login
           </button>
         </div>
@@ -61,6 +61,11 @@ export default {
       username: "flutherhole",
       password: "flutherhole",
     };
+  },
+  computed: {
+    isInvalid() {
+      return !(this.username && this.password);
+    }
   },
   methods: {
     login() {

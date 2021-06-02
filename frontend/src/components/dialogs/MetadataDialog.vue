@@ -4,7 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
-            Create reddit
+            Update {{ name }}'s metadata
           </h5>
           <button
             type="button"
@@ -14,15 +14,6 @@
         </div>
 
         <form class="modal-body" @submit.prevent="">
-          <div class="mb-3">
-            <label for="nameReddit" class="form-label">Name</label>
-            <input
-              id="nameReddit"
-              v-model="name"
-              type="text"
-              class="form-control">
-          </div>
-
           <div class="mb-3">
             <label for="description" class="form-label">Description</label>
             <textarea
@@ -41,8 +32,8 @@
             data-bs-dismiss="modal">
             Close
           </button>
-          <button type="button" class="btn btn-primary" :disabled="isInvalid" @click="create">
-            Create
+          <button type="button" class="btn btn-primary" @click="update">
+            Update
           </button>
         </div>
       </div>
@@ -54,23 +45,20 @@
 import { redditService } from "@/services/redditService.js";
 
 export default {
-  name: "RedditDialog",
+  name: "MetadataDialog",
   data() {
     return {
       name: "",
       text: "",
     };
   },
-  computed: {
-    isInvalid() {
-      return !this.name;
-    }
-  },
   methods: {
-    async create() {
-      const redditId = await redditService.add(this.name, this.text);
-      this.$refs.dismiss.click();
+    async update() {
+      const redditId = this.$route.params.redditId;
+      await redditService.update(redditId, this.text);
+
       this.$router.go({ name: "reddit", params: { redditId } });
+      this.$refs.dismiss.click();
     },
   },
 };

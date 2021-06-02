@@ -9,6 +9,9 @@ export const redditService = {
   async add(name, text) {
     return (await api.post("/r", { name, text })).data.id;
   },
+  async update(reddit) {
+    return await api.put(`/r/${reddit.id}`, reddit);
+  },
   async get(redditId) {
     const res = (await api.get(`/r/${redditId}`)).data;
     reddit.next(res);

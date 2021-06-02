@@ -20,7 +20,11 @@
       </div>
     </section>
 
-    <button v-if="isMod" class="btn btn-secondary">
+    <button
+      v-if="isMod"
+      class="btn btn-secondary"
+      data-bs-toggle="modal"
+      data-bs-target="#metadataDialog">
       Change metadata
     </button>
 

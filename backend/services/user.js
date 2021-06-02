@@ -15,15 +15,21 @@ module.exports = ({
   },
 
   async add(user) {
-    const { rows } = await db.query(`
+    const usernameExists = (await db.query(`
+      SELECT * FROM reddit_user WHERE nickname = '${user.username}'
+    `)).rows[0];
+
+    if (usernameExists) {
+      throw ["username"];
+    }
+
+    await db.query(`
       INSERT INTO reddit_user
         (nickname, activation_guid, activation_expire_date, password, email)
       VALUES
         ('${user.username}', NULL, NULL, '${user.password}', '${user.email}')
       RETURNING id
     `);
-
-    return rows[0].id;
   },
 
   async update(user) {

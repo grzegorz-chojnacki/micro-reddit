@@ -32,8 +32,8 @@ export const userService = {
     data.append("password", password);
     data.append("email", email);
 
-    await api.post("/u", data, options);
-    this.login(username, password);
+    const { errors } = (await api.post("/u", data, options)).data;
+    return errors || this.login(username, password);
   },
   get isAuthenticated() {
     return isAuthenticatedSource.asObservable();

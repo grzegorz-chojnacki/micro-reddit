@@ -18,32 +18,45 @@
             <label for="usernameRegister" class="form-label">Username</label>
             <input
               id="usernameRegister"
+              ref="username"
               v-model="username"
               type="username"
               class="form-control">
+            <div class="invalid-feedback">
+              This username is already taken.
+            </div>
           </div>
           <div class="mb-3">
             <label for="emailRegister" class="form-label">Email</label>
             <input
               id="emailRegister"
+              ref="email"
               v-model="email"
               type="email"
               class="form-control"
               autocomplete="email">
+            <div class="invalid-feedback">
+              Email is not valid
+            </div>
           </div>
           <div class="mb-3">
             <label for="passwordRegister" class="form-label">Password</label>
             <input
               id="passwordRegister"
+              ref="password"
               v-model="password"
               type="password"
               class="form-control"
               autocomplete="new-password">
+            <div class="invalid-feedback">
+              Passwords didn't match
+            </div>
           </div>
           <div class="mb-3">
             <label for="passwordRetypeRegister" class="form-label">Confirm password</label>
             <input
               id="passwordRetypeRegister"
+              ref="passwordRetype"
               v-model="passwordRetype"
               type="password"
               class="form-control"
@@ -87,11 +100,26 @@ export default {
     }
   },
   methods: {
-    register() {
+    async register() {
+      for (const input in this.$refs) {
+        this.$refs[input].classList.remove("is-invalid");
+      }
+
       if (this.password !== this.passwordRetype) {
+        this.$refs.password.classList.add("is-invalid");
         this.password = this.passwordRetype = "";
+        return;
+      }
+
+      const errors = await userService.register(this.username, this.password, this.email);
+      if (errors) {
+        for (const input of errors) {
+          this.$refs[input].classList.add("is-invalid");
+        }
       } else {
-        userService.register(this.username, this.password, this.email);
+        for (const input in this.$refs) {
+          this.$refs[input].value = "";
+        }
         this.$refs.dismiss.click();
       }
     },

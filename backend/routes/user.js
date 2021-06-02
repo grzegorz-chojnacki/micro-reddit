@@ -11,8 +11,8 @@ module.exports = userService => {
         const user = req.body;
         await userService.add(user);
         res.sendStatus(200);
-      } catch (e) {
-        res.sendStatus(500);
+      } catch (errors) {
+        res.json({ errors });
       }
     });
 

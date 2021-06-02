@@ -65,7 +65,7 @@ export default {
     async create() {
       const redditId = await redditService.add(this.name, this.text);
       this.$refs.dismiss.click();
-      this.$router.push({ name: "reddit", params: { redditId } });
+      this.$router.go({ name: "reddit", params: { redditId } });
     },
   },
 };

@@ -11,9 +11,6 @@
             {{ reddit.name }}
           </router-link>
         </h5>
-        <h6 class="card-subtitle">
-          community
-        </h6>
       </header>
 
       <div class="card-body">
@@ -55,7 +52,7 @@
 import { userService } from "@/services/userService";
 
 export default {
-  name: "Reddit",
+  name: "RedditMeta",
   props: { reddit: { type: Object, required: true } },
   data() {
     return { user: null };

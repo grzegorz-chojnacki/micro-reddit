@@ -81,14 +81,13 @@ export default {
 <style lang="scss" scoped>
 main {
   display: grid;
-  grid-template: "feed aside";
-  grid-template-columns: auto 250px;
+  grid-template: "feed";
   gap: 1em;
 
-  aside {
-    display: none;
-    @media screen and (min-width: 800px) {
-      display: initial;
+  @media screen and (min-width: 800px) {
+    grid-template-columns: auto 250px;
+    grid-template: "feed aside";
+    aside {
       grid-area: aside;
     }
   }

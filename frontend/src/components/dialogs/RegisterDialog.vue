@@ -72,7 +72,7 @@
             data-bs-dismiss="modal">
             Close
           </button>
-          <button type="button" class="btn btn-primary" @click="register" :disabled="isInvalid">
+          <button type="button" class="btn btn-primary" :disabled="isInvalid" @click="register">
             Register
           </button>
         </div>

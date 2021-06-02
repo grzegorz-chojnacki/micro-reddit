@@ -9,18 +9,29 @@
       <Feed :fetching-fn="fetchReddit" />
     </section>
   </main>
+
+  <MetadataDialog id="metadataDialog" :reddit="reddit" />
+  <ModeratorDialog id="moderatorDialog" :reddit="reddit" />
 </template>
 
 <script>
 import RedditMeta from "@/components/RedditMeta.vue";
 import RedditToolbar from "@/components/RedditToolbar.vue";
 import Feed from "@/components/Feed.vue";
+import MetadataDialog from "@/components/dialogs/MetadataDialog.vue";
+import ModeratorDialog from "@/components/dialogs/ModeratorDialog.vue";
 import { postService } from "@/services/postService.js";
 import { redditService } from "@/services/redditService.js";
 
 export default {
   name: "RedditView",
-  components: { RedditMeta, RedditToolbar, Feed },
+  components: {
+    RedditMeta,
+    RedditToolbar,
+    Feed,
+    MetadataDialog,
+    ModeratorDialog,
+  },
   props: { redditId: { type: String, required: true } },
   data() {
     return {
@@ -44,8 +55,8 @@ main {
   gap: 1em;
 
   @media screen and (min-width: 800px) {
-    grid-template-columns: auto 250px;
     grid-template: "feed aside";
+    grid-template-columns: auto 300px;
     aside {
       grid-area: aside;
     }

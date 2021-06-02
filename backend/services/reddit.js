@@ -36,10 +36,10 @@ module.exports = ({
   async update(reddit) {
     const rows = await db.query(`
       UPDATE subreddit SET
-        title = '${reddit.name}',
-        description = '${reddit.text}',
+        name = '${reddit.name}',
+        description = '${reddit.text}'
       WHERE id = ${reddit.id}
-      RETURNING id, title AS name, description AS text
+      RETURNING id, name, description AS text
     `);
     return rows[0];
   },

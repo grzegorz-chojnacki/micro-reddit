@@ -1,6 +1,6 @@
 import { api, Subject } from "@/common";
 
-let reddit = Subject();
+let redditSource = Subject();
 
 export const redditService = {
   async getAll(page = 0, query = "") {
@@ -14,7 +14,7 @@ export const redditService = {
   },
   async get(redditId) {
     const res = (await api.get(`/r/${redditId}`)).data;
-    reddit.next(res);
+    redditSource.next(res);
     return res;
   },
   async addMod(redditId, username) {
@@ -22,6 +22,6 @@ export const redditService = {
     this.get(redditId);
   },
   get reddit() {
-    return reddit.asObservable();
+    return redditSource.asObservable();
   },
 };

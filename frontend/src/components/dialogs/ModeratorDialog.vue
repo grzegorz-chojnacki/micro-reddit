@@ -4,7 +4,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
-            Add a moderator
+            Add a moderator to {{ reddit?.name }}
           </h5>
           <button
             type="button"
@@ -47,6 +47,12 @@ import { redditService } from "@/services/redditService.js";
 
 export default {
   name: "ModeratorDialog",
+  props: {
+    reddit: {
+      type: Object,
+      default: () => ({ id: null, name: "", text: ""})
+    }
+  },
   data() {
     return { username: "" };
   },
@@ -57,7 +63,7 @@ export default {
   },
   methods: {
     add() {
-      redditService.addMod(this.$route.params.redditId , this.username);
+      redditService.addMod(this.reddit.id , this.username);
       this.$refs.dismiss.click();
     },
   },

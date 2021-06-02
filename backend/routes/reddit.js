@@ -25,17 +25,30 @@ module.exports = redditService => {
       res.json(reddit);
     })
     .put(async (req, res) => {
-      const reddit = req.body;
-      const updated = await redditService.update(reddit);
-      res.json(updated);
+      try {
+        const reddit = req.body;
+
+        if (reddit.text.length >= 256) {
+          throw new Error();
+        }
+
+        const updated = await redditService.update(reddit);
+        res.json(updated);
+      } catch (e) {
+        res.sendStatus(400);
+      }
     });
 
   // For reddit mods
   router.route("/r/:redditId/m/:username")
     .post(async (req, res) => {
-      const { redditId, username } = req.params;
-      await redditService.addMod(redditId, username);
-      res.sendStatus(200);
+      try {
+        const { redditId, username } = req.params;
+        await redditService.addMod(redditId, username);
+        res.sendStatus(200);
+      } catch (e) {
+        res.sendStatus(400);
+      }
     });
 
   return router;

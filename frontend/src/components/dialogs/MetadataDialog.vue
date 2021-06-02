@@ -15,9 +15,9 @@
 
         <form class="modal-body" @submit.prevent="">
           <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
+            <label for="descriptionMetadata" class="form-label">Description</label>
             <textarea
-              id="description"
+              id="descriptionMetadata"
               v-model="text"
               class="form-control"
               rows="3" />
@@ -46,18 +46,33 @@ import { redditService } from "@/services/redditService.js";
 
 export default {
   name: "MetadataDialog",
+  props: {
+    reddit: {
+      type: Object,
+      default: () => ({ id: null, name: "", text: ""})
+    }
+  },
   data() {
     return {
       name: "",
       text: "",
     };
   },
+  watch: {
+    reddit() {
+      this.name = this.reddit?.name || "";
+      this.text = this.reddit?.text || "";
+    }
+  },
   methods: {
     async update() {
-      const redditId = this.$route.params.redditId;
-      await redditService.update(redditId, this.text);
+      await redditService.update({
+        id: this.reddit.id,
+        name: this.name,
+        text: this.text
+      });
 
-      this.$router.go({ name: "reddit", params: { redditId } });
+      this.$router.go({ name: "reddit", params: { redditId: this.reddit.id } });
       this.$refs.dismiss.click();
     },
   },

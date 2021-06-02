@@ -1,49 +1,49 @@
-# Projekt egzaminacyjny – MicroReddit
+# Projekt egzaminacyjny - MicroReddit
 
 ## Interfejs
-- Zarówno „przeglądarkowy” jak i (responsywny) „mobilny” (oparty o Vue.js 3 i SCSS)
+- Zarówno "przeglądarkowy" jak i (responsywny) "mobilny" (oparty o Vue.js 3 i SCSS)
 
-### Funkcjonalność
+## Funkcjonalność
 - [ ] Użytkownicy
   - [ ] **DST** Rejestracja
-  - [ ] **DST** Obsługa logowania (zwykłe)
+    > (prosty formularz - login w postaci adresu e-mail, hasło, powtórzone hasło + walidacja danych - login musi być unikatowy i poprawny "składniowo" jako adres e-mail, a hasła identyczne)
+  - [ ] **DST** Modyfikacja profilu użytkownika
+    > (zmiana hasła)
+  - [x] **DST** Obsługa logowania (zwykłe)
+    > (w oparciu o zapamiętane w lokalnej bazie dane użytkownika)
   - [ ] Podział ról:
-    - [ ] **DST** Moderatorzy – zarządzają subredditami `/r/temat`:
+    - [ ] **DST** Moderatorzy - zarządzają subredditami `/r/temat`:
       - [ ] Edycja metadanych
+        > (opis - obsługa edycji za pomocą pola tekstowego)
       - [ ] Usuwanie postów/komentarzy
     - [ ] Administratorzy
-      - [ ] Usuwanie/banowanie „niegrzecznych” użytkowników
-      - [ ] ***BDB*** Wgląd do statystyk (największe subreddity - hierarchia,
-            hierachia polubień postów/suredditów)
-  - [ ] ***BDB*** Aktywacja konta po kliknięciu na „ograniczony czasowo link aktywacyjny”
-  - [ ] Przypominanie/modyfikacja hasła
+      - [ ] Usuwanie/banowanie "niegrzecznych" użytkowników
+      - [ ] ***BDB*** Wgląd do statystyk (największe subreddity - hierarchia, hierachia polubień postów/suredditów)
+  - [ ] ***BDB*** Aktywacja konta po kliknięciu na "ograniczony czasowo link aktywacyjny"
+  - [ ] Przypominanie hasła
   - [ ] **DST** Dołączanie do konkretnych subredditów
-  - [ ] **DST** Modyfikacja profilu użytkownika (zmiana adresu e-mail, zmiana hasła)
 - [ ] Subreddity (`/r/nazwaSubreddita`)
-  - [ ] **DST** Tworzenie subredditów (twórca automatycznie zostaje moderatorem,
-        kolejnych moderatorów może dodać moderator)
-  - [ ] Opcje wyświetlania postów w ramach subreddita (np. karty/lista/…)
+  - [ ] **DST** Tworzenie subredditów
+    > (twórca automatycznie zostaje moderatorem)
+  - [ ] Opcje wyświetlania postów w ramach subreddita
+    > (np. karty/lista/...)
   - [ ] **DST** Tworzenie postów w ramach danego (sub)reddita
   - [ ] **DST** Możliwość przechodzenia pomiędzy subredditami
   - [ ] **DST** Głosowanie na posty
-  - [ ] Post może zawierać:
-    - [ ] **DST** tekst,
-    - [ ] **DST** link,
-    - [ ] **DST** wideo (z Youtube),
-    - [ ] **DST** obrazek (na serwerze),
-    - [ ] ankietę (uwaga na próby wielokrotnego głosowania - Uniemożliwić je)
-  - [ ] system komentarzy (socket.io)
-    - [ ] **DST** dynamiczny
-    - [ ] ***BDB*** hierarchiczny
-  - [ ] Wymagane podstrony
-    - [ ] **DST** (przynajmniej jeden) Home użytkownika z opcjami sortowania
-          (Best, Hot - Tempo przyrostu polubień, New)
+    > (głos za/przeciw - można oddać tylko jeden)
+  - [ ] **DST** Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
+  - [ ] **DST** Dynamiczny (***BDB*** i hierarchiczny) system komentarzy (socket.io)
+    > (aktywni użytkownicy widzą komentarze w momencie ich dodania; komentarze/posty po usunięciu przez moderatora znikają)
+- [ ] Wymagane podstrony
+  - [ ] **DST** Home użytkownika
+     - [ ] Opcje sortowania (Best, Hot - Tempo przyrostu polubień, New)
 
-### Pozostałe funkcjonalności
-- [ ] **DST** Wyszukiwarka (postów wg treści/subredditów wg nazwy)
-- [ ] ***BDB*** Powiadomienia o odpowiedziach lub zmianach w trendach dotyczący
-      postów danego użytkownika (socket.io)
+## Pozostałe funkcjonalności
+- [ ] **DST** Wyszukiwarka (postów według treści/subredditów według nazwy)
+  > (pole/pola tekstowe z ewentualnym "przełącznikiem" treść/nazwa)
+- [ ] ***BDB*** Powiadomienia o odpowiedziach lub zmianach w trendach dotyczący postów danego użytkownika (socket.io)
 - [ ] **DST** Wybór popularnych (według liczby postów i liczby użytkowników) subredditów
+  > (Top-Five najlepszych względem wybranego kryterium)
 
 ## Strona serwerowa
 - [ ] Struktura będzie zadana, wstępne dane do załadowania będą zapewnione
@@ -52,12 +52,11 @@
 
 ## Interfejs i zależności
 - Vue.js 3 + Vue-router (!!!)
-- Bootstrap + SCSS lub Vuetify lub ewentualnie inna bibiloteka do „współpracy”
-  Vue-Bootstrap (koniecznie należy użyć SCSS!)
+- Bootstrap + SCSS lub Vuetify lub ewentualnie inna bibiloteka do "współpracy" Vue-Bootstrap (koniecznie należy użyć SCSS!)
 - axios.js
 - pg
 - passport.js
-- socket.io (do wszelkich zastosowań „komunikacyjnych” wykorzystujących Websockets)
+- socket.io (do wszelkich zastosowań "komunikacyjnych" wykorzystujących Websockets)
 - Wybrana biblioteka do obsługi poczty elektronicznej
 
 

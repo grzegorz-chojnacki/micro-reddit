@@ -8,7 +8,7 @@ passport.use(new passportLocal.Strategy(async (username, password, done) => {
       SELECT id FROM reddit_user
       WHERE nickname = '${username}' AND password = '${password}'
     `)).rows[0];
-    done(null, { id, username });
+    done(null, { id });
     //  return done(null, false, { message: 'Incorrect credentials.' });
   } catch (err) {
     done(err);
@@ -17,11 +17,11 @@ passport.use(new passportLocal.Strategy(async (username, password, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const { username, password } = (await db.query(`
+    const { username } = (await db.query(`
       SELECT nickname AS username, password FROM reddit_user WHERE id = ${id}
     `)).rows[0];
 
-    done(null, { id, username, password });
+    done(null, { id, username });
   } catch (err) {
     done(err);
   }
@@ -36,4 +36,18 @@ const isAuthenticated = (req, res, next) => {
   else return res.sendStatus(401);
 };
 
-module.exports = { passport, isAuthenticated };
+const isRedditMod = async (req, res, next) => {
+  if (!req.isAuthenticated()) return res.sendStatus(401);
+
+  const { redditId } = req.params;
+  const { id } = req.user;
+
+  const { rows } = await db.query(`
+    SELECT * FROM subreddit_moderator
+    WHERE user_id = ${id} AND subreddit_id = ${redditId}
+  `);
+
+  return rows.length === 1 ? next() : res.sendStatus(403);
+};
+
+module.exports = { passport, isAuthenticated, isRedditMod };

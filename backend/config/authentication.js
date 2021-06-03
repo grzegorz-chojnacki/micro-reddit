@@ -8,7 +8,7 @@ passport.use(new passportLocal.Strategy(async (username, password, done) => {
       SELECT id FROM reddit_user
       WHERE nickname = '${username}' AND password = '${password}'
     `)).rows[0];
-    done(null, { id });
+    done(null, { id, username });
     //  return done(null, false, { message: 'Incorrect credentials.' });
   } catch (err) {
     done(err);

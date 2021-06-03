@@ -26,6 +26,7 @@ export const userService = {
     isAuthenticatedSource.next(true);
     userSource.next(user);
   },
+
   async register(username, password, email) {
     const data = new URLSearchParams();
     data.append("username", username);
@@ -35,15 +36,18 @@ export const userService = {
     const { errors } = (await api.post("/u", data, options)).data;
     return errors || this.login(username, password);
   },
+
   get isAuthenticated() {
     return isAuthenticatedSource.asObservable();
   },
+
   get user() {
     return userSource.asObservable();
   },
+
   async logout() {
     await api.post("/logout");
     isAuthenticatedSource.next(false);
-    userSource.next(null);
+    userSource.next({});
   },
 };

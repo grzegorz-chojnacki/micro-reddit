@@ -29,28 +29,19 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <span
-              class="nav-link"
-              data-bs-toggle="modal"
-              data-bs-target="#registerDialog">
+            <span class="nav-link" @click="register">
               Register
             </span>
           </li>
           <li class="nav-item">
             <span
-              v-if="!isAuthenticated"
-              class="nav-link"
-              data-bs-toggle="modal"
-              data-bs-target="#loginDialog">
+              v-if="!isAuthenticated" class="nav-link" @click="login">
               Login
             </span>
             <span v-else class="nav-link" @click="logout">Logout</span>
           </li>
           <li v-if="isAuthenticated" class="nav-item">
-            <span
-              class="nav-link material-icons add"
-              data-bs-toggle="modal"
-              data-bs-target="#redditDialog">
+            <span class="nav-link material-icons add" @click="addReddit">
               add
             </span>
           </li>
@@ -80,7 +71,11 @@
 </template>
 
 <script>
+import LoginDialog from "@/components/dialogs/LoginDialog.vue";
+import RegisterDialog from "@/components/dialogs/RegisterDialog.vue";
+import RedditDialog from "@/components/dialogs/RedditDialog.vue";
 import { userService } from "@/services/userService";
+import { dialogService } from "@/services/dialogService";
 
 export default {
   name: "Toolbar",
@@ -99,6 +94,15 @@ export default {
     onSubmit() {
       this.$router.push({ name: "reddit-list", query: { q: this.search } });
       this.search = "";
+    },
+    login() {
+      dialogService.open(LoginDialog);
+    },
+    register() {
+      dialogService.open(RegisterDialog);
+    },
+    addReddit() {
+      dialogService.open(RedditDialog);
     },
     logout() {
       userService.logout();

@@ -20,11 +20,7 @@
       </div>
     </section>
 
-    <button
-      v-if="isMod"
-      class="btn btn-secondary"
-      data-bs-toggle="modal"
-      data-bs-target="#metadataDialog">
+    <button v-if="isMod" class="btn btn-secondary" @click="openMetadataDialog">
       Change metadata
     </button>
 
@@ -42,11 +38,7 @@
       </ul>
     </section>
 
-    <button
-      v-if="isMod"
-      class="btn btn-secondary"
-      data-bs-toggle="modal"
-      data-bs-target="#moderatorDialog">
+    <button v-if="isMod" class="btn btn-secondary" @click="openModeratorDialog">
       Add a moderator
     </button>
   </div>
@@ -54,6 +46,9 @@
 
 <script>
 import { userService } from "@/services/userService";
+import { dialogService } from "@/services/dialogService";
+import MetadataDialog from "@/components/dialogs/MetadataDialog.vue";
+import ModeratorDialog from "@/components/dialogs/ModeratorDialog.vue";
 
 export default {
   name: "RedditMeta",
@@ -72,6 +67,14 @@ export default {
   },
   created() {
     userService.user.subscribe(user => this.user = user);
+  },
+  methods: {
+    openMetadataDialog() {
+      dialogService.open(MetadataDialog, { ...this.reddit });
+    },
+    openModeratorDialog() {
+      dialogService.open(ModeratorDialog, { ...this.reddit });
+    }
   },
 };
 </script>

@@ -1,91 +1,89 @@
 <template>
-  <div class="modal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">
-            Registration
-          </h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close" />
-        </div>
+  <div>
+    <div class="modal-header">
+      <h5 class="modal-title">
+        Registration
+      </h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close" />
+    </div>
 
-        <form class="modal-body" @submit.prevent="">
-          <div class="mb-3">
-            <label for="usernameRegister" class="form-label">Username</label>
-            <input
-              id="usernameRegister"
-              ref="username"
-              v-model="username"
-              type="username"
-              class="form-control">
-            <div class="invalid-feedback">
-              This username is already taken.
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="emailRegister" class="form-label">Email</label>
-            <input
-              id="emailRegister"
-              ref="email"
-              v-model="email"
-              type="email"
-              class="form-control"
-              autocomplete="email">
-            <div class="invalid-feedback">
-              Email is not valid
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="passwordRegister" class="form-label">Password</label>
-            <input
-              id="passwordRegister"
-              ref="password"
-              v-model="password"
-              type="password"
-              class="form-control"
-              autocomplete="new-password">
-            <div class="invalid-feedback">
-              Passwords didn't match
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="passwordRetypeRegister" class="form-label">Confirm password</label>
-            <input
-              id="passwordRetypeRegister"
-              ref="passwordRetype"
-              v-model="passwordRetype"
-              type="password"
-              class="form-control"
-              autocomplete="nope">
-          </div>
-        </form>
-
-        <div class="modal-footer">
-          <button
-            ref="dismiss"
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary" :disabled="isInvalid" @click="register">
-            Register
-          </button>
+    <form class="modal-body" @submit.prevent="">
+      <div class="mb-3">
+        <label for="usernameRegister" class="form-label">Username</label>
+        <input
+          id="usernameRegister"
+          ref="username"
+          v-model="username"
+          type="username"
+          class="form-control">
+        <div class="invalid-feedback">
+          This username is already taken.
         </div>
       </div>
+      <div class="mb-3">
+        <label for="emailRegister" class="form-label">Email</label>
+        <input
+          id="emailRegister"
+          ref="email"
+          v-model="email"
+          type="email"
+          class="form-control"
+          autocomplete="email">
+        <div class="invalid-feedback">
+          Email is not valid
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="passwordRegister" class="form-label">Password</label>
+        <input
+          id="passwordRegister"
+          ref="password"
+          v-model="password"
+          type="password"
+          class="form-control"
+          autocomplete="new-password">
+        <div class="invalid-feedback">
+          Passwords didn't match
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="passwordRetypeRegister" class="form-label">Confirm password</label>
+        <input
+          id="passwordRetypeRegister"
+          ref="passwordRetype"
+          v-model="passwordRetype"
+          type="password"
+          class="form-control"
+          autocomplete="nope">
+      </div>
+    </form>
+
+    <div class="modal-footer">
+      <button
+        ref="dismiss"
+        type="button"
+        class="btn btn-secondary"
+        data-bs-dismiss="modal">
+        Close
+      </button>
+      <button type="button" class="btn btn-primary" :disabled="isInvalid" @click="close">
+        Register
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 import { userService } from "@/services/userService.js";
+import { markRaw } from "vue";
 
-export default {
+export default markRaw({
   name: "RedditDialog",
+  emits: ["close"],
   data() {
     return {
       username: "",
@@ -100,6 +98,10 @@ export default {
     }
   },
   methods: {
+    close() {
+      this.$emit("close", 1);
+    },
+
     async register() {
       for (const input in this.$refs) {
         this.$refs[input].classList.remove("is-invalid");
@@ -124,8 +126,5 @@ export default {
       }
     },
   }
-};
+});
 </script>
-
-<style scoped lang="scss">
-</style>

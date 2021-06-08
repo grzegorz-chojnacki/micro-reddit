@@ -18,7 +18,7 @@ passport.use(new passportLocal.Strategy(async (username, password, done) => {
 passport.deserializeUser(async (id, done) => {
   try {
     const { username } = (await db.query(`
-      SELECT nickname AS username, password FROM reddit_user WHERE id = ${id}
+      SELECT nickname AS username FROM reddit_user WHERE id = ${id}
     `)).rows[0];
 
     done(null, { id, username });
@@ -28,7 +28,7 @@ passport.deserializeUser(async (id, done) => {
 });
 
 passport.serializeUser((user, done) => {
- done(null, user.id);
+  done(null, user.id);
 });
 
 const isAuthenticated = (req, res, next) => {

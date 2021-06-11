@@ -32,7 +32,7 @@ module.exports = postService => {
       const post = req.body;
 
       const id = await postService.add(redditId, post);
-      res.json({ ...post, id });
+      res.json({ id });
     });
 
   // For post

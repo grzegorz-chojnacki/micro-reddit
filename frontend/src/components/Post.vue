@@ -19,12 +19,12 @@
     </header>
 
     <div class="card-body">
-      <iframe
+      <!-- <iframe
         v-if="post.video"
         :src="embedYoutube(post.video)"
         class="yt-player"
         type="text/html"
-        frameborder="0" />
+        frameborder="0" /> -->
 
       <div class="img-container rounded-2 bg-dark">
         <img v-if="post.image" :src="post.image" :alt="post.name">

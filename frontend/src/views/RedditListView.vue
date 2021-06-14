@@ -11,7 +11,8 @@
       v-for="reddit of reddits"
       :key="reddit.id"
       class="my-2"
-      :reddit="reddit" />
+      :reddit="reddit"
+      @subscription="setSubscribe" />
   </main>
 
   <footer><LoadingIndicator :done="sourceExhausted" /></footer>
@@ -54,6 +55,13 @@ export default {
       this.reddits = [];
       this.page = 0;
       this.fetchNext();
+    },
+    setSubscribe({ redditId, state }) {
+      redditService.setSubscribe(redditId, state)
+        .then(state => {
+          const reddit = this.reddits.find(reddit => reddit.id === redditId);
+          reddit.subscribed = state;
+        });
     },
     clearQuery() {
       this.$router.push({ name: "reddit-list" });

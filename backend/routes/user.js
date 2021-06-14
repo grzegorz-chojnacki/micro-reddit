@@ -37,8 +37,8 @@ module.exports = userService => {
     });
 
   // For logged user subscriptions
-  router.route("/u/r/:redditId").all(isAuthenticated)
-    .patch(async (req, res) => {
+  router.route("/u/r/:redditId")
+    .patch(isAuthenticated, async (req, res) => {
       const userId = req.user.id;
       const { redditId } = req.params;
       const { state } = req.body;

@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { isAuthenticated, isSubscribed, isRedditMod } = require("../config/authentication");
 const { pagination } = require("../utils.js");
 
 const oneify = n => {
@@ -27,7 +28,7 @@ module.exports = postService => {
       const posts = await postService.getAll(redditId, page, query);
       res.json(posts);
     })
-    .post(async (req, res) => {
+    .post(isSubscribed, async (req, res) => {
       const { redditId } = req.params;
       const post = req.body;
 
@@ -43,13 +44,13 @@ module.exports = postService => {
       const post = await postService.get(redditId, postId);
       res.json(post);
     })
-    .delete(async (req, res) => {
+    .delete(isRedditMod, async (req, res) => {
       const { redditId, postId } = req.params;
 
       await postService.delete(redditId, postId);
       res.sendStatus(200);
     })
-    .patch(async (req, res) => {
+    .patch(isAuthenticated, async (req, res) => {
       const { redditId, postId } = req.params;
       const vote = oneify(Number.parseInt(req.body.vote) || 0);
 

@@ -25,7 +25,13 @@ export const redditService = {
 
   async setSubscribe(redditId, state = false) {
     await api.patch(`/u/r/${redditId}`, { state });
-    redditSource.next({ ...redditSource.value, subscribed: state });
+
+    const reddit = redditSource.value;
+    if (reddit && redditId === reddit.id) {
+      redditSource.next({ ...reddit, subscribed: state });
+    }
+
+    return state;
   },
 
   async addMod(redditId, username) {

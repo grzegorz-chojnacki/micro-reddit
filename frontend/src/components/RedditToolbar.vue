@@ -2,7 +2,7 @@
   <nav class="card bg-light mt-3">
     <div class="card-body p-2 d-flex justify-content-between">
       <div class="d-flex align-items-center">
-        <button class="btn btn-secondary me-3" @click="openPostDialog">
+        <button v-if="reddit.subscribed" class="btn btn-secondary me-3" @click="openPostDialog">
           <span class="material-icons add">
             add
           </span>
@@ -50,7 +50,7 @@ import PostDialog from "@/components/dialogs/PostDialog";
 export default {
   name: "RedditToolbar",
   props: {
-    redditId: { type: String, required: true }
+    reddit: { type: Object, required: true }
   },
   data() {
     return {
@@ -60,7 +60,8 @@ export default {
   },
   methods: {
     openPostDialog() {
-      dialogService.open(PostDialog, { redditId: this.redditId });
+      console.log(this.reddit);
+      dialogService.open(PostDialog, { redditId: this.reddit.id });
     }
   }
 };

@@ -5,8 +5,7 @@
     </aside>
 
     <section>
-      <!-- eslint-disable-next-line -->
-      <RedditToolbar :redditId="redditId" />
+      <RedditToolbar v-if="reddit" :reddit="reddit" />
       <Feed :fetching-fn="fetchReddit" />
     </section>
   </main>

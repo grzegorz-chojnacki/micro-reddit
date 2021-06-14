@@ -44,7 +44,7 @@ module.exports = userService => {
       const { state } = req.body;
 
       userService.setSubscribe(redditId, userId, state);
-      res.sendStatus(200);
+      res.json({ state });
     }),
 
   // For logged user password

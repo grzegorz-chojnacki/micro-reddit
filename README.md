@@ -12,8 +12,8 @@
   - [x] **DST** Obsługa logowania (zwykłe)
     > (w oparciu o zapamiętane w lokalnej bazie dane użytkownika)
   - [ ] Podział ról:
-    - [ ] **DST** Moderatorzy - zarządzają subredditami `/r/temat`:
-      - [ ] Edycja metadanych
+    - [x] **DST** Moderatorzy - zarządzają subredditami `/r/temat`:
+      - [x] Edycja metadanych
         > (opis - obsługa edycji za pomocą pola tekstowego)
       - [ ] Usuwanie postów/komentarzy
     - [ ] Administratorzy
@@ -21,21 +21,21 @@
       - [ ] ***BDB*** Wgląd do statystyk (największe subreddity - hierarchia, hierachia polubień postów/suredditów)
   - [ ] ***BDB*** Aktywacja konta po kliknięciu na "ograniczony czasowo link aktywacyjny"
   - [ ] Przypominanie hasła
-  - [ ] **DST** Dołączanie do konkretnych subredditów
+  - [x] **DST** Dołączanie do konkretnych subredditów
 - [ ] Subreddity (`/r/nazwaSubreddita`)
-  - [ ] **DST** Tworzenie subredditów
+  - [x] **DST** Tworzenie subredditów
     > (twórca automatycznie zostaje moderatorem)
   - [ ] Opcje wyświetlania postów w ramach subreddita
     > (np. karty/lista/...)
-  - [ ] **DST** Tworzenie postów w ramach danego (sub)reddita
-  - [ ] **DST** Możliwość przechodzenia pomiędzy subredditami
+  - [x] **DST** Tworzenie postów w ramach danego (sub)reddita
+  - [x] **DST** Możliwość przechodzenia pomiędzy subredditami
   - [ ] **DST** Głosowanie na posty
     > (głos za/przeciw - można oddać tylko jeden)
   - [ ] **DST** Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
   - [ ] **DST** Dynamiczny (***BDB*** i hierarchiczny) system komentarzy (socket.io)
     > (aktywni użytkownicy widzą komentarze w momencie ich dodania; komentarze/posty po usunięciu przez moderatora znikają)
 - [ ] Wymagane podstrony
-  - [ ] **DST** Home użytkownika
+  - [x] **DST** Home użytkownika
      - [ ] Opcje sortowania (Best, Hot - Tempo przyrostu polubień, New)
 
 ## Pozostałe funkcjonalności
@@ -46,9 +46,9 @@
   > (Top-Five najlepszych względem wybranego kryterium)
 
 ## Strona serwerowa
-- [ ] Struktura będzie zadana, wstępne dane do załadowania będą zapewnione
-- [ ] Serwer REST i jego API do zrobienia
-- [ ] socket.io
+- Struktura będzie zadana, wstępne dane do załadowania będą zapewnione
+- Serwer REST i jego API do zrobienia
+- socket.io
 
 ## Interfejs i zależności
 - Vue.js 3 + Vue-router (!!!)
@@ -67,15 +67,15 @@
   - [ ] Modyfikacja profilu użytkownika
   - [x] Obsługa logowania (zwykłe)
   - [x] Edycja metadanych subreddita przez moderatora
-  - [ ] Dołączanie do konkretnych subredditów
+  - [x] Dołączanie do konkretnych subredditów
 - [ ] Subreddity (`/r/nazwaSubreddita`)
-  - [ ] Tworzenie subredditów
-  - [ ] Tworzenie postów w ramach danego (sub)reddita
-  - [ ] Możliwość przechodzenia pomiędzy subredditami
+  - [x] Tworzenie subredditów
+  - [x] Tworzenie postów w ramach danego (sub)reddita
+  - [x] Możliwość przechodzenia pomiędzy subredditami
   - [ ] Głosowanie na posty
   - [ ] Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
   - [ ] Dynamiczny system komentarzy (socket.io)
-- [ ] Home użytkownika
+- [x] Home użytkownika
 - [ ] Wyszukiwarka (postów według treści/subredditów według nazwy)
 - [ ] Wybór popularnych (według liczby postów i liczby użytkowników) subredditów
 

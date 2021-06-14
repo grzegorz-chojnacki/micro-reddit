@@ -11,6 +11,9 @@
         </router-link>
       </h5>
       <h6 class="card-subtitle">
+        <span class="post-author">
+          Posted by <strong>{{ post.user?.username }}</strong> at
+        </span>
         <router-link
           :to="{ name: 'reddit', params: { redditId: post.reddit.id } }">
           {{ post.reddit.name }}
@@ -106,6 +109,8 @@ section {
     margin: 0 auto;
   }
 }
+
+.post-author { opacity: 0.7 }
 
 .btn {
   display: inline-flex;

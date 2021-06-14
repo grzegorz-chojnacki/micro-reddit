@@ -1,20 +1,34 @@
 const db = require("../config/db");
 
+const getPostQuery = `
+SELECT p.id, title AS name, content AS text, image_path AS image, video_url AS video,
+       s.name AS reddit_name, subreddit_id AS reddit_id,
+       ru.nickname AS username, p.user_id
+FROM post AS p
+INNER JOIN subreddit AS s
+  ON s.id = subreddit_id
+INNER JOIN reddit_user AS ru
+  ON ru.id = p.user_id
+`;
+
 module.exports = ({
   async get(redditId, postId) {
-    const { id, name, text, image, video, reddit_name } = (await db.query(`
-      SELECT p.id, title AS name, content AS text, image_path AS image,
-             video_url AS video, s.name AS reddit_name
-      FROM post AS p
-      INNER JOIN subreddit AS s
-      ON s.id = subreddit_id
+    const data = (await db.query(`
+      ${getPostQuery}
       WHERE subreddit_id = ${redditId} AND p.id = ${postId}
     `)).rows[0];
 
-    return { id, name, text, image, video, reddit: {
-      id: redditId,
-      name: reddit_name
-    }};
+    const { id, name, text, image, video, reddit_name, username, user_id }
+      = data;
+
+    return {
+      id, name, text, image, video,
+      user: { username, id: user_id },
+      reddit: {
+        id: redditId,
+        name: reddit_name
+      }
+    };
   },
 
   async add(redditId, userId, post) {
@@ -24,7 +38,8 @@ module.exports = ({
       INSERT INTO post
         (title, content, image_path, video_url, creation_date, subreddit_id, user_id)
       VALUES
-        ('${post.name}', '${post.text}', '${post.image}', '${post.video}', '${timestamp}', ${redditId}, ${userId})
+        ('${post.name}', '${post.text}', '${post.image}', '${post.video}',
+         '${timestamp}', ${redditId}, ${userId})
       RETURNING id
     `);
     return rows[0].id;
@@ -32,21 +47,21 @@ module.exports = ({
 
   async getAll(redditId, page, query) {
     const { rows } = await db.query(`
-      SELECT p.id, title AS name, content AS text, image_path AS image,
-             video_url AS video, s.name AS reddit_name
-      FROM post AS p
-      INNER JOIN subreddit AS s
-        ON s.id = subreddit_id
+     ${getPostQuery}
       WHERE title LIKE '%${query}%' AND subreddit_id = ${redditId}
       LIMIT 10 OFFSET ${page * 10}
     `);
 
-    return rows.map(({ id, name, text, image, video, reddit_name }) => {
-      return { id, name, text, image, video, reddit: {
-        id: redditId,
-        name: reddit_name
-      }};
-    });
+    return rows.map(
+      ({ id, name, text, image, video, reddit_name, username, user_id }) => ({
+        id, name, text, image, video,
+        user: { username, id: user_id },
+        reddit: {
+          id: redditId,
+          name: reddit_name
+        }
+      })
+    );
   },
 
   async delete(redditId, postId) {
@@ -84,19 +99,19 @@ module.exports = ({
 
   async getMain(page, /* query */) {
     const { rows } = await db.query(`
-      SELECT p.id, title AS name, content AS text, image_path AS image,
-             video_url AS video, s.name AS reddit_name, s.id as reddit_id
-      FROM post AS p
-      INNER JOIN subreddit AS s
-        ON s.id = subreddit_id
+      ${getPostQuery}
       LIMIT 10 OFFSET ${page * 10}
     `);
 
-    return rows.map(({ id, name, text, image, video, reddit_name, reddit_id }) => {
-      return { id, name, text, image, video, reddit: {
-        id: reddit_id,
-        name: reddit_name
-      }};
-    });
+    return rows.map(
+      ({ id, name, text, image, video, reddit_name, reddit_id, username, user_id }) => ({
+        id, name, text, image, video,
+        user: { username, id: user_id },
+        reddit: {
+          id: reddit_id,
+          name: reddit_name
+        }
+      })
+    );
   },
 });

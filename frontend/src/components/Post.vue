@@ -29,11 +29,11 @@
         type="text/html"
         frameborder="0" /> -->
 
-      <div class="img-container rounded-2 bg-dark">
-        <img v-if="post.image" :src="post.image" :alt="post.name">
+      <div v-if="post.image" class="img-container rounded-2 bg-dark mb-3">
+        <img :src="post.image" :alt="post.name">
       </div>
 
-      <p class="card-text mt-3">
+      <p v-if="post.text" class="card-text">
         {{ post.text }}
       </p>
     </div>

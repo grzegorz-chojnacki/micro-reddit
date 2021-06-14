@@ -67,7 +67,14 @@ export default markRaw({
   },
   methods: {
     async create() {
-      const postId = await postService.add(this.data.redditId, this.name, this.text);
+      const post = {
+        name: this.name,
+        text: this.text,
+        video: "",
+        image: "",
+      };
+
+      const postId = await postService.add(this.data.redditId, post);
 
       this.$refs.dismiss.click();
       this.$router.push({

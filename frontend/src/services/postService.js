@@ -7,8 +7,8 @@ export const postService = {
   getAllReddit: redditId => async (page = 0, query = "") => {
     return (await api.get(`/r/${redditId}/p?p=${page}&q=${query}`)).data;
   },
-  async add(redditId, name, text) {
-    return (await api.post(`/r/${redditId}/p`, { name, text })).data.id;
+  async add(redditId, post) {
+    return (await api.post(`/r/${redditId}/p`, post)).data.id;
   },
   async getHome(page = 0, query = "") {
     return (await api.get(`/u/home?p=${page}&q=${query}`)).data;

@@ -12,6 +12,8 @@
 import Post from "@/components/Post.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 
+const offset = 100;
+
 export default {
   name: "Feed",
   components: { Post, LoadingIndicator },
@@ -30,7 +32,7 @@ export default {
       const scrollHeight = window.pageYOffset + window.innerHeight;
       const fullHeight = document.documentElement.offsetHeight;
 
-      if (scrollHeight >= fullHeight) {
+      if (scrollHeight >= fullHeight - offset) {
         this.fetchNext();
       }
     };

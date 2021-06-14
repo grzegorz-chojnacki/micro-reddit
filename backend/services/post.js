@@ -49,21 +49,28 @@ module.exports = ({
     });
   },
 
-  async delete(_redditId, postId) {
-    await db.query(`DELETE FROM post WHERE id = ${postId}`);
+  async delete(redditId, postId) {
+    await db.query(`
+      DELETE FROM post
+      WHERE id = ${postId} AND subreddit_id = ${redditId}`
+    );
     return true;
   },
 
-  async vote(_redditId, postId, userId, vote) {
+  async vote(redditId, postId, userId, vote) {
     if (vote === 0) {
       await db.query(`
         DELETE FROM post_vote
-        WHERE post_id = ${postId} AND user_id = ${userId}
+        WHERE post_id = ${postId}
+          AND subreddit_id = ${redditId}
+          AND user_id = ${userId}
       `);
     } else {
       await db.query(`
         UPDATE post_vote SET vote = '${vote}'
-        WHERE post_id = ${postId} AND user_id = ${userId}
+        WHERE post_id = ${postId}
+          AND subreddit_id = ${redditId}
+          AND user_id = ${userId}
       `);
     }
 

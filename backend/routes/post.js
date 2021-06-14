@@ -31,7 +31,7 @@ module.exports = postService => {
       const { redditId } = req.params;
       const post = req.body;
 
-      const id = await postService.add(redditId, post);
+      const id = await postService.add(redditId, req.user.id, post);
       res.json({ id });
     });
 
@@ -53,7 +53,7 @@ module.exports = postService => {
       const { redditId, postId } = req.params;
       const vote = oneify(Number.parseInt(req.body.vote) || 0);
 
-      const score = await postService.vote(redditId, postId, vote);
+      const score = await postService.vote(redditId, postId, req.user.id, vote);
       res.json(score);
     });
 

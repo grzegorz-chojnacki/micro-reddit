@@ -17,9 +17,7 @@ module.exports = ({
     }};
   },
 
-  async add(redditId, post) {
-    // TODO: pass user id to method
-    const userId = 1;
+  async add(redditId, userId, post) {
     const timestamp = new Date().toLocaleString("en-US");
 
     const { rows } = await db.query(`
@@ -56,9 +54,7 @@ module.exports = ({
     return true;
   },
 
-  async vote(_redditId, postId, vote) {
-    // TODO: pass user id to method
-    const userId = 1;
+  async vote(_redditId, postId, userId, vote) {
     if (vote === 0) {
       await db.query(`
         DELETE FROM post_vote

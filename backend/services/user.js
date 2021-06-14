@@ -74,7 +74,27 @@ module.exports = ({
     return Promise.resolve(true);
   },
 
-  async setSubscribe(/* userId, redditId, state */) {
-    return Promise.resolve(true);
+  async setSubscribe(redditId, userId, subscribing = false) {
+    const unsubscribing = !subscribing;
+    const subscriptionExists = (await db.query(`
+      SELECT * FROM subreddit_user
+      WHERE subreddit_id = ${redditId} AND user_id = ${userId}
+    `)).rows.length > 0;
+
+    if (!subscriptionExists && subscribing) {
+      await db.query(`
+        INSERT INTO subreddit_user (user_id, subreddit_id)
+        VALUES (${userId}, ${redditId})
+      `);
+      console.log("subscribed!");
+    } else if (subscriptionExists && unsubscribing) {
+      await db.query(`
+        DELETE FROM subreddit_user
+        WHERE subreddit_id = ${redditId} AND user_id = ${userId}
+      `);
+      console.log("unsubscribed!");
+    }
+
+    return true;
   },
 });

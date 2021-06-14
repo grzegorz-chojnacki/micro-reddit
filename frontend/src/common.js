@@ -21,6 +21,9 @@ export const Subject = value => {
     next: newValue => {
       value = newValue;
       observers.forEach(o => o(value));
+    },
+    get value() {
+      return value;
     }
   };
 };

@@ -86,13 +86,11 @@ module.exports = ({
         INSERT INTO subreddit_user (user_id, subreddit_id)
         VALUES (${userId}, ${redditId})
       `);
-      console.log("subscribed!");
     } else if (subscriptionExists && unsubscribing) {
       await db.query(`
         DELETE FROM subreddit_user
         WHERE subreddit_id = ${redditId} AND user_id = ${userId}
       `);
-      console.log("unsubscribed!");
     }
 
     return true;

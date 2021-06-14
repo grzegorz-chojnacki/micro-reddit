@@ -66,7 +66,7 @@
   - [ ] Rejestracja
   - [ ] Modyfikacja profilu użytkownika
   - [x] Obsługa logowania (zwykłe)
-  - [ ] Edycja metadanych subreddita przez moderatora
+  - [x] Edycja metadanych subreddita przez moderatora
   - [ ] Dołączanie do konkretnych subredditów
 - [ ] Subreddity (`/r/nazwaSubreddita`)
   - [ ] Tworzenie subredditów
@@ -174,8 +174,7 @@
 | DELETE | `/api/u/:user`                     |         | Usunięcie konta        |
 | POST   | `/api/u/:user/password`            | email   | Reset hasła (na email) |
 | POST   | `/api/u/:user/activate?t=token`    |         | Aktywacja (z emaila)   |
-| PUT    | `/api/u/r/:reddit`                 |         | Subskrybcja            |
-| DELETE | `/api/u/r/:reddit`                 |         | Anulowanie subskrybcji |
+| PATCH  | `/api/u/r/:reddit`                 | State   | Stan subskrybcji       |
 | POST   | `/api/r`                           | reddit  | Dodanie reddita        |
 | POST   | `/api/r/:reddit/p`                 | post    | Dodanie postu          |
 | PATCH  | `/api/r/:reddit/p/:post/vote`      | -1/0/-1 | Głosowanie na post     |

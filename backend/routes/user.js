@@ -38,19 +38,14 @@ module.exports = userService => {
 
   // For logged user subscriptions
   router.route("/u/r/:redditId").all(isAuthenticated)
-    .put(async (req, res) => {
+    .patch(async (req, res) => {
       const userId = req.user.id;
       const { redditId } = req.params;
+      const { state } = req.body;
 
-      userService.setSubscribe(userId, redditId, true);
+      userService.setSubscribe(userId, redditId, state);
       res.sendStatus(200);
-    })
-    .delete(async (req, res) => {
-      const { userId, redditId } = req.params;
-
-      userService.setSubscribe(userId, redditId, false);
-      res.sendStatus(200);
-    });
+    }),
 
   // For logged user password
   router.route("/u/password").all(isAuthenticated)

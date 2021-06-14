@@ -69,9 +69,11 @@ export default {
     fetchNext() {
       this.query = this.$route.query.q || "";
       redditService.getAll(this.page, this.query).then((reddits) => {
-        this.reddits = this.reddits.concat(reddits);
-        this.page++;
         this.sourceExhausted = reddits.length === 0;
+        if (!this.sourceExhausted) {
+          this.reddits = this.reddits.concat(reddits);
+          this.page++;
+        }
       });
     },
   },

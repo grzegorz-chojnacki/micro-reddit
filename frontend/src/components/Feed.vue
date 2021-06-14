@@ -40,9 +40,11 @@ export default {
   methods: {
     fetchNext() {
       this.fetchingFn(this.page, this.query).then((posts) => {
-        this.posts = this.posts.concat(posts);
-        this.page++;
         this.sourceExhausted = posts.length === 0;
+        if (!this.sourceExhausted) {
+          this.posts = this.posts.concat(posts);
+          this.page++;
+        }
       });
     },
   },

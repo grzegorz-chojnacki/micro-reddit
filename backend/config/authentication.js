@@ -40,14 +40,28 @@ const isRedditMod = async (req, res, next) => {
   if (!req.isAuthenticated()) return res.sendStatus(401);
 
   const { redditId } = req.params;
-  const { id } = req.user;
+  const { userId } = req.user.id;
 
   const { rows } = await db.query(`
     SELECT * FROM subreddit_moderator
-    WHERE user_id = ${id} AND subreddit_id = ${redditId}
+    WHERE user_id = ${userId} AND subreddit_id = ${redditId}
   `);
 
   return rows.length === 1 ? next() : res.sendStatus(403);
 };
 
-module.exports = { passport, isAuthenticated, isRedditMod };
+const isSubscribed = async (req, res, next) => {
+  if (!req.isAuthenticated()) return res.sendStatus(401);
+
+  const redditId = req.params.redditId;
+  const userId = req.user.id;
+
+  const { rows } = await db.query(`
+    SELECT * FROM subreddit_user
+    WHERE user_id = ${userId} AND subreddit_id = ${redditId}
+  `);
+
+  return rows.length === 1 ? next() : res.sendStatus(403);
+};
+
+module.exports = { passport, isAuthenticated, isRedditMod, isSubscribed };

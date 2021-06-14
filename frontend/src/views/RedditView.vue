@@ -1,7 +1,7 @@
 <template>
   <main>
     <aside v-if="reddit">
-      <RedditMeta :reddit="reddit" />
+      <RedditMeta :reddit="reddit" @subscription="setSubscribe" />
     </aside>
 
     <section>
@@ -39,6 +39,11 @@ export default {
   async mounted() {
     await redditService.get(this.redditId);
   },
+  methods: {
+    setSubscribe(state) {
+      redditService.setSubscribe(this.reddit.id, state);
+    }
+  }
 };
 </script>
 

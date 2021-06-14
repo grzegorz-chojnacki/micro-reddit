@@ -20,6 +20,13 @@
       </div>
     </section>
 
+    <button v-if="reddit.subscribed" class="btn btn-secondary" @click="setSubscribe(false)">
+      Unsubscribe
+    </button>
+    <button v-else class="btn btn-primary" @click="setSubscribe(true)">
+      Subscribe
+    </button>
+
     <button v-if="isMod" class="btn btn-secondary" @click="openMetadataDialog">
       Change metadata
     </button>
@@ -53,6 +60,7 @@ import ModeratorDialog from "@/components/dialogs/ModeratorDialog.vue";
 export default {
   name: "RedditMeta",
   props: { reddit: { type: Object, required: true } },
+  emits: ["subscription"],
   data() {
     return { user: null };
   },
@@ -69,12 +77,15 @@ export default {
     userService.user.subscribe(user => this.user = user);
   },
   methods: {
+    setSubscribe(state) {
+      this.$emit("subscription", state);
+    },
     openMetadataDialog() {
       dialogService.open(MetadataDialog, { ...this.reddit });
     },
     openModeratorDialog() {
       dialogService.open(ModeratorDialog, { ...this.reddit });
-    }
+    },
   },
 };
 </script>

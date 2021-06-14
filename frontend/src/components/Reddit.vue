@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: "RedditMeta",
+  name: "Reddit",
   props: { reddit: { type: Object, required: true } },
 };
 </script>

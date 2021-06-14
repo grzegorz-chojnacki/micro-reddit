@@ -32,18 +32,23 @@ module.exports = ({
   },
 
   async add(reddit, userId) {
-    const { rows } = await db.query(`
+    const redditId = (await db.query(`
       INSERT INTO subreddit (name, description)
       VALUES ('${reddit.name}', '${reddit.text}')
       RETURNING id
-    `);
+    `)).rows[0].id;
 
     await db.query(`
       INSERT INTO subreddit_moderator (user_id, subreddit_id)
-      VALUES ('${userId}', '${rows[0].id}')
+      VALUES ('${userId}', '${redditId}')
     `);
 
-    return rows[0].id;
+    await db.query(`
+      INSERT INTO subreddit_user (user_id, subreddit_id)
+      VALUES ('${userId}', '${redditId}')
+    `);
+
+    return redditId;
   },
 
   async update(reddit) {

@@ -55,9 +55,9 @@ module.exports = ({
              video_url AS video, s.name AS reddit_name, s.id as reddit_id
       FROM post AS p
       INNER JOIN subreddit AS s
-        ON s.id = subreddit_id
+        ON s.id = p.subreddit_id
       INNER JOIN subreddit_user as su
-        ON su.id = s.id
+        ON su.subreddit_id = s.id
       WHERE su.user_id = ${userId}
       LIMIT 10 OFFSET ${page * 10}
     `);

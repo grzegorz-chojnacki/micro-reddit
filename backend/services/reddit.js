@@ -8,6 +8,9 @@ CASE WHEN EXISTS (
 ) THEN 1 ELSE 0 END
 `;
 
+const subscribedBooleanCast = reddit =>
+  ({ ...reddit, subscribed: !!reddit.subscribed });
+
 module.exports = ({
   async get(redditId, userId = null) {
     const { id, name, text, subscribed } = (await db.query(`
@@ -25,7 +28,7 @@ module.exports = ({
       WHERE subreddit_id = ${redditId}
     `)).rows;
 
-    return ({ id, name, text, mods, subscribed });
+    return subscribedBooleanCast({ id, name, text, mods, subscribed });
   },
 
   async add(reddit, userId) {
@@ -75,6 +78,6 @@ module.exports = ({
       FROM subreddit
       WHERE name LIKE '%${query}%'
       LIMIT 10 OFFSET ${page * 10}
-    `)).rows;
+    `)).rows.map(subscribedBooleanCast);
   },
 });

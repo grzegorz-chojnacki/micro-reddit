@@ -43,7 +43,7 @@ module.exports = userService => {
       const { redditId } = req.params;
       const { state } = req.body;
 
-      userService.setSubscribe(userId, redditId, state);
+      userService.setSubscribe(redditId, userId, state);
       res.sendStatus(200);
     }),
 

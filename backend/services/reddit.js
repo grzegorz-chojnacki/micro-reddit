@@ -1,10 +1,20 @@
 const db = require("../config/db");
 
+const isSubscribed = (redditId, userId = null) => `
+CASE WHEN EXISTS (
+  SELECT *
+  FROM subreddit_user AS su
+  WHERE su.subreddit_id = ${redditId} AND su.user_id = ${userId}
+) THEN 1 ELSE 0 END
+`;
+
 module.exports = ({
-  async get(redditId) {
-    const { id, name, text } = (await db.query(`
-      SELECT id, name, description AS text
-      FROM subreddit WHERE id = ${redditId}
+  async get(redditId, userId = null) {
+    const { id, name, text, subscribed } = (await db.query(`
+      SELECT id, name, description AS text,
+             ${isSubscribed(redditId, userId)} AS subscribed
+      FROM subreddit
+      WHERE id = ${redditId}
     `)).rows[0];
 
     const mods = (await db.query(`
@@ -15,7 +25,7 @@ module.exports = ({
       WHERE subreddit_id = ${redditId}
     `)).rows;
 
-    return { id, name, text, mods };
+    return ({ id, name, text, mods, subscribed });
   },
 
   async add(reddit, userId) {
@@ -58,9 +68,10 @@ module.exports = ({
     `);
   },
 
-  async getAll(page, query) {
+  async getAll(userId, page, query) {
     return (await db.query(`
-      SELECT id, name, description AS text
+      SELECT id, name, description AS text,
+             ${isSubscribed("subreddit.id", userId)} AS subscribed
       FROM subreddit
       WHERE name LIKE '%${query}%'
       LIMIT 10 OFFSET ${page * 10}

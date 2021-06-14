@@ -9,7 +9,7 @@ module.exports = redditService => {
     .get(async (req, res) => {
       const { query, page } = pagination(req);
 
-      const reddits = await redditService.getAll(page, query);
+      const reddits = await redditService.getAll(req.user?.id, page, query);
       res.json(reddits);
     })
     .post(isAuthenticated, async (req, res) => {
@@ -21,7 +21,7 @@ module.exports = redditService => {
   router.route("/r/:redditId")
     .get(async (req, res) => {
       const { redditId } = req.params;
-      const reddit = await redditService.get(redditId);
+      const reddit = await redditService.get(redditId, req.user?.id);
       res.json(reddit);
     })
     .put(isRedditMod, async (req, res) => {

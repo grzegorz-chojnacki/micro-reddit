@@ -29,7 +29,7 @@
     > (np. karty/lista/...)
   - [x] **DST** Tworzenie postów w ramach danego (sub)reddita
   - [x] **DST** Możliwość przechodzenia pomiędzy subredditami
-  - [ ] **DST** Głosowanie na posty
+  - [x] **DST** Głosowanie na posty
     > (głos za/przeciw - można oddać tylko jeden)
   - [ ] **DST** Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
   - [ ] **DST** Dynamiczny (***BDB*** i hierarchiczny) system komentarzy (socket.io)
@@ -72,7 +72,7 @@
   - [x] Tworzenie subredditów
   - [x] Tworzenie postów w ramach danego (sub)reddita
   - [x] Możliwość przechodzenia pomiędzy subredditami
-  - [ ] Głosowanie na posty
+  - [x] Głosowanie na posty
   - [ ] Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
   - [ ] Dynamiczny system komentarzy (socket.io)
 - [x] Home użytkownika
@@ -83,66 +83,60 @@
 - [ ] Administratorzy
   - [ ] Usuwanie/banowanie "niegrzecznych" użytkowników
 - [ ] Przypominanie hasła
-- [ ] Opcje wyświetlania postów w ramach subreddita
+- [ ] Opcje wyświetlania postów w ramach subreddita (karty/lista)
 - [ ] Opcjami sortowania home użytkownika (Best, Hot - Tempo przyrostu polubień, New)
-
-## Wersja **BDB**
-- [ ] Administratorzy
-  - [ ] Wgląd do statystyk (największe subreddity - hierarchia, hierachia polubień postów/suredditów)
-- [ ] Aktywacja konta po kliknięciu na "ograniczony czasowo link aktywacyjny"
-- [ ] Dynamiczny i hierarchiczny system komentarzy (socket.io)
-- [ ] Powiadomienia o odpowiedziach lub zmianach w trendach dotyczący postów danego użytkownika (socket.io)
 
 # Reddit API
 ## Frontend
 ### Ścieżki
-| Publiczne          # | Opis                         # |
-| -------------------- | ------------------------------ |
-| `/`                  | Widok listy redditów           |
-| `/r?q=query`         | Wynik wyszukiwania redditów    |
-| `/r/:reddit`         | Widok reddita z listą postów   |
-| `/r/:reddit?q=query` | Wynik wyszukiwania postów      |
-| `/r/:reddit/p/:post` | Widok postu z komentarzami     |
+| Publiczne            | Opis                                 |
+| -------------------- | ------------------------------------ |
+| `/`                  | Widok główny z najnowszymi postami   |
+| `/r?q=query`         | Widok listy redditów z wyszukiwaniem |
+| `/r/:reddit?q=query` | Widok reddita z listą postów         |
+| `/r/:reddit/p/:post` | Widok postu z komentarzami           |
 
-| Użytkownik         # | Opis                         # |
-| -------------------- | ------------------------------ |
-| `/home`              | Home użytkownika               |
-| `/home?s=sort`       | Home z sortowaniem             |
-| `/account`           | Ustawienia użytkownika         |
-
-| Administrator      # | Opis                         # |
-| -------------------- | ------------------------------ |
-| `/stats`             | Podgląd statystyk redditów (?) |
+| Użytkownik     | Opis                   |
+| -------------- | ---------------------- |
+| `/home?s=sort` | Home z sortowaniem     |
+| `/account`     | Ustawienia użytkownika |
 
 
 ### Widoki
 - [Toolbar](*) (Wspólny komponent paska narzędziowego)
   - Odnośnik do strony głównej
-  - Wyszukiwarka redditów
-  - Dialog logowania
   - Dialog rejestracji
+  - Dialog logowania
+  - Dialog tworzenia reddita
   - Odnośnik do widoku ustawień użytkownika
+  - Wyszukiwarka redditów/postów
 
 - [MainView::public](/)
+  - Pasek narzędziowy
+    - Pole wyszukiwania postów
+    - Sortowanie
   - Lista postów ze wszystkich redditów
-  - Panel akcji dla administratora
 
 - [MainView::home](/home)
+  - Pasek narzędziowy
+    - Pole wyszukiwania postów
+    - Sortowanie
   - Lista postów z zasubskrybowanych redditów użytkownika
-  - Panel akcji dla administratora
 
 - [AccountView](/account)
   - Ustawienia użytkownika
 
 - [RedditView](/r/:redditId)
-  - Lista postów
-  - Pole wyszukiwania postów
+  - Pasek narzędziowy reddita
+    - Pole wyszukiwania postów
+    - Dodanie postu
+    - Sortowanie
   - Boczny panel akcji dla użytkownika
     - Metadane reddita
     - Subskrybowanie/odsubskrybowanie
-    - Dodanie postu
   - Boczny panel akcji dla administratora
     - Usunięcie reddita
+  - Lista postów
 
 - [PostView](/r/:reddit/p/:postId)
   - Post
@@ -151,83 +145,74 @@
     - Usunięcie postu (moderator, administrator)
   - Lista komentarzy
     - Dialog odpowiadania na komentarz
-    - Głosowanie
     - Usunięcie komentarza (moderator, administrator)
-    - Zbanowanie użytkownika (moderator)
     - Usunięcie użytkownika (administrator)
 
 ## Backend
-| Metoda | Publiczny                        # | Payload | Opis                 # |
-| ------ | ---------------------------------- | ------- | ---------------------- |
-| GET    | `/`                                |         | Frontend               |
-| GET    | `/api/r?q=query&p=page`            |         | Paczka redditów        |
-| GET    | `/api/r/:reddit`                   |         | Metadane reddita       |
-| GET    | `/api/r/:reddit/p?q=query&p=page`  |         | Paczka postów          |
-| GET    | `/api/u`                           |         | Dane konta             |
-| POST   | `/api/u`                           | user    | Rejestracja            |
-| WS     | `/api/r/:reddit/p/:post`           |         | Pokój postu            |
+| Metoda | Publiczny                           | Payload | Opis             |
+| ------ | ----------------------------------- | ------- | ---------------- |
+| GET    | `/`                                 |         | Frontend         |
+| POST   | `/api/u`                            | user    | Rejestracja      |
+| POST   | `/api/login`                        | creds   | Logowanie        |
+| POST   | `/api/logout`                       |         | Wylogowanie      |
+| GET    | `/api/r?q=query&p=page`             |         | Paczka redditów  |
+| GET    | `/api/r/:redditId`                  |         | Metadane reddita |
+| GET    | `/api/r/:redditId/p?q=query&p=page` |         | Paczka postów    |
+| WS     | `/api/r/:redditId/p/:postId`        |         | Pokój postu      |
 
-| Metoda | Użytkownik                       # | Payload | Opis                 # |
-| ------ | ---------------------------------- | ------- | ---------------------- |
-| GET    | `/api/u/:user/home?q=query&p=page` |         | Paczka redditów        |
-| PUT    | `/api/u/:user`                     | user    | Modyfikacja konta      |
-| DELETE | `/api/u/:user`                     |         | Usunięcie konta        |
-| POST   | `/api/u/:user/password`            | email   | Reset hasła (na email) |
-| POST   | `/api/u/:user/activate?t=token`    |         | Aktywacja (z emaila)   |
-| PATCH  | `/api/u/r/:reddit`                 | State   | Stan subskrybcji       |
-| POST   | `/api/r`                           | reddit  | Dodanie reddita        |
-| POST   | `/api/r/:reddit/p`                 | post    | Dodanie postu          |
-| PATCH  | `/api/r/:reddit/p/:post/vote`      | -1/0/-1 | Głosowanie na post     |
+| Metoda | Użytkownik                        | Payload | Opis               |
+| ------ | --------------------------------- | ------- | ------------------ |
+| GET    | `/api/u`                          |         | Dane konta         |
+| GET    | `/api/u/home?q=query&p=page`      |         | Paczka redditów    |
+| PUT    | `/api/u/`                         | user    | Modyfikacja konta  |
+| DELETE | `/api/u/`                         |         | Usunięcie konta    |
+| POST   | `/api/u/password`                 | email   | Zresetowanie hasła |
+| PATCH  | `/api/u/r/:redditId`              | state   | Zmiana subskrybcji |
+| POST   | `/api/r`                          | reddit  | Dodanie reddita    |
+| POST   | `/api/r/:redditId/p`              | post    | Dodanie postu      |
+| PATCH  | `/api/r/:redditId/p/:postId/vote` | -1/0/-1 | Głosowanie na post |
 
-| Metoda | Moderator                        # | Payload | Opis                 # |
-| ------ | ---------------------------------- | ------- | ---------------------- |
-| PUT    | `/api/r/:reddit`                   | reddit  | Edycja metadanych      |
-| DELETE | `/api/r/:reddit/p/:post`           |         | Usunięcie postu        |
+| Metoda | Moderator                      | Payload | Opis               |
+| ------ | ------------------------------ | ------- | ------------------ |
+| PUT    | `/api/r/:redditId`             | reddit  | Edycja metadanych  |
+| POST   | `/api/r/:redditId/m/:username` |         | Dodanie moderatora |
+| DELETE | `/api/r/:redditId/p/:postId`   |         | Usunięcie postu    |
 
-| Metoda | Administrator                    # | Payload | Opis                 # |
-| ------ | ---------------------------------- | ------- | ---------------------- |
-| GET    | `/api/stats`                       |         | Statystyki (?)         |
+| Metoda | Administrator    | Payload | Opis                   |
+| ------ | ---------------- | ------- | ---------------------- |
+| DELETE | `/api/u/:userId` |         | Zbanowanie użytkownika |
 
 
 ### WebSocket API
-| Publiczne         # | Payload  # | Opis                           # |
-| ------------------- | ---------- | -------------------------------- |
-| `comments`          |            | Komentarze                       |
+| Publiczne  | Payload | Opis                             |
+| ---------- | ------- | -------------------------------- |
+| `comments` |         | Komentarze                       |
+| `wipe`     | user-id | Usunięcie komentarzy użytkownika |
+| `redirect` |         | Powrót do tyłu w historii        |
 
-| Użytkownik        # | Payload  # | Opis                           # |
-| ------------------- | ---------- | -------------------------------- |
-| `comment`           | comment    | Dodanie komentarza               |
-| `upvote`/`downvote` | comment-id | Głosowanie na komentarz          |
-| `survey`            | option-id  | Odpowiedź w ankiecie             |
+| Użytkownik | Payload | Opis               |
+| ---------- | ------- | ------------------ |
+| `comment`  | comment | Dodanie komentarza |
 
-| Moderator         # | Payload  # | Opis                           # |
-| ------------------- | ---------- | -------------------------------- |
-| `delete`            | comment-id | Usunięcie komentarza             |
-| `delete`            | post-id    | Usunięcie postu                  |
+| Moderator | Payload    | Opis                 |
+| --------- | ---------- | -------------------- |
+| `delete`  | comment-id | Usunięcie komentarza |
+| `delete`  | post-id    | Usunięcie postu      |
 
-| Administrator     # | Payload  # | Opis                           # |
-| ------------------- | ---------- | -------------------------------- |
-| `ban`               | user-id    | Zbanowanie użytkownika           |
+| Serwer    | Payload    | Opis                             |
+| --------- | ---------- | -------------------------------- |
+| `comment` | comment    | Dodanie komentarza do listy      |
+| `delete`  | post-id    | Usunięcie postu                  |
+| `delete`  | comment-id | Usunięcie komentarza użytkownika |
 
-| Serwer            # | Payload  # | Opis                           # |
-| ------------------- | ---------- | -------------------------------- |
-| `comment`           | comment    | Dodanie komentarza do listy      |
-| `upvote`/`downvote` | comment-id | Zmiana liczby głosów komentarza  |
-| `survey`            | survey     | Wynik ankiety                    |
-| `delete`            | post-id    | Usunięcie postu                  |
-| `delete`            | comment-id | Usunięcie komentarza użytkownika |
-| `ban`               | user-id    | Wyczyszczenie użytkownika[^wipe] |
-
-[^wipe]:
+### Usuwanie użytkownika
 - Dla danego użytkownika
   - Wylogowanie go
   - Usunięcie konta
-  - Usunięcie komentarzy
   - Usunięcie postów
-- Dla pozostałych
-  - Jeżeli post był zbanowanego użytkownika - **(1)**, inaczej - **(2)**
-    1. Przekierowanie użytkowników na reddit
-    2. Usunięcie komentarzy zbanowanego użytkownika
+    - Wysłanie wiadomości `redirect` do każdego pokoju z postem użytkownika
+  - Usunięcie komentarzy
+    - Wysłanie wiadomości `wipe` do każdego pokoju z komentarzem użytkownika
 
 ## Domena
 ```ts

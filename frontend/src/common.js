@@ -17,6 +17,9 @@ export const Subject = value => {
           }
         };
       },
+      get value() {
+        return value;
+      }
     }),
     next: newValue => {
       value = newValue;

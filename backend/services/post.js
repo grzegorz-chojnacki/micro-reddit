@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const { limit } = require("../utils");
 
 const getScoreQuery = postId => `
   SELECT sum(vote) FROM post_vote WHERE post_id = ${postId}
@@ -58,7 +59,7 @@ module.exports = ({
     const { rows } = await db.query(`
       ${getPostQuery("p.id", userId)}
       WHERE title LIKE '%${query}%' AND subreddit_id = ${redditId}
-      LIMIT 10 OFFSET ${page * 10}
+      ${limit(page)}
     `);
 
     return rows.map(postMapper);
@@ -100,7 +101,7 @@ module.exports = ({
   async getMain(userId, page, /* query */) {
     const { rows } = await db.query(`
       ${getPostQuery("p.id", userId)}
-      LIMIT 10 OFFSET ${page * 10}
+      ${limit(page)}
     `);
 
     return rows.map(postMapper);
@@ -112,7 +113,7 @@ module.exports = ({
       INNER JOIN subreddit_user as su
         ON su.subreddit_id = s.id
       WHERE su.user_id = ${userId}
-      LIMIT 10 OFFSET ${page * 10}
+      ${limit(page)}
     `);
 
     return rows.map(postMapper);

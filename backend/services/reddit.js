@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const { limit } = require("../utils");
 
 const isSubscribed = (redditId, userId = null) => `
 CASE WHEN EXISTS (
@@ -82,7 +83,7 @@ module.exports = ({
              ${isSubscribed("subreddit.id", userId)} AS subscribed
       FROM subreddit
       WHERE name LIKE '%${query}%'
-      LIMIT 10 OFFSET ${page * 10}
+      ${limit(page)}
     `)).rows.map(subscribedBooleanCast);
   },
 });

@@ -40,4 +40,5 @@ const v = {
 module.exports = {
   pagination: req => ({ query: req.query.q || "", page: req.query.p  || 0 }),
   validator: v,
+  limit: page => `LIMIT 10 OFFSET ${page * 10}`
 };

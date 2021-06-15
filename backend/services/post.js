@@ -1,5 +1,5 @@
 const db = require("../config/db");
-const { limit } = require("../utils");
+const { limit, newestOrder } = require("../utils");
 
 const getScoreQuery = postId => `
   SELECT sum(vote) FROM post_vote WHERE post_id = ${postId}
@@ -36,6 +36,7 @@ module.exports = ({
     const data = (await db.query(`
       ${getPostQuery(postId, userId)}
       WHERE subreddit_id = ${redditId} AND p.id = ${postId}
+      ${newestOrder}
     `)).rows[0];
 
     return postMapper(data);
@@ -59,6 +60,7 @@ module.exports = ({
     const { rows } = await db.query(`
       ${getPostQuery("p.id", userId)}
       WHERE title LIKE '%${query}%' AND subreddit_id = ${redditId}
+      ${newestOrder}
       ${limit(page)}
     `);
 
@@ -107,6 +109,7 @@ module.exports = ({
   async getMain(userId, page, /* query */) {
     const { rows } = await db.query(`
       ${getPostQuery("p.id", userId)}
+      ${newestOrder}
       ${limit(page)}
     `);
 
@@ -119,6 +122,7 @@ module.exports = ({
       INNER JOIN subreddit_user as su
         ON su.subreddit_id = s.id
       WHERE su.user_id = ${userId}
+      ${newestOrder}
       ${limit(page)}
     `);
 

@@ -1,27 +1,27 @@
 const db = require("../config/db");
 
-const getScoreQuery = postId => `(
+const getScoreQuery = postId => `
   SELECT count(*) FROM post_vote WHERE post_id = ${postId}
-)`;
+`;
 
-const getVotedQuery = (postId, userId) => `(
+const getVotedQuery = (postId, userId) => `
   SELECT max(CASE WHEN user_id = ${userId} THEN 1 ELSE 0 END)
   FROM post_vote
   WHERE post_id = ${postId}
-)`;
+`;
 
 const getPostQuery = (postId, userId = null) => `
-SELECT p.id, title AS name, p.subreddit_id AS reddit_id, content AS text,
-       image_path AS image, video_url AS video,
-       ${getScoreQuery(postId)} AS score,
-       ${getVotedQuery(postId, userId)} AS voted,
-       s.name AS reddit_name, subreddit_id AS reddit_id,
-       ru.nickname AS username, p.user_id
-FROM post AS p
-INNER JOIN subreddit AS s
-  ON p.subreddit_id = s.id
-INNER JOIN reddit_user AS ru
-  ON p.user_id = ru.id
+  SELECT p.id, title AS name, p.subreddit_id AS reddit_id, content AS text,
+        image_path AS image, video_url AS video,
+        (${getScoreQuery(postId)}) AS score,
+        (${getVotedQuery(postId, userId)}) AS voted,
+        s.name AS reddit_name, subreddit_id AS reddit_id,
+        ru.nickname AS username, p.user_id
+  FROM post AS p
+  INNER JOIN subreddit AS s
+    ON p.subreddit_id = s.id
+  INNER JOIN reddit_user AS ru
+    ON p.user_id = ru.id
 `;
 
 const postMapper = ({

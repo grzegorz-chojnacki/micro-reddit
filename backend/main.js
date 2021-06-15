@@ -44,13 +44,9 @@ app.post("/api/logout", (req, res) => {
 const path = require("path");
 app.use("/", express.static(path.join(__dirname, "../frontend/dist")));
 
-const userService   = require("./services/user");
-const redditService = require("./services/reddit");
-const postService   = require("./services/post");
-
-app.use("/api", require("./routes/user")(userService));
-app.use("/api", require("./routes/reddit")(redditService));
-app.use("/api", require("./routes/post")(postService));
+app.use("/api", require("./routes/user"));
+app.use("/api", require("./routes/reddit"));
+app.use("/api", require("./routes/post"));
 
 // Socket.io
 const io = require("socket.io")(server, { cors: {}});

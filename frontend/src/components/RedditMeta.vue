@@ -15,7 +15,7 @@
 
       <div class="card-body">
         <p class="card-text">
-          {{ reddit.text }}
+          {{ reddit.description }}
         </p>
       </div>
     </section>
@@ -40,7 +40,7 @@
 
       <ul class="list-group list-group-flush">
         <li v-for="mod of reddit.mods" :key="mod.id" class="list-group-item">
-          {{ mod.name }}
+          {{ mod.username }}
         </li>
       </ul>
     </section>

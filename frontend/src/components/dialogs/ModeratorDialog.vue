@@ -48,7 +48,7 @@ export default markRaw({
   props: {
     data: {
       type: Object,
-      default: () => ({ id: null, name: "", text: ""})
+      default: () => ({ id: null, name: "", description: ""})
     }
   },
   data() {

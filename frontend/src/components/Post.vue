@@ -7,7 +7,7 @@
             name: 'post',
             params: { redditId: post.reddit.id, postId: post.id },
           }">
-          {{ post.name }}
+          {{ post.title }}
         </router-link>
       </h5>
       <h6 class="card-subtitle">
@@ -30,11 +30,11 @@
         frameborder="0" /> -->
 
       <div v-if="post.image" class="img-container rounded-2 bg-dark mb-3">
-        <img :src="post.image" :alt="post.name">
+        <img :src="post.image" :alt="post.title">
       </div>
 
-      <p v-if="post.text" class="card-text">
-        {{ post.text }}
+      <p v-if="post.content" class="card-text">
+        {{ post.content }}
       </p>
     </div>
 

@@ -16,7 +16,7 @@
         <label for="descriptionMetadata" class="form-label">Description</label>
         <textarea
           id="descriptionMetadata"
-          v-model="text"
+          v-model="description"
           class="form-control"
           rows="3" />
       </div>
@@ -47,27 +47,24 @@ export default markRaw({
   props: {
     data: {
       type: Object,
-      default: () => ({ id: null, name: "", text: "" })
+      default: () => ({ id: null, name: "", description: "" })
     }
   },
   data() {
     return {
       name: "",
-      text: "",
+      description: "",
     };
   },
   watch: {
     data() {
-      this.text = this.data?.text || "";
+      this.description = this.data?.description || "";
     }
   },
   methods: {
     async update() {
       this.$refs.dismiss.click();
-      await redditService.update({
-        ...this.data,
-        text: this.text
-      });
+      await redditService.update({ ...this.data, description: this.description });
     },
   },
 });

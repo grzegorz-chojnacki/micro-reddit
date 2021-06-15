@@ -14,28 +14,28 @@ const subscribedBooleanCast = reddit =>
 
 module.exports = ({
   async get(redditId, userId = null) {
-    const { id, name, text, subscribed } = (await db.query(`
-      SELECT id, name, description AS text,
+    const { id, name, description, subscribed } = (await db.query(`
+      SELECT id, name, description,
              ${isSubscribed(redditId, userId)} AS subscribed
       FROM subreddit
       WHERE id = ${redditId}
     `)).rows[0];
 
     const mods = (await db.query(`
-      SELECT ru.id, ru.nickname AS name
+      SELECT ru.id, ru.nickname AS username
       FROM subreddit_moderator AS sm
       INNER JOIN reddit_user AS ru
       ON sm.user_id = ru.id
       WHERE subreddit_id = ${redditId}
     `)).rows;
 
-    return subscribedBooleanCast({ id, name, text, mods, subscribed });
+    return subscribedBooleanCast({ id, name, description, mods, subscribed });
   },
 
   async add(reddit, userId) {
     const redditId = (await db.query(`
       INSERT INTO subreddit (name, description)
-      VALUES ('${reddit.name}', '${reddit.text}')
+      VALUES ('${reddit.name}', '${reddit.description}')
       RETURNING id
     `)).rows[0].id;
 
@@ -55,9 +55,9 @@ module.exports = ({
   async update(reddit) {
     await db.query(`
       UPDATE subreddit SET
-        description = '${reddit.text}'
+        description = '${reddit.description}'
       WHERE id = ${reddit.id}
-      RETURNING id, name, description AS text
+      RETURNING id, name, description
     `);
     return reddit;
   },
@@ -79,7 +79,7 @@ module.exports = ({
 
   async getAll(userId, page, query) {
     return (await db.query(`
-      SELECT id, name, description AS text,
+      SELECT id, name, description,
              ${isSubscribed("subreddit.id", userId)} AS subscribed
       FROM subreddit
       WHERE name LIKE '%${query}%'

@@ -16,7 +16,7 @@
         <label for="namePost" class="form-label">Title</label>
         <input
           id="namePost"
-          v-model="name"
+          v-model="title"
           type="text"
           class="form-control">
       </div>
@@ -31,10 +31,10 @@
       </div>
 
       <div class="mb-3">
-        <label for="text" class="form-label">Text content</label>
+        <label for="content" class="form-label">Text content</label>
         <textarea
-          id="text"
-          v-model="text"
+          id="content"
+          v-model="content"
           class="form-control"
           rows="3" />
       </div>
@@ -66,14 +66,14 @@ export default markRaw({
   props: { data: { type: Object, default: () => ({}) }},
   data() {
     return {
-      name: "",
-      text: "",
+      title: "",
+      content: "",
       video: "",
     };
   },
   computed: {
     isInvalid() {
-      return !this.name;
+      return !this.title;
     }
   },
   methods: {
@@ -86,8 +86,8 @@ export default markRaw({
       }
 
       const post = {
-        name: this.name,
-        text: this.text,
+        title: this.title,
+        content: this.content,
         video: this.video,
         image: "",
       };

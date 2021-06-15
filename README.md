@@ -232,64 +232,55 @@
 ## Domena
 ```ts
 type role    = 'user' | 'mod' | 'admin'
-type uuid    = string
 type url     = string
 type Null<T> = T | null
-type vote    = -1 | 0 | +1 // Downvote, brak głosu lub upvote
+type vote    = -1 | 0 | +1 // Downvote, brak głosu lub upvote przez użytkownika
 
 interface User {
-  id:       uuid
+  id:       number
   admin:    boolean
   username: string
-  password: Null<string> // Hasło jest null gdy pobieramy innych użytkowników
+  password: Null<string> // Hasło nie jest null tylko po stronie backendu
   email:    Null<string> // Podobnie jak wyżej
 }
 
 interface Reddit {
-  id:      uuid
-  name:    string
-  text:    string
-  mods:    User[]
+  id:          number
+  name:        string
+  description: string
+  mods:        User[]
+  subscribed:  boolean
 }
 
+// Występuje na liście redditów
 interface SimpleReddit {
-  id:      uuid
-  name:    string
+  id:         number
+  name:       string
+  subscribed: boolean
 }
 
-// Interfejs WebSocket
+// Występuje w Post
+interface MinimalReddit {
+  id:   number
+  name: string
+}
+
 interface Post {
-  id:       uuid
-  reddit:   SimpleReddit
-  name:     string
-  text:     string
+  id:       number
+  reddit:   MinimalReddit
+  title:    string
+  content:  string
   image:    Null<url> // URL do zasobu na serwerze
   video:    Null<url> // URL youtube
-  survey:   Null<Survey>
   comments: Comment[]
   voted:    vote
   score:    number
   created:  Date
 }
 
-interface Survey {
-  options: Option[]
-  answer:  Null<number> // Opcja zaznaczona przez obecnego użytkownika
-}
-
-interface Option {
-  id:    number
-  text:  string
-  score: number
-}
-
 interface Comment {
-  id:      uuid
+  id:      number
   user:    User
-  text:    string
-  parent:  Null<uuid> // Komentarz do innego komentarza lub do postu
-  voted:   vote
-  score:   number
-  created: Date
+  content: string
 }
 ```

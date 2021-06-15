@@ -17,7 +17,7 @@
         </button>
       </h5>
       <p class="card-text">
-        {{ reddit.text }}
+        {{ reddit.description }}
       </p>
     </div>
   </section>

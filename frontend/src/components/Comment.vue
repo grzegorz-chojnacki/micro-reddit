@@ -5,7 +5,7 @@
         <strong>{{ comment.user.username }}</strong> wrote:
       </h6>
       <p class="card-text">
-        {{ comment.text }}
+        {{ comment.content }}
       </p>
     </div>
   </section>

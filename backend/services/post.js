@@ -6,7 +6,7 @@ const getScoreQuery = postId => `
 `;
 
 const getPostQuery = (postId, userId = null) => `
-  SELECT p.id, title AS name, p.subreddit_id AS reddit_id, content AS text,
+  SELECT p.id, title, p.subreddit_id AS reddit_id, content,
         image_path AS image, video_url AS video,
         (${getScoreQuery(postId)}) AS score,
         vote AS voted,
@@ -22,9 +22,9 @@ const getPostQuery = (postId, userId = null) => `
 `;
 
 const postMapper = ({
-    id, name, reddit_id, text, image, video, reddit_name, username, user_id,
+    id, title, reddit_id, content, image, video, reddit_name, username, user_id,
     score, voted }) => ({
-  id, name, text, image, video,
+  id, title, content, image, video,
   voted: Number(voted),
   score: Number(score),
   user:   { id: user_id,   username },
@@ -49,7 +49,7 @@ module.exports = ({
       INSERT INTO post
         (title, content, image_path, video_url, creation_date, subreddit_id, user_id)
       VALUES
-        ('${post.name}', '${post.text}', '${post.image}', '${post.video}',
+        ('${post.title}', '${post.content}', '${post.image}', '${post.video}',
          '${timestamp}', ${redditId}, ${userId})
       RETURNING id
     `);

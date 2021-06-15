@@ -25,7 +25,7 @@
         <label for="description" class="form-label">Description</label>
         <textarea
           id="description"
-          v-model="text"
+          v-model="description"
           class="form-control"
           rows="3" />
       </div>
@@ -56,7 +56,7 @@ export default markRaw({
   data() {
     return {
       name: "",
-      text: "",
+      description: "",
     };
   },
   computed: {
@@ -66,7 +66,7 @@ export default markRaw({
   },
   methods: {
     async create() {
-      const redditId = await redditService.add(this.name, this.text);
+      const redditId = await redditService.add(this.name, this.description);
       this.$refs.dismiss.click();
       this.$router.push({ name: "reddit", params: { redditId } });
     },

@@ -10,15 +10,11 @@ const v = {
   isId:       x => v.isString(x) && v.required(x),
   isEmail:    x => v.requiredText(x) && x.includes("@") && x.includes("."),
   isUrl:      x => v.requiredText(x) && x.includes("."),
-  hasOptions: x => typeof x.options === "object" && x.options instanceof Array
-    && x.options.length > 1 && x.options.every(v.requiredText),
 
   isImage:  x => !v.defined(x) || v.requiredText(x),
-  isSurvey: x => !v.defined(x) || v.isObject(x) && v.hasOptions(x),
   isvideo:  x => !v.defined(x) || v.isUrl(x) && (x.includes("youtube") || x.includes("youtu.be")),
 
   isNewReddit: x => v.requiredText(x.name),
-  isAnswer:    x => v.isObject(x) && v.isNumber(x.answer),
 
   isNewUser: x => {
     const { username, password, email } = x;
@@ -26,14 +22,14 @@ const v = {
   },
 
   isNewPost: x => {
-    const { name, text, image, video, survey } = x;
-    return v.requiredText(name) && v.requiredText(text)
-      && v.isImage(image) && v.isvideo(video) && v.isSurvey(survey);
+    const { title, content, image, video } = x;
+    return v.requiredText(title) && v.requiredText(content)
+      && v.isImage(image) && v.isvideo(video);
   },
 
   isComment: x => {
-    const { user, text } = x;
-    return v.isObject(user) && v.isId(user.id) && v.requiredText(text);
+    const { user, content } = x;
+    return v.isObject(user) && v.isId(user.id) && v.requiredText(content);
   }
 };
 

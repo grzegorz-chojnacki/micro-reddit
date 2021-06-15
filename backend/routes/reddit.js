@@ -28,7 +28,7 @@ router.route("/r/:redditId")
     try {
       const reddit = req.body;
 
-      if (reddit.text.length >= 256) {
+      if (reddit.description.length >= 256) {
         throw new Error();
       }
 

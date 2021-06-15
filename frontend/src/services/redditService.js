@@ -7,8 +7,8 @@ export const redditService = {
     return (await api.get(`/r?p=${page}&q=${query}`)).data;
   },
 
-  async add(name, text) {
-    return (await api.post("/r", { name, text })).data.id;
+  async add(name, description) {
+    return (await api.post("/r", { name, description })).data.id;
   },
 
   async update(reddit) {

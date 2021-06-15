@@ -15,7 +15,7 @@ module.exports = postService => {
     .get(async (req, res) => {
       const { query, page } = pagination(req);
 
-      const posts = await postService.getMain(page, query);
+      const posts = await postService.getMain(req.user?.id, page, query);
       res.json(posts);
     });
 

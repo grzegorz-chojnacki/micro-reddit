@@ -51,10 +51,10 @@ router.route("/r/:redditId/p/:postId")
     res.sendStatus(200);
   })
   .patch(isAuthenticated, async (req, res) => {
-    const { redditId, postId } = req.params;
+    const { postId } = req.params;
     const vote = oneify(Number.parseInt(req.body.vote) || 0);
 
-    const score = await postService.vote(redditId, postId, req.user.id, vote);
+    const score = await postService.vote(postId, req.user.id, vote);
     res.json(score);
   });
 

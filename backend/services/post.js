@@ -73,29 +73,35 @@ module.exports = ({
     return true;
   },
 
-  async vote(redditId, postId, userId, vote) {
-    if (vote === 0) {
+  async vote(postId, userId, vote) {
+    const voteExists = (await db.query(`
+        SELECT vote FROM post_vote
+        WHERE post_id = ${postId} AND user_id = ${userId}
+      `)).rows[0]?.vote;
+
+    if (voteExists && vote === 0) {
       await db.query(`
         DELETE FROM post_vote
-        WHERE post_id = ${postId}
-          AND subreddit_id = ${redditId}
-          AND user_id = ${userId}
+        WHERE post_id = ${postId} AND user_id = ${userId}
       `);
-    } else {
+    } else if (voteExists && vote !== 0) {
       await db.query(`
-        UPDATE post_vote SET vote = '${vote}'
-        WHERE post_id = ${postId}
-          AND subreddit_id = ${redditId}
-          AND user_id = ${userId}
+        UPDATE post_vote SET vote = ${vote}
+        WHERE post_id = ${postId} AND user_id = ${userId}
+      `);
+    } else if (!voteExists && vote !== 0) {
+      await db.query(`
+        INSERT INTO post_vote (vote, post_id, user_id)
+        VALUES (${vote}, ${postId}, ${userId})
       `);
     }
 
-    const { votes } = db.query(`
-      SELECT sum(vote) AS votes
+    const { score } = (await db.query(`
+      SELECT sum(vote) AS score
       FROM post_vote
       WHERE post_id = ${postId}
-    `);
-    return { votes };
+    `)).rows[0];
+    return { score };
   },
 
   async getMain(userId, page, /* query */) {

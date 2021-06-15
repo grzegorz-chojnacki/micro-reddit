@@ -15,6 +15,10 @@
 </template>
 
 <script>
+import LoginDialog from "@/components/dialogs/LoginDialog.vue";
+import { userService } from "@/services/userService.js";
+import { dialogService } from "@/services/dialogService.js";
+
 const buttonClasses = "btn btn-outline-dark ";
 
 export default {
@@ -26,6 +30,10 @@ export default {
   emits: ["vote"],
   methods: {
     vote(state) {
+      if (!userService.isAuthenticated.value) {
+        return dialogService.open(LoginDialog);
+      }
+
       if (state === this.voted) {
         this.$emit("vote", 0);
       } else {

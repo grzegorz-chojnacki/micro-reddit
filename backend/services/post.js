@@ -11,7 +11,8 @@ const getVotedQuery = (postId, userId) => `(
 )`;
 
 const getPostQuery = (postId, userId = null) => `
-SELECT p.id, title AS name, content AS text, image_path AS image, video_url AS video,
+SELECT p.id, title AS name, p.subreddit_id AS reddit_id, content AS text,
+       image_path AS image, video_url AS video,
        ${getScoreQuery(postId)} AS score,
        ${getVotedQuery(postId, userId)} AS voted,
        s.name AS reddit_name, subreddit_id AS reddit_id,
@@ -23,6 +24,14 @@ INNER JOIN reddit_user AS ru
   ON p.user_id = ru.id
 `;
 
+const postMapper = ({
+    id, name, reddit_id, text, image, video, reddit_name, username, user_id,
+    score, voted }) => ({
+  id, name, text, image, video, score, voted,
+  user:   { id: user_id,   username },
+  reddit: { id: reddit_id, name: reddit_name }
+});
+
 module.exports = ({
   async get(redditId, postId, userId) {
     const data = (await db.query(`
@@ -30,19 +39,7 @@ module.exports = ({
       WHERE subreddit_id = ${redditId} AND p.id = ${postId}
     `)).rows[0];
 
-    console.log(data);
-
-    const { id, name, text, image, video, reddit_name, username, user_id, score, voted }
-      = data;
-
-    return {
-      id, name, text, image, video, score, voted,
-      user: { username, id: user_id },
-      reddit: {
-        id: redditId,
-        name: reddit_name
-      }
-    };
+    return postMapper(data);
   },
 
   async add(redditId, userId, post) {
@@ -66,16 +63,7 @@ module.exports = ({
       LIMIT 10 OFFSET ${page * 10}
     `);
 
-    return rows.map(
-      ({ id, name, text, image, video, reddit_name, username, user_id, score, voted }) => ({
-        id, name, text, image, video, score, voted,
-        user: { username, id: user_id },
-        reddit: {
-          id: redditId,
-          name: reddit_name
-        }
-      })
-    );
+    return rows.map(postMapper);
   },
 
   async delete(redditId, postId) {
@@ -117,15 +105,6 @@ module.exports = ({
       LIMIT 10 OFFSET ${page * 10}
     `);
 
-    return rows.map(
-      ({ id, name, text, image, video, reddit_name, reddit_id, username, user_id, score, voted }) => ({
-        id, name, text, image, video, score, voted,
-        user: { username, id: user_id },
-        reddit: {
-          id: reddit_id,
-          name: reddit_name
-        }
-      })
-    );
+    return rows.map(postMapper);
   },
 });

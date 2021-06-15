@@ -15,5 +15,8 @@ export const postService = {
   },
   async get(redditId, postId) {
     return (await api.get(`/r/${redditId}/p/${postId}`)).data;
+  },
+  async vote(redditId, postId, vote) {
+    return (await api.patch(`/r/${redditId}/p/${postId}`, { vote })).data;
   }
 };

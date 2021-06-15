@@ -101,7 +101,7 @@ module.exports = ({
       FROM post_vote
       WHERE post_id = ${postId}
     `)).rows[0];
-    return { score };
+    return { score: Number(score) };
   },
 
   async getMain(userId, page, /* query */) {

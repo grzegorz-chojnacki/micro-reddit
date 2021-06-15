@@ -39,7 +39,7 @@
     </div>
 
     <footer class="card-footer">
-      <VoteGroup :score="post.score" :voted="post.voted" @vote="onVote" />
+      <VoteGroup :score="score" :voted="voted" @vote="onVote" />
 
       <router-link
         class="btn mx-3"
@@ -52,17 +52,26 @@
 
 <script>
 import VoteGroup from "@/components/VoteGroup.vue";
+import { postService } from "@/services/postService.js";
 
 export default {
   name: "Post",
   components: { VoteGroup },
   props: { post: { type: Object, required: true } },
+  data() {
+    return {
+      score: this.post.score,
+      voted: this.post.voted
+    };
+  },
   methods: {
     embedYoutube(url) {
       return url.replace("watch?v=", "embed/");
     },
-    onVote(state) {
-      console.log(state);
+    async onVote(state) {
+      const { score } = await postService.vote(this.post.reddit.id, this.post.id, state);
+      this.score = score;
+      this.voted = state;
     }
   },
 };

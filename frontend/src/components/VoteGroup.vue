@@ -1,6 +1,6 @@
 <template>
   <div class="btn-group" role="group" aria-label="Basic outlined example">
-    <button :class="isSelected(+1)" :disabled="isDisabled(+1)" @click="vote(+1)">
+    <button :class="isSelected(+1)" @click="vote(+1)">
       <span class="material-icons add">add</span>
     </button>
 
@@ -8,7 +8,7 @@
       <span class="vote">{{ score }}</span>
     </button>
 
-    <button :class="isSelected(-1)" :disabled="isDisabled(-1)" @click="vote(-1)">
+    <button :class="isSelected(-1)" @click="vote(-1)">
       <span class="material-icons remove">remove</span>
     </button>
   </div>
@@ -26,14 +26,15 @@ export default {
   emits: ["vote"],
   methods: {
     vote(state) {
-      this.$emit("vote", state);
+      if (state === this.voted) {
+        this.$emit("vote", 0);
+      } else {
+        this.$emit("vote", state);
+      }
     },
     isSelected(buttonMark) {
       return this.voted === buttonMark ? buttonClasses + "selected" : buttonClasses;
     },
-    isDisabled(buttonMark) {
-      return this.voted === buttonMark;
-    }
   }
 };
 </script>

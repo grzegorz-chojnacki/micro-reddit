@@ -1,13 +1,11 @@
 const db = require("../config/db");
 
 const getScoreQuery = postId => `
-  SELECT count(*) FROM post_vote WHERE post_id = ${postId}
+  SELECT sum(vote) FROM post_vote WHERE post_id = ${postId}
 `;
 
 const getVotedQuery = (postId, userId) => `
-  SELECT max(CASE WHEN user_id = ${userId} THEN 1 ELSE 0 END)
-  FROM post_vote
-  WHERE post_id = ${postId}
+  SELECT vote FROM post_vote WHERE post_id = ${postId} AND user_id = ${userId}
 `;
 
 const getPostQuery = (postId, userId = null) => `
@@ -27,7 +25,9 @@ const getPostQuery = (postId, userId = null) => `
 const postMapper = ({
     id, name, reddit_id, text, image, video, reddit_name, username, user_id,
     score, voted }) => ({
-  id, name, text, image, video, score, voted,
+  id, name, text, image, video,
+  voted: Number(voted),
+  score: Number(score),
   user:   { id: user_id,   username },
   reddit: { id: reddit_id, name: reddit_name }
 });

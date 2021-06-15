@@ -39,8 +39,8 @@ const isAuthenticated = (req, res, next) => {
 const isRedditMod = async (req, res, next) => {
   if (!req.isAuthenticated()) return res.sendStatus(401);
 
-  const { redditId } = req.params;
-  const { userId } = req.user.id;
+  const redditId = req.params.redditId;
+  const userId = req.user.id;
 
   const { rows } = await db.query(`
     SELECT * FROM subreddit_moderator

@@ -1,5 +1,5 @@
 <template>
-  <main v-if="post !== null">
+  <main v-if="post">
     <Post :post="post" />
     <section id="comments">
       <Comment

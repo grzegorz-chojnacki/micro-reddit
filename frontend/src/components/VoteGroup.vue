@@ -1,0 +1,60 @@
+<template>
+  <div class="btn-group" role="group" aria-label="Basic outlined example">
+    <button :class="isSelected(+1)" :disabled="isDisabled(+1)" @click="vote(+1)">
+      <span class="material-icons add">add</span>
+    </button>
+
+    <button class="btn btn-outline-dark score" disabled>
+      <span class="vote">{{ score }}</span>
+    </button>
+
+    <button :class="isSelected(-1)" :disabled="isDisabled(-1)" @click="vote(-1)">
+      <span class="material-icons remove">remove</span>
+    </button>
+  </div>
+</template>
+
+<script>
+const buttonClasses = "btn btn-outline-dark ";
+
+export default {
+  name: "VoteGroup",
+  props: {
+    score: { type: Number, default: 0 },
+    voted: { type: Number, default: 0 }
+  },
+  emits: ["vote"],
+  methods: {
+    vote(state) {
+      this.$emit("vote", state);
+    },
+    isSelected(buttonMark) {
+      return this.voted === buttonMark ? buttonClasses + "selected" : buttonClasses;
+    },
+    isDisabled(buttonMark) {
+      return this.voted === buttonMark;
+    }
+  }
+};
+</script>
+
+<style scoped lang="scss">
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.5em;
+}
+
+.score {
+  box-sizing: content-box;
+  min-width: 3ch;
+}
+
+.selected {
+  color: var(--bs-light);
+  background-color: var(--bs-dark);
+}
+
+button[disabled] { opacity: 1 }
+</style>

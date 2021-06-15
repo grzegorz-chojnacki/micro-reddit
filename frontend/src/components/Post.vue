@@ -39,39 +39,7 @@
     </div>
 
     <footer class="card-footer">
-      <div class="btn-group btn-group-sm" role="group">
-        <input
-          :id="post.id + 'upvote'"
-          type="radio"
-          class="btn-check"
-          autocomplete="off"
-          :name="post.id"
-          :checked="post.voted === 1">
-        <label class="btn btn-outline-dark" :for="post.id + 'upvote'">
-          <span class="material-icons add">add</span>
-        </label>
-
-        <input
-          :id="post.id + 'score'"
-          type="radio"
-          class="btn-check"
-          disabled
-          :name="post.id">
-        <label class="btn btn-outline-dark score" :for="post.id + 'score'">
-          <span class="vote">{{ post.score }}</span>
-        </label>
-
-        <input
-          :id="post.id + 'downvote'"
-          type="radio"
-          class="btn-check"
-          autocomplete="off"
-          :name="post.id"
-          :checked="post.voted === -1">
-        <label class="btn btn-outline-dark" :for="post.id + 'downvote'">
-          <span class="material-icons remove">remove</span>
-        </label>
-      </div>
+      <VoteGroup :score="post.score" :voted="post.voted" @vote="onVote" />
 
       <router-link
         class="btn mx-3"
@@ -83,13 +51,19 @@
 </template>
 
 <script>
+import VoteGroup from "@/components/VoteGroup.vue";
+
 export default {
   name: "Post",
+  components: { VoteGroup },
   props: { post: { type: Object, required: true } },
   methods: {
     embedYoutube(url) {
       return url.replace("watch?v=", "embed/");
     },
+    onVote(state) {
+      console.log(state);
+    }
   },
 };
 </script>
@@ -111,12 +85,6 @@ section {
 }
 
 .post-author { opacity: 0.7 }
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  padding: 0 0.5em;
-}
 
 header > * {
   a {

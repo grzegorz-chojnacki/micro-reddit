@@ -22,6 +22,15 @@
       </div>
 
       <div class="mb-3">
+        <label for="video" class="form-label">Youtube URL</label>
+        <input
+          id="video"
+          v-model="video"
+          type="text"
+          class="form-control">
+      </div>
+
+      <div class="mb-3">
         <label for="text" class="form-label">Text content</label>
         <textarea
           id="text"
@@ -48,6 +57,7 @@
 
 <script>
 import { postService } from "@/services/postService.js";
+import { getYoutubeVideoId, testYoutubeVideoId } from "@/common.js";
 import { markRaw } from "vue";
 
 export default markRaw({
@@ -58,6 +68,7 @@ export default markRaw({
     return {
       name: "",
       text: "",
+      video: "",
     };
   },
   computed: {
@@ -67,10 +78,17 @@ export default markRaw({
   },
   methods: {
     async create() {
+      try {
+        const id = getYoutubeVideoId(this.video);
+        await testYoutubeVideoId(id);
+      } catch (e) {
+        console.error(e);
+      }
+
       const post = {
         name: this.name,
         text: this.text,
-        video: "",
+        video: this.video,
         image: "",
       };
 

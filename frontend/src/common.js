@@ -32,3 +32,17 @@ export const Subject = value => {
 };
 
 export const Range = (count) => new Array(count).fill().map((n, i) => i);
+
+export const getYoutubeVideoId = url => {
+  const split = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/|\/e\/)/);
+  return (split[2] !== undefined)
+    ? split[2].split(/[^0-9a-z_-]/i)[0]
+    : split[0];
+};
+
+export const testYoutubeVideoId = async id => {
+  const { data } = await axios.get(
+    `https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=${id}`);
+  console.log(data);
+  return data !== "Not Found";
+};

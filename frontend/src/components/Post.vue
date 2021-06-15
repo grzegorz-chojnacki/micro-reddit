@@ -53,6 +53,7 @@
 <script>
 import VoteGroup from "@/components/VoteGroup.vue";
 import { postService } from "@/services/postService.js";
+import { getYoutubeVideoId } from "@/common.js";
 
 export default {
   name: "Post",
@@ -72,7 +73,7 @@ export default {
   },
   methods: {
     embedYoutube(url) {
-      return url.replace("watch?v=", "embed/");
+      return `https://www.youtube.com/embed/${getYoutubeVideoId(url)}`;
     },
     async onVote(state) {
       const { score } = await postService.vote(this.post.reddit.id, this.post.id, state);

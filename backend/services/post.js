@@ -9,7 +9,7 @@ const getPostQuery = (postId, userId = null) => `
         image_path AS image, video_url AS video,
         (${getScoreQuery(postId)}) AS score,
         vote AS voted,
-        s.name AS reddit_name, subreddit_id AS reddit_id,
+        s.name AS reddit_name, p.subreddit_id AS reddit_id,
         ru.nickname AS username, p.user_id
   FROM post AS p
   INNER JOIN subreddit AS s
@@ -100,6 +100,18 @@ module.exports = ({
   async getMain(userId, page, /* query */) {
     const { rows } = await db.query(`
       ${getPostQuery("p.id", userId)}
+      LIMIT 10 OFFSET ${page * 10}
+    `);
+
+    return rows.map(postMapper);
+  },
+
+  async getHome(userId, page, /* query */) {
+    const { rows } = await db.query(`
+      ${getPostQuery("p.id", userId)}
+      INNER JOIN subreddit_user as su
+        ON su.subreddit_id = s.id
+      WHERE su.user_id = ${userId}
       LIMIT 10 OFFSET ${page * 10}
     `);
 

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userService = require("../services/user");
+const postService = require("../services/post");
 const { isAuthenticated } = require("../config/authentication");
 const { pagination } = require("../utils.js");
 
@@ -66,7 +67,7 @@ router.route("/u/home").all(isAuthenticated)
     const userId = req.user.id;
     const { query, page } = pagination(req);
 
-    const reddits = await userService.getHome(userId, page, query);
+    const reddits = await postService.getHome(userId, page, query);
 
     res.json(reddits);
   });

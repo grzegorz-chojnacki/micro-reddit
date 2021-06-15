@@ -11,6 +11,8 @@
 <script>
 import Post from "@/components/Post.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
+import { userService } from "@/services/userService.js";
+import { Range } from "@/common.js";
 
 const offset = 100;
 
@@ -36,6 +38,9 @@ export default {
         this.fetchNext();
       }
     };
+    userService.isAuthenticated.subscribe(() => {
+      this.refetch();
+    });
   },
   methods: {
     fetchNext() {
@@ -47,6 +52,10 @@ export default {
         }
       });
     },
+    async refetch() {
+      const pages = Range(this.page).map(page => this.fetchingFn(page, this.query));
+      this.posts = (await Promise.all(pages)).flat();
+    }
   },
 };
 </script>

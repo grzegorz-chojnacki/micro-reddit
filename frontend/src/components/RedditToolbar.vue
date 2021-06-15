@@ -60,7 +60,6 @@ export default {
   },
   methods: {
     openPostDialog() {
-      console.log(this.reddit);
       dialogService.open(PostDialog, { redditId: this.reddit.id });
     }
   }

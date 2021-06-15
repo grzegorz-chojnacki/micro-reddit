@@ -30,3 +30,5 @@ export const Subject = value => {
     }
   };
 };
+
+export const Range = (count) => new Array(count).fill().map((n, i) => i);

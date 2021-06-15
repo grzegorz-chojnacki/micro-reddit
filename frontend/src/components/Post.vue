@@ -64,6 +64,12 @@ export default {
       voted: this.post.voted
     };
   },
+  watch: {
+    post() {
+      this.score = this.post.score;
+      this.voted = this.post.voted;
+    }
+  },
   methods: {
     embedYoutube(url) {
       return url.replace("watch?v=", "embed/");

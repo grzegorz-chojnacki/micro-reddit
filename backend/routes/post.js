@@ -25,7 +25,7 @@ module.exports = postService => {
       const { redditId } = req.params;
       const { query, page } = pagination(req);
 
-      const posts = await postService.getAll(redditId, page, query);
+      const posts = await postService.getAll(redditId, req.user?.id, page, query);
       res.json(posts);
     })
     .post(isSubscribed, async (req, res) => {
@@ -41,7 +41,7 @@ module.exports = postService => {
     .get(async (req, res) => {
       const { redditId, postId } = req.params;
 
-      const post = await postService.get(redditId, postId);
+      const post = await postService.get(redditId, postId, req.user?.id);
       res.json(post);
     })
     .delete(isRedditMod, async (req, res) => {

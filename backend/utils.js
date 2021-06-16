@@ -1,4 +1,5 @@
 const db = require("./config/db");
+const crypto = require("crypto");
 
 const redditNameToId = async (req, res, next) => {
   const { redditName } = req.params;
@@ -50,12 +51,15 @@ const v = {
   }
 };
 
-
+const mimeRegex = /^data:image\/(.*?);base64,/;
 
 module.exports = {
   pagination: req => ({ query: req.query.q || "", page: req.query.p  || 0 }),
   redditNameToId,
   validator: v,
   limit: page => `LIMIT 10 OFFSET ${page * 10}`,
-  newestOrder: "ORDER BY creation_date DESC"
+  newestOrder: "ORDER BY creation_date DESC",
+  md5: str => crypto.createHash("md5").update(str).digest("hex"),
+  imageExt: str => str.match(mimeRegex)[1],
+  imageStripMime: str => str.replace(mimeRegex, "")
 };

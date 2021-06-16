@@ -1,5 +1,6 @@
 const db = require("../config/db");
-const { limit, newestOrder } = require("../utils");
+const fsp = require("fs").promises;
+const { limit, newestOrder, md5, imageExt, imageStripMime } = require("../utils");
 
 const getScoreQuery = postId => `
   SELECT sum(vote) FROM post_vote WHERE post_id = ${postId}
@@ -45,15 +46,24 @@ module.exports = ({
   async add(redditId, userId, post) {
     const timestamp = new Date().toLocaleString("en-US");
 
-    const { rows } = await db.query(`
+    const imageUrl = post.image
+      ? `${md5(post.image)}.${imageExt(post.image)}`
+      : "";
+
+    const image = imageStripMime(post.image);
+
+    await fsp.writeFile(`./storage/${imageUrl}`, image, "base64");
+
+    const postId = (await db.query(`
       INSERT INTO post
         (title, content, image_path, video_url, creation_date, subreddit_id, user_id)
       VALUES
-        ('${post.title}', '${post.content}', '${post.image}', '${post.video}',
+        ('${post.title}', '${post.content}', '${imageUrl}', '${post.video}',
          '${timestamp}', ${redditId}, ${userId})
       RETURNING id
-    `);
-    return rows[0].id;
+    `)).rows[0].id;
+
+    return postId;
   },
 
   async getAll(redditId, userId, page, query) {

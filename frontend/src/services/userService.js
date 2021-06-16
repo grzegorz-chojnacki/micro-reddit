@@ -1,14 +1,10 @@
 import { api, Subject } from "@/common";
 
-const options = {
-  headers: { "Content-Type": "application/x-www-form-urlencoded" },
-};
-
 let userSource = Subject({});
 let isAuthenticatedSource = Subject(false);
 
 api
-  .get("/u", options)
+  .get("/u")
   .then(({ data }) => {
     userSource.next(data);
     isAuthenticatedSource.next(true);
@@ -17,23 +13,14 @@ api
 
 export const userService = {
   async login(username, password) {
-    const data = new URLSearchParams();
-    data.append("username", username);
-    data.append("password", password);
-
-    const user = (await api.post("/login", data, options)).data;
+    const user = (await api.post("/login", { username, password })).data;
 
     isAuthenticatedSource.next(true);
     userSource.next(user);
   },
 
   async register(username, password, email) {
-    const data = new URLSearchParams();
-    data.append("username", username);
-    data.append("password", password);
-    data.append("email", email);
-
-    const { errors } = (await api.post("/u", data, options)).data;
+    const { errors } = (await api.post("/u", { username, password, email })).data;
     return errors || this.login(username, password);
   },
 

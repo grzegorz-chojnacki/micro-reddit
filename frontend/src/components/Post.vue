@@ -55,13 +55,15 @@ import VoteGroup from "@/components/VoteGroup.vue";
 import { postService } from "@/services/postService.js";
 import { getYoutubeVideoId, baseURL } from "@/common.js";
 
+const urlMapper = url => url.match(/^http.*/) ? url : `${baseURL}/s/${url}`;
+
 export default {
   name: "Post",
   components: { VoteGroup },
   props: { post: { type: Object, required: true } },
   data() {
     return {
-      imageUrl: `${baseURL}/s/${this.post.image}`,
+      imageUrl: this.post.image ? urlMapper(this.post.image) : "",
       score: this.post.score,
       voted: this.post.voted,
     };

@@ -18,7 +18,7 @@ app.use(require("cors")({
   origin: "http://localhost:4200",
   exposedHeaders: ["set-cookie"]
 }));
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: false }));
 app.use(require("cookie-parser")());
 app.use(require("./config/session"));

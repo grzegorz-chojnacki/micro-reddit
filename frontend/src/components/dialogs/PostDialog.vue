@@ -38,6 +38,14 @@
           class="form-control"
           rows="3" />
       </div>
+
+      <div>
+        <input
+          type="file"
+          class="form-control-file"
+          accept="image/*"
+          @change="loadImage">
+      </div>
     </form>
 
     <div class="modal-footer">
@@ -69,6 +77,7 @@ export default markRaw({
       title: "",
       content: "",
       video: "",
+      image: null
     };
   },
   computed: {
@@ -78,18 +87,20 @@ export default markRaw({
   },
   methods: {
     async create() {
-      try {
-        const id = getYoutubeVideoId(this.video);
-        await testYoutubeVideoId(id);
-      } catch (e) {
-        console.error(e);
+      if (this.video) {
+        try {
+          const id = getYoutubeVideoId(this.video);
+          await testYoutubeVideoId(id);
+        } catch (e) {
+          console.error(e);
+        }
       }
 
       const post = {
         title: this.title,
         content: this.content,
         video: this.video,
-        image: "",
+        image: this.image,
       };
 
       const postId = await postService.add(this.data.name, post);
@@ -100,6 +111,12 @@ export default markRaw({
         params: { redditName: this.data.name, postId }
       });
     },
+    loadImage({ target: { files } }) {
+      const reader = new FileReader();
+      reader.onload = ({ target: { result }}) => (this.image = result);
+
+      reader.readAsDataURL(files[0]);
+    }
   },
 });
 </script>

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const postService = require("../services/post");
 const { isAuthenticated, isSubscribed, isRedditMod } = require("../config/authentication");
-const { pagination } = require("../utils.js");
+const { pagination, redditNameToId } = require("../utils.js");
 
 const oneify = n => {
   if (n === 0) return 0;
@@ -20,7 +20,7 @@ router.route("/p")
   });
 
 // For posts
-router.route("/r/:redditId/p")
+router.route("/r/:redditName/p").all(redditNameToId)
   .get(async (req, res) => {
     const { redditId } = req.params;
     const { query, page } = pagination(req);
@@ -37,7 +37,7 @@ router.route("/r/:redditId/p")
   });
 
 // For post
-router.route("/r/:redditId/p/:postId")
+router.route("/r/:redditName/p/:postId").all(redditNameToId)
   .get(async (req, res) => {
     const { redditId, postId } = req.params;
 

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const redditService = require("../services/reddit");
-const { pagination } = require("../utils.js");
+const { pagination, redditNameToId } = require("../utils.js");
 const { isAuthenticated, isRedditMod } = require("../config/authentication");
 
 // For reddits
@@ -13,12 +13,12 @@ router.route("/r")
     res.json(reddits);
   })
   .post(isAuthenticated, async (req, res) => {
-    const id = await redditService.add(req.body, req.user.id);
-    res.json({ id });
+    const name = await redditService.add(req.body, req.user.id);
+    res.json({ name });
   });
 
 // For reddit
-router.route("/r/:redditId")
+router.route("/r/:redditName").all(redditNameToId)
   .get(async (req, res) => {
     const { redditId } = req.params;
     const reddit = await redditService.get(redditId, req.user?.id);
@@ -40,7 +40,7 @@ router.route("/r/:redditId")
   });
 
 // For reddit mods
-router.route("/r/:redditId/m/:username")
+router.route("/r/:redditName/m/:username").all(redditNameToId)
   .post(isRedditMod, async (req, res) => {
     try {
       const { redditId, username } = req.params;

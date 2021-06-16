@@ -3,7 +3,7 @@ const router = express.Router();
 const userService = require("../services/user");
 const postService = require("../services/post");
 const { isAuthenticated } = require("../config/authentication");
-const { pagination } = require("../utils.js");
+const { pagination, redditNameToId } = require("../utils.js");
 
 // For adding users
 router.route("/u")
@@ -38,7 +38,7 @@ router.route("/u").all(isAuthenticated)
   });
 
 // For logged user subscriptions
-router.route("/u/r/:redditId")
+router.route("/u/r/:redditName").all(redditNameToId)
   .patch(isAuthenticated, async (req, res) => {
     const userId = req.user.id;
     const { redditId } = req.params;

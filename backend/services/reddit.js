@@ -49,7 +49,7 @@ module.exports = ({
       VALUES ('${userId}', '${redditId}')
     `);
 
-    return redditId;
+    return reddit.name;
   },
 
   async update(reddit) {

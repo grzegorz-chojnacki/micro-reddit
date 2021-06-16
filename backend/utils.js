@@ -1,3 +1,20 @@
+const db = require("./config/db");
+
+const redditNameToId = async (req, res, next) => {
+  const { redditName } = req.params;
+
+  const { rows } = await db.query(`
+    SELECT id FROM subreddit WHERE name = '${redditName}'
+  `);
+
+  if (rows.length === 1) {
+    req.params.redditId = rows[0].id;
+    next();
+  } else {
+    res.sendStatus(400);
+  }
+};
+
 const v = {
   isNumber:     x => typeof x === "number" && !Number.isNaN(x),
   isString:     x => typeof x === "string",
@@ -33,8 +50,11 @@ const v = {
   }
 };
 
+
+
 module.exports = {
   pagination: req => ({ query: req.query.q || "", page: req.query.p  || 0 }),
+  redditNameToId,
   validator: v,
   limit: page => `LIMIT 10 OFFSET ${page * 10}`,
   newestOrder: "ORDER BY creation_date DESC"

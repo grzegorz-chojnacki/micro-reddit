@@ -45,14 +45,12 @@ module.exports = ({
 
   async add(redditId, userId, post) {
     const timestamp = new Date().toLocaleString("en-US");
+    let imageUrl = "";
 
-    const imageUrl = post.image
-      ? `${md5(post.image)}.${imageExt(post.image)}`
-      : "";
-
-    const image = imageStripMime(post.image);
-
-    await fsp.writeFile(`./storage/${imageUrl}`, image, "base64");
+    if (post.image) {
+      imageUrl = `${md5(post.image)}.${imageExt(post.image)}`;
+      await fsp.writeFile(`./storage/${imageUrl}`, imageStripMime(post.image), "base64");
+    }
 
     const postId = (await db.query(`
       INSERT INTO post

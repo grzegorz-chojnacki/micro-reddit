@@ -17,6 +17,17 @@
         <input
           id="nameReddit"
           v-model="name"
+          autocomplete="off"
+          type="text"
+          class="form-control">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Generated URL</label>
+        <input
+          id="redditUrl"
+          :value="`r/${urlified}`"
+          disabled
           type="text"
           class="form-control">
       </div>
@@ -49,6 +60,7 @@
 <script>
 import { redditService } from "@/services/redditService.js";
 import { markRaw } from "vue";
+import { urlify } from "@/common.js";
 
 export default markRaw({
   name: "RedditDialog",
@@ -62,14 +74,23 @@ export default markRaw({
   computed: {
     isInvalid() {
       return !this.name;
+    },
+    urlified() {
+      return urlify(this.name);
     }
   },
   methods: {
     async create() {
-      const redditName = await redditService.add(this.name, this.description);
+      const redditName = await redditService.add(this.urlified, this.description);
       this.$refs.dismiss.click();
       this.$router.push({ name: "reddit", params: { redditName } });
     },
   },
 });
 </script>
+
+<style lang="scss" scoped>
+#redditUrl {
+  font-family: monospace;
+}
+</style>

@@ -46,3 +46,10 @@ export const testYoutubeVideoId = async id => {
   console.log(data);
   return data !== "Not Found";
 };
+
+export const urlify = str => str
+  .replace(/ /g, "-")
+  .replace(/ł/g, "l")
+  .normalize("NFKD")                 // Normalize diacritics
+  .replace(/[^\w\s.\-_/]/g, "")      // Remove diacritic modifiers
+  .replace(/[^a-zA-Z0-9.~_-]/g, ""); // Remove all unallowed characters

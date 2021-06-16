@@ -93,8 +93,8 @@
 | -------------------- | ------------------------------------ |
 | `/`                  | Widok główny z najnowszymi postami   |
 | `/r?q=query`         | Widok listy redditów z wyszukiwaniem |
-| `/r/:reddit?q=query` | Widok reddita z listą postów         |
-| `/r/:reddit/p/:post` | Widok postu z komentarzami           |
+| `/r/:redditName?q=query` | Widok reddita z listą postów         |
+| `/r/:redditName/p/:post` | Widok postu z komentarzami           |
 
 | Użytkownik     | Opis                   |
 | -------------- | ---------------------- |
@@ -126,7 +126,7 @@
 - [AccountView](/account)
   - Ustawienia użytkownika
 
-- [RedditView](/r/:redditId)
+- [RedditView](/r/:redditName)
   - Pasek narzędziowy reddita
     - Pole wyszukiwania postów
     - Dodanie postu
@@ -138,7 +138,7 @@
     - Usunięcie reddita
   - Lista postów
 
-- [PostView](/r/:reddit/p/:postId)
+- [PostView](/r/:redditName/p/:postId)
   - Post
     - Treść postu
     - Głosowanie
@@ -156,9 +156,9 @@
 | POST   | `/api/login`                        | creds   | Logowanie        |
 | POST   | `/api/logout`                       |         | Wylogowanie      |
 | GET    | `/api/r?q=query&p=page`             |         | Paczka redditów  |
-| GET    | `/api/r/:redditId`                  |         | Metadane reddita |
-| GET    | `/api/r/:redditId/p?q=query&p=page` |         | Paczka postów    |
-| WS     | `/api/r/:redditId/p/:postId`        |         | Pokój postu      |
+| GET    | `/api/r/:redditName`                  |         | Metadane reddita |
+| GET    | `/api/r/:redditName/p?q=query&p=page` |         | Paczka postów    |
+| WS     | `/api/r/:redditName/p/:postId`        |         | Pokój postu      |
 
 | Metoda | Użytkownik                        | Payload | Opis               |
 | ------ | --------------------------------- | ------- | ------------------ |
@@ -167,16 +167,16 @@
 | PUT    | `/api/u/`                         | user    | Modyfikacja konta  |
 | DELETE | `/api/u/`                         |         | Usunięcie konta    |
 | POST   | `/api/u/password`                 | email   | Zresetowanie hasła |
-| PATCH  | `/api/u/r/:redditId`              | state   | Zmiana subskrybcji |
+| PATCH  | `/api/u/r/:redditName`              | state   | Zmiana subskrybcji |
 | POST   | `/api/r`                          | reddit  | Dodanie reddita    |
-| POST   | `/api/r/:redditId/p`              | post    | Dodanie postu      |
-| PATCH  | `/api/r/:redditId/p/:postId/vote` | -1/0/-1 | Głosowanie na post |
+| POST   | `/api/r/:redditName/p`              | post    | Dodanie postu      |
+| PATCH  | `/api/r/:redditName/p/:postId/vote` | -1/0/-1 | Głosowanie na post |
 
 | Metoda | Moderator                      | Payload | Opis               |
 | ------ | ------------------------------ | ------- | ------------------ |
-| PUT    | `/api/r/:redditId`             | reddit  | Edycja metadanych  |
-| POST   | `/api/r/:redditId/m/:username` |         | Dodanie moderatora |
-| DELETE | `/api/r/:redditId/p/:postId`   |         | Usunięcie postu    |
+| PUT    | `/api/r/:redditName`             | reddit  | Edycja metadanych  |
+| POST   | `/api/r/:redditName/m/:username` |         | Dodanie moderatora |
+| DELETE | `/api/r/:redditName/p/:postId`   |         | Usunięcie postu    |
 
 | Metoda | Administrator    | Payload | Opis                   |
 | ------ | ---------------- | ------- | ---------------------- |

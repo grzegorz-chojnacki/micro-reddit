@@ -35,18 +35,19 @@ module.exports = ({
   async add(reddit, userId) {
     const redditId = (await db.query(`
       INSERT INTO subreddit (name, description)
-      VALUES ('${reddit.name}', '${reddit.description}')
+      SELECT '${reddit.name}', '${reddit.description}'
+      WHERE NOT EXISTS (SELECT * FROM subreddit WHERE name = '${reddit.name}')
       RETURNING id
     `)).rows[0].id;
 
     await db.query(`
       INSERT INTO subreddit_moderator (user_id, subreddit_id)
-      VALUES ('${userId}', '${redditId}')
+      VALUES (${userId}, ${redditId})
     `);
 
     await db.query(`
       INSERT INTO subreddit_user (user_id, subreddit_id)
-      VALUES ('${userId}', '${redditId}')
+      VALUES (${userId}, ${redditId})
     `);
 
     return reddit.name;
@@ -63,17 +64,17 @@ module.exports = ({
   },
 
   async addMod(redditId, username) {
-    const userId = (await db.query(`
+    const modId = (await db.query(`
       SELECT id FROM reddit_user
       WHERE nickname = '${username}'
     `)).rows[0].id;
 
     return await db.query(`
       INSERT INTO subreddit_moderator (subreddit_id, user_id)
-      SELECT ${redditId}, ${userId}
+      SELECT ${redditId}, ${modId}
       WHERE NOT EXISTS (
         SELECT * FROM subreddit_moderator AS sm
-        WHERE sm.user_id = ${userId} AND sm.subreddit_id = ${redditId})
+        WHERE sm.user_id = ${modId} AND sm.subreddit_id = ${redditId})
     `);
   },
 

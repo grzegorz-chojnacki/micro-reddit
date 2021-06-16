@@ -67,7 +67,7 @@
         ref="dismiss"
         type="button"
         class="btn btn-secondary"
-        @click="close">
+        data-bs-dismiss="modal">
         Close
       </button>
       <button type="button" class="btn btn-primary" :disabled="isInvalid" @click="register">
@@ -98,10 +98,6 @@ export default markRaw({
     }
   },
   methods: {
-    close() {
-      this.$emit("close", 1);
-    },
-
     async register() {
       for (const input in this.$refs) {
         this.$refs[input].classList.remove("is-invalid");

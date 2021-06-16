@@ -2,7 +2,7 @@ import { Subject } from "@/common";
 
 const componentSource = Subject({ component: null, data: null });
 const nullResolve = () => {
-  throw new Error();
+  throw new Error("Previous dialog has been already resolved!");
 };
 
 let resolveHandle = nullResolve;

@@ -1,5 +1,5 @@
 <template>
-  <div class="btn-group" role="group" aria-label="Basic outlined example">
+  <div class="btn-group" role="group" aria-label="Post voting">
     <button :class="isSelected(+1)" @click="vote(+1)">
       <span class="material-icons add">add</span>
     </button>

@@ -5,7 +5,7 @@
         <router-link
           :to="{
             name: 'reddit',
-            params: { redditId: reddit.id },
+            params: { redditName: reddit.name },
           }">
           {{ reddit.name }}
         </router-link>
@@ -30,7 +30,7 @@ export default {
   emits: ["subscription"],
   methods: {
     setSubscribe(state) {
-      this.$emit("subscription", { redditId: this.reddit.id, state });
+      this.$emit("subscription", { redditName: this.reddit.name, state });
     }
   }
 };

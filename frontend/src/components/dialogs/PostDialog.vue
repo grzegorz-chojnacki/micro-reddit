@@ -92,12 +92,12 @@ export default markRaw({
         image: "",
       };
 
-      const postId = await postService.add(this.data.redditId, post);
+      const postId = await postService.add(this.data.name, post);
 
       this.$refs.dismiss.click();
       this.$router.push({
         name: "post",
-        params: { redditId: this.data.redditId, postId }
+        params: { redditName: this.data.name, postId }
       });
     },
   },

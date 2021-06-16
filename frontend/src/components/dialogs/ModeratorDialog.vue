@@ -61,7 +61,7 @@ export default markRaw({
   },
   methods: {
     add() {
-      redditService.addMod(this.data.id , this.username);
+      redditService.addMod(this.data.name , this.username);
       this.$refs.dismiss.click();
     },
   },

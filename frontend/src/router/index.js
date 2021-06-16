@@ -36,13 +36,13 @@ const routes = [
     component: RedditListView
   },
   {
-    path: "/r/:redditId",
+    path: "/r/:redditName",
     name: "reddit",
     props: true,
     component: RedditView
   },
   {
-    path: "/r/:redditId/p/:postId",
+    path: "/r/:redditName/p/:postId",
     name: "post",
     props: true,
     component: PostView

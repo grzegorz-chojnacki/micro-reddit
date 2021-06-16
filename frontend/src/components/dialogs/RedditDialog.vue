@@ -66,9 +66,9 @@ export default markRaw({
   },
   methods: {
     async create() {
-      const redditId = await redditService.add(this.name, this.description);
+      const redditName = await redditService.add(this.name, this.description);
       this.$refs.dismiss.click();
-      this.$router.push({ name: "reddit", params: { redditId } });
+      this.$router.push({ name: "reddit", params: { redditName } });
     },
   },
 });

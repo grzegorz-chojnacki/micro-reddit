@@ -25,10 +25,10 @@ export default {
     RedditToolbar,
     Feed,
   },
-  props: { redditId: { type: String, required: true } },
+  props: { redditName: { type: String, required: true } },
   data() {
     return {
-      fetchReddit: postService.getAllReddit(this.redditId),
+      fetchReddit: postService.getAllReddit(this.redditName),
       reddit: null,
     };
   },
@@ -36,11 +36,11 @@ export default {
     redditService.reddit.subscribe((reddit) => (this.reddit = reddit));
   },
   async mounted() {
-    await redditService.get(this.redditId);
+    await redditService.get(this.redditName);
   },
   methods: {
     setSubscribe(state) {
-      redditService.setSubscribe(this.reddit.id, state);
+      redditService.setSubscribe(this.reddit.name, state);
     }
   }
 };

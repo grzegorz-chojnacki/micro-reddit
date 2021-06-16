@@ -5,7 +5,7 @@
         <router-link
           :to="{
             name: 'post',
-            params: { redditId: post.reddit.id, postId: post.id },
+            params: { redditName: post.reddit.name, postId: post.id },
           }">
           {{ post.title }}
         </router-link>
@@ -15,7 +15,7 @@
           Posted by <strong>{{ post.user?.username }}</strong> at
         </span>
         <router-link
-          :to="{ name: 'reddit', params: { redditId: post.reddit.id } }">
+          :to="{ name: 'reddit', params: { redditName: post.reddit.name } }">
           {{ post.reddit.name }}
         </router-link>
       </h6>
@@ -43,7 +43,7 @@
 
       <router-link
         class="btn mx-3"
-        :to="`/r/${post.reddit.id}/p/${post.id}#comments`">
+        :to="`/r/${post.reddit.name}/p/${post.id}#comments`">
         Comments
       </router-link>
     </footer>
@@ -76,7 +76,7 @@ export default {
       return `https://www.youtube.com/embed/${getYoutubeVideoId(url)}`;
     },
     async onVote(state) {
-      const { score } = await postService.vote(this.post.reddit.id, this.post.id, state);
+      const { score } = await postService.vote(this.post.reddit.name, this.post.id, state);
       this.score = score;
       this.voted = state;
     }

@@ -27,7 +27,7 @@ export default {
   name: "PostView",
   components: { Post, Comment, LoadingIndicator },
   props: {
-    redditId: { type: String, required: true },
+    redditName: { type: String, required: true },
     postId: { type: String, required: true },
   },
   data() {
@@ -50,7 +50,7 @@ export default {
   methods: {
     fetchPost() {
       this.postService
-        .get(this.redditId, this.postId)
+        .get(this.redditName, this.postId)
         .then((post) => (this.post = post));
     },
 

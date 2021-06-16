@@ -9,7 +9,7 @@
 
     <Reddit
       v-for="reddit of reddits"
-      :key="reddit.id"
+      :key="reddit.name"
       class="my-2"
       :reddit="reddit"
       @subscription="setSubscribe" />
@@ -56,10 +56,10 @@ export default {
       this.page = 0;
       this.fetchNext();
     },
-    setSubscribe({ redditId, state }) {
-      redditService.setSubscribe(redditId, state)
+    setSubscribe({ redditName, state }) {
+      redditService.setSubscribe(redditName, state)
         .then(state => {
-          const reddit = this.reddits.find(reddit => reddit.id === redditId);
+          const reddit = this.reddits.find(reddit => reddit.name === redditName);
           reddit.subscribed = state;
         });
     },

@@ -30,7 +30,7 @@
         frameborder="0" /> -->
 
       <div v-if="post.image" class="img-container rounded-2 bg-dark mb-3">
-        <img :src="post.image" :alt="post.title">
+        <img :src="imageUrl" :alt="post.title">
       </div>
 
       <p v-if="post.content" class="card-text">
@@ -53,7 +53,7 @@
 <script>
 import VoteGroup from "@/components/VoteGroup.vue";
 import { postService } from "@/services/postService.js";
-import { getYoutubeVideoId } from "@/common.js";
+import { getYoutubeVideoId, baseURL } from "@/common.js";
 
 export default {
   name: "Post",
@@ -61,8 +61,9 @@ export default {
   props: { post: { type: Object, required: true } },
   data() {
     return {
+      imageUrl: `${baseURL}/s/${this.post.image}`,
       score: this.post.score,
-      voted: this.post.voted
+      voted: this.post.voted,
     };
   },
   watch: {
@@ -96,6 +97,7 @@ section {
   img {
     box-shadow: 0 0 1em black;
     display: block;
+    max-width: 100%;
     margin: 0 auto;
   }
 }

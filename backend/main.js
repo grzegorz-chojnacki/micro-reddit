@@ -43,6 +43,7 @@ app.post("/api/logout", (req, res) => {
 // Routes & services
 const path = require("path");
 app.use("/", express.static(path.join(__dirname, "../frontend/dist")));
+app.use("/api/s", express.static("./storage/"));
 
 app.use("/api", require("./routes/user"));
 app.use("/api", require("./routes/reddit"));

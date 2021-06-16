@@ -67,10 +67,10 @@
         ref="dismiss"
         type="button"
         class="btn btn-secondary"
-        data-bs-dismiss="modal">
+        @click="close">
         Close
       </button>
-      <button type="button" class="btn btn-primary" :disabled="isInvalid" @click="close">
+      <button type="button" class="btn btn-primary" :disabled="isInvalid" @click="register">
         Register
       </button>
     </div>

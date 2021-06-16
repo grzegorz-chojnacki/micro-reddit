@@ -31,7 +31,7 @@
   - [x] **DST** Możliwość przechodzenia pomiędzy subredditami
   - [x] **DST** Głosowanie na posty
     > (głos za/przeciw - można oddać tylko jeden)
-  - [ ] **DST** Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
+  - [x] **DST** Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
   - [ ] **DST** Dynamiczny (***BDB*** i hierarchiczny) system komentarzy (socket.io)
     > (aktywni użytkownicy widzą komentarze w momencie ich dodania; komentarze/posty po usunięciu przez moderatora znikają)
 - [ ] Wymagane podstrony
@@ -73,7 +73,7 @@
   - [x] Tworzenie postów w ramach danego (sub)reddita
   - [x] Możliwość przechodzenia pomiędzy subredditami
   - [x] Głosowanie na posty
-  - [ ] Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
+  - [x] Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
   - [ ] Dynamiczny system komentarzy (socket.io)
 - [x] Home użytkownika
 - [ ] Wyszukiwarka (postów według treści/subredditów według nazwy)

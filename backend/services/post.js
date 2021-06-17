@@ -32,6 +32,23 @@ const postMapper = ({
   reddit: { id: reddit_id, name: reddit_name }
 });
 
+const queryResolver = (query = "") => {
+  console.log(query);
+  const match = query.match(/(.*);(title|content|both)?/);
+
+  if (!match) {
+    return `title LIKE '%${query}%'`;
+  }
+
+  // eslint-disable-next-line no-unused-vars
+  const [_, searchStr, searchType = "title"] = match;
+  if (searchType === "both") {
+    return `(title LIKE '%${searchStr}%' OR content LIKE '%${searchStr}%')`;
+  } else {
+    return `${searchType} LIKE '%${searchStr}%'`;
+  }
+};
+
 module.exports = ({
   async get(redditId, postId, userId) {
     const data = (await db.query(`
@@ -62,17 +79,6 @@ module.exports = ({
     `)).rows[0].id;
 
     return postId;
-  },
-
-  async getAll(redditId, userId, page, query) {
-    const { rows } = await db.query(`
-      ${getPostQuery("p.id", userId)}
-      WHERE title LIKE '%${query}%' AND subreddit_id = ${redditId}
-      ${newestOrder}
-      ${limit(page)}
-    `);
-
-    return rows.map(postMapper);
   },
 
   async delete(redditId, postId) {
@@ -112,6 +118,17 @@ module.exports = ({
       WHERE post_id = ${postId}
     `)).rows[0];
     return { score: Number(score) };
+  },
+
+  async getAll(redditId, userId, page, query) {
+    const { rows } = await db.query(`
+      ${getPostQuery("p.id", userId)}
+      WHERE ${queryResolver(query)} AND subreddit_id = ${redditId}
+      ${newestOrder}
+      ${limit(page)}
+    `);
+
+    return rows.map(postMapper);
   },
 
   async getMain(userId, page, /* query */) {

@@ -1,0 +1,75 @@
+<template>
+  <div>
+    <div class="modal-header">
+      <h5 class="modal-title">
+        Change username
+      </h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close" />
+    </div>
+
+    <form class="modal-body" @submit.prevent="">
+      <div class="mb-3">
+        <label for="username" class="form-label">New username</label>
+        <input
+          id="username"
+          v-model="username"
+          type="text"
+          class="form-control"
+          autocomplete="username">
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input
+          id="password"
+          v-model="password"
+          type="password"
+          class="form-control"
+          autocomplete="current-password">
+      </div>
+    </form>
+
+    <div class="modal-footer">
+      <button
+        ref="dismiss"
+        type="button"
+        class="btn btn-secondary"
+        data-bs-dismiss="modal">
+        Close
+      </button>
+      <button type="button" class="btn btn-primary" :disabled="isInvalid" @click="setUsername">
+        Change
+      </button>
+    </div>
+  </div>
+</template>
+
+<script>
+import { userService } from "@/services/userService.js";
+import { markRaw } from "vue";
+
+export default markRaw({
+  name: "UsernameDialog",
+  emits: ["close"],
+  data() {
+    return {
+      username: "",
+      password: "",
+    };
+  },
+  computed: {
+    isInvalid() {
+      return !(this.username && this.password);
+    }
+  },
+  methods: {
+    setUsername() {
+      userService.setUsername(this.username, this.password);
+      this.$refs.dismiss.click();
+    },
+  },
+});
+</script>

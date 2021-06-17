@@ -54,11 +54,17 @@ import { markRaw } from "vue";
 export default markRaw({
   name: "EmailDialog",
   emits: ["close"],
+  props: { data: { type: Object, default: () => {}}},
   data() {
     return {
       email: "",
       password: "",
     };
+  },
+  watch: {
+    data() {
+      this.email = this.data?.email || "";
+    }
   },
   computed: {
     isInvalid() {

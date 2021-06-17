@@ -8,21 +8,21 @@
 
     <div class="card-body">
       <ul class="list-group list-group-flush">
-        <button class="list-group-item list-group-item-action" @click="open(UsernameDialog)">
+        <button class="list-group-item list-group-item-action" @click="openUsernameDialog">
           <span>Username</span>
           <span class="spacer" />
-          <span class="text-secondary">flutherhole</span>
+          <span class="text-secondary">{{ user.username }}</span>
           <span class="material-icons">chevron_right</span>
         </button>
 
-        <button class="list-group-item list-group-item-action" @click="open(EmailDialog)">
+        <button class="list-group-item list-group-item-action" @click="openEmailDialog">
           <span>Email</span>
           <span class="spacer" />
-          <span class="text-secondary">flutherhole@gmail.com</span>
+          <span class="text-secondary">{{ user.email }}</span>
           <span class="material-icons">chevron_right</span>
         </button>
 
-        <button class="list-group-item list-group-item-action" @click="open(PasswordDialog)">
+        <button class="list-group-item list-group-item-action" @click="openPasswordDialog">
           <span>Password</span>
           <span class="spacer" />
           <span class="text-secondary">********</span>
@@ -38,17 +38,29 @@ import UsernameDialog from "@/components/dialogs/UsernameDialog.vue";
 import PasswordDialog from "@/components/dialogs/PasswordDialog.vue";
 import EmailDialog from "@/components/dialogs/EmailDialog.vue";
 import { dialogService } from "@/services/dialogService.js";
+import { userService } from "@/services/userService.js";
 
 export default {
   name: "AccountView",
   data() {
-    return { UsernameDialog, PasswordDialog, EmailDialog };
+    return {
+      user: null,
+    };
+  },
+  created() {
+    userService.user.subscribe(user => this.user = user);
   },
   methods: {
-    open(dialog) {
-      dialogService.open(dialog).then();
-    }
-  }
+    openUsernameDialog() {
+      dialogService.open(UsernameDialog, this.user).then();
+    },
+    openPasswordDialog() {
+      dialogService.open(PasswordDialog, this.user).then();
+    },
+    openEmailDialog() {
+      dialogService.open(EmailDialog, this.user).then();
+    },
+  },
 };
 </script>
 

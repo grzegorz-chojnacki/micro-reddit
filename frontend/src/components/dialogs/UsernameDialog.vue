@@ -54,11 +54,17 @@ import { markRaw } from "vue";
 export default markRaw({
   name: "UsernameDialog",
   emits: ["close"],
+  props: { data: { type: Object, default: () => {}}},
   data() {
     return {
       username: "",
       password: "",
     };
+  },
+  watch: {
+    data() {
+      this.username = this.data?.username || "";
+    }
   },
   computed: {
     isInvalid() {

@@ -4,11 +4,11 @@ const db = require("./db");
 
 passport.use(new passportLocal.Strategy(async (username, password, done) => {
   try {
-    const { id } = (await db.query(`
-      SELECT id FROM reddit_user
+    const { id, email } = (await db.query(`
+      SELECT id, email FROM reddit_user
       WHERE nickname = '${username}' AND password = '${password}'
     `)).rows[0];
-    done(null, { id, username });
+    done(null, { id, username, email });
     //  return done(null, false, { message: 'Incorrect credentials.' });
   } catch (err) {
     done(err);

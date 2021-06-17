@@ -33,7 +33,6 @@ const postMapper = ({
 });
 
 const queryResolver = (query = "") => {
-  console.log(query);
   const match = query.match(/(.*);(title|content|both)?/);
 
   if (!match) {

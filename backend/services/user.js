@@ -2,8 +2,8 @@ const db = require("../config/db");
 
 module.exports = ({
   async get(userId) {
-    const { id, username, role } = (await db.query(`
-      SELECT ru.id, nickname AS username, role_name AS role
+    const { id, username, email, role } = (await db.query(`
+      SELECT ru.id, nickname AS username, email, role_name AS role
       FROM reddit_user AS ru
       LEFT JOIN user_role AS ur
         ON ur.id = ru.id
@@ -11,7 +11,7 @@ module.exports = ({
       WHERE ru.id = ${userId}
     `)).rows[0];
 
-    return { id, username, admin: role === "administrator" };
+    return { id, username, email, admin: role === "administrator" };
   },
 
   async add(user) {

@@ -3,9 +3,9 @@
 
   <DialogRoot />
 
-  <main>
+  <div id="router">
     <router-view />
-  </main>
+  </div>
 </template>
 
 <script>
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style scoped>
-main {
+#router {
   max-width: 1000px;
   min-height: 100vh;
   padding: 0.5em;

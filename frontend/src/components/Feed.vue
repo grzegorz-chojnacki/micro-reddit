@@ -19,7 +19,7 @@
 import Post from "@/components/Post.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import { userService } from "@/services/userService.js";
-import { Range, scrollToBottom } from "@/common.js";
+import { Range, atPageBottom } from "@/common.js";
 
 export default {
   name: "Feed",
@@ -51,7 +51,7 @@ export default {
   },
   created() {
     this.fetchNext();
-    window.onscroll = scrollToBottom(() => this.fetchNext());
+    window.onscroll = atPageBottom(() => this.fetchNext());
     userService.isAuthenticated.subscribe(() => {
       this.refetch();
     });

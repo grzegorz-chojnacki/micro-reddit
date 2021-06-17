@@ -31,9 +31,9 @@ export const Subject = value => {
   };
 };
 
-export const Range = (count) => new Array(count).fill().map((n, i) => i);
+export const Range = (count) => new Array(count).fill().map((_, i) => i);
 
-export const scrollToBottom = cb => () => {
+export const atPageBottom = cb => () => {
   const scrollHeight = window.pageYOffset + window.innerHeight;
   const fullHeight = document.documentElement.offsetHeight;
 

@@ -22,7 +22,7 @@
 import Reddit from "@/components/Reddit.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import { redditService } from "@/services/redditService";
-import { scrollToBottom } from "@/common";
+import { atPageBottom } from "@/common";
 
 export default {
   name: "RedditListView",
@@ -45,7 +45,7 @@ export default {
   },
   mounted() {
     this.fetchNext();
-    window.onscroll = scrollToBottom(() => this.fetchNext());
+    window.onscroll = atPageBottom(() => this.fetchNext());
   },
   methods: {
     setSubscribe({ redditName, state }) {

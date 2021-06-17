@@ -39,7 +39,7 @@
      - [ ] Opcje sortowania (Best, Hot - Tempo przyrostu polubień, New)
 
 ## Pozostałe funkcjonalności
-- [ ] **DST** Wyszukiwarka (postów według treści/subredditów według nazwy)
+- [x] **DST** Wyszukiwarka (postów według treści/subredditów według nazwy)
   > (pole/pola tekstowe z ewentualnym "przełącznikiem" treść/nazwa)
 - [ ] ***BDB*** Powiadomienia o odpowiedziach lub zmianach w trendach dotyczący postów danego użytkownika (socket.io)
 - [ ] **DST** Wybór popularnych (według liczby postów i liczby użytkowników) subredditów
@@ -76,7 +76,7 @@
   - [x] Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
   - [ ] Dynamiczny system komentarzy (socket.io)
 - [x] Home użytkownika
-- [ ] Wyszukiwarka (postów według treści/subredditów według nazwy)
+- [x] Wyszukiwarka (postów według treści/subredditów według nazwy)
 - [ ] Wybór popularnych (według liczby postów i liczby użytkowników) subredditów
 
 ## Wersja **DB**
@@ -89,10 +89,10 @@
 # Reddit API
 ## Frontend
 ### Ścieżki
-| Publiczne            | Opis                                 |
-| -------------------- | ------------------------------------ |
-| `/`                  | Widok główny z najnowszymi postami   |
-| `/r?q=query`         | Widok listy redditów z wyszukiwaniem |
+| Publiczne                | Opis                                 |
+| ------------------------ | ------------------------------------ |
+| `/`                      | Widok główny z najnowszymi postami   |
+| `/r?q=query`             | Widok listy redditów z wyszukiwaniem |
 | `/r/:redditName?q=query` | Widok reddita z listą postów         |
 | `/r/:redditName/p/:post` | Widok postu z komentarzami           |
 
@@ -149,31 +149,31 @@
     - Usunięcie użytkownika (administrator)
 
 ## Backend
-| Metoda | Publiczny                           | Payload | Opis             |
-| ------ | ----------------------------------- | ------- | ---------------- |
-| GET    | `/`                                 |         | Frontend         |
-| POST   | `/api/u`                            | user    | Rejestracja      |
-| POST   | `/api/login`                        | creds   | Logowanie        |
-| POST   | `/api/logout`                       |         | Wylogowanie      |
-| GET    | `/api/r?q=query&p=page`             |         | Paczka redditów  |
+| Metoda | Publiczny                             | Payload | Opis             |
+| ------ | ------------------------------------- | ------- | ---------------- |
+| GET    | `/`                                   |         | Frontend         |
+| POST   | `/api/u`                              | user    | Rejestracja      |
+| POST   | `/api/login`                          | creds   | Logowanie        |
+| POST   | `/api/logout`                         |         | Wylogowanie      |
+| GET    | `/api/r?q=query&p=page`               |         | Paczka redditów  |
 | GET    | `/api/r/:redditName`                  |         | Metadane reddita |
 | GET    | `/api/r/:redditName/p?q=query&p=page` |         | Paczka postów    |
 | WS     | `/api/r/:redditName/p/:postId`        |         | Pokój postu      |
 
-| Metoda | Użytkownik                        | Payload | Opis               |
-| ------ | --------------------------------- | ------- | ------------------ |
-| GET    | `/api/u`                          |         | Dane konta         |
-| GET    | `/api/u/home?q=query&p=page`      |         | Paczka redditów    |
-| PUT    | `/api/u/`                         | user    | Modyfikacja konta  |
-| DELETE | `/api/u/`                         |         | Usunięcie konta    |
-| POST   | `/api/u/password`                 | email   | Zresetowanie hasła |
+| Metoda | Użytkownik                          | Payload | Opis               |
+| ------ | ----------------------------------- | ------- | ------------------ |
+| GET    | `/api/u`                            |         | Dane konta         |
+| GET    | `/api/u/home?q=query&p=page`        |         | Paczka redditów    |
+| PUT    | `/api/u/`                           | user    | Modyfikacja konta  |
+| DELETE | `/api/u/`                           |         | Usunięcie konta    |
+| POST   | `/api/u/password`                   | email   | Zresetowanie hasła |
 | PATCH  | `/api/u/r/:redditName`              | state   | Zmiana subskrybcji |
-| POST   | `/api/r`                          | reddit  | Dodanie reddita    |
+| POST   | `/api/r`                            | reddit  | Dodanie reddita    |
 | POST   | `/api/r/:redditName/p`              | post    | Dodanie postu      |
 | PATCH  | `/api/r/:redditName/p/:postId/vote` | -1/0/-1 | Głosowanie na post |
 
-| Metoda | Moderator                      | Payload | Opis               |
-| ------ | ------------------------------ | ------- | ------------------ |
+| Metoda | Moderator                        | Payload | Opis               |
+| ------ | -------------------------------- | ------- | ------------------ |
 | PUT    | `/api/r/:redditName`             | reddit  | Edycja metadanych  |
 | POST   | `/api/r/:redditName/m/:username` |         | Dodanie moderatora |
 | DELETE | `/api/r/:redditName/p/:postId`   |         | Usunięcie postu    |

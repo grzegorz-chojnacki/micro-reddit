@@ -33,6 +33,15 @@ export const Subject = value => {
 
 export const Range = (count) => new Array(count).fill().map((n, i) => i);
 
+export const scrollToBottom = cb => () => {
+  const scrollHeight = window.pageYOffset + window.innerHeight;
+  const fullHeight = document.documentElement.offsetHeight;
+
+  if (scrollHeight >= fullHeight - 100) {
+    cb();
+  }
+};
+
 export const getYoutubeVideoId = url => {
   const split = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/|\/e\/)/);
   return (split[2] !== undefined)

@@ -17,9 +17,9 @@
         <input
           id="passwordOld"
           v-model="passwordOld"
-          type="text"
+          type="password"
           class="form-control"
-          autocomplete="passwordOld">
+          autocomplete="current-password">
       </div>
 
       <div class="mb-3">
@@ -27,9 +27,9 @@
         <input
           id="passwordNew"
           v-model="passwordNew"
-          type="text"
+          type="password"
           class="form-control"
-          autocomplete="passwordNew">
+          autocomplete="new-password">
       </div>
 
       <div class="mb-3">
@@ -37,9 +37,9 @@
         <input
           id="passwordRetype"
           v-model="passwordRetype"
-          type="passwordRetype"
+          type="password"
           class="form-control"
-          autocomplete="current-passwordRetype">
+          autocomplete="new-password">
       </div>
     </form>
 
@@ -74,7 +74,7 @@ export default markRaw({
   },
   computed: {
     isInvalid() {
-      return !(this.passwordNew && this.passwordRetype);
+      return !(this.passwordOld && this.passwordNew && this.passwordNew === this.passwordRetype);
     }
   },
   methods: {

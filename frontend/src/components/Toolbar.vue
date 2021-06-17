@@ -47,11 +47,15 @@
           </li>
         </ul>
 
-        <span v-if="isAuthenticated" id="username" class="navbar-text">
-          {{ user.username }}
-        </span>
-
         <form class="d-flex" @submit.prevent="onSubmit">
+          <ul v-if="isAuthenticated" class="navbar-nav me-auto mb-2 mb-sm-0">
+            <li class="nav-item">
+              <router-link id="username" class="nav-link" :to="{ name: 'account' }">
+                {{ user.username }}
+              </router-link>
+            </li>
+          </ul>
+
           <input
             v-model="search"
             class="form-control me-2"

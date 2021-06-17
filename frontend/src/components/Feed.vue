@@ -19,14 +19,24 @@ const offset = 100;
 export default {
   name: "Feed",
   components: { Post, LoadingIndicator },
-  props: { fetchingFn: { type: Function, required: true } },
+  props: {
+    fetchingFn: { type: Function, required: true },
+    query: { type: String, default: "" },
+  },
   data() {
     return {
       page: 0,
-      query: "",
       posts: [],
       sourceExhausted: false,
     };
+  },
+  watch: {
+    query() {
+      this.page = 0;
+      this.posts = [];
+      this.sourceExhausted = false;
+      this.fetchNext();
+    }
   },
   created() {
     this.fetchNext();
@@ -55,7 +65,7 @@ export default {
     async refetch() {
       const pages = Range(this.page).map(page => this.fetchingFn(page, this.query));
       this.posts = (await Promise.all(pages)).flat();
-    }
+    },
   },
 };
 </script>

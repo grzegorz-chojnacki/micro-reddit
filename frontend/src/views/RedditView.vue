@@ -5,8 +5,8 @@
     </aside>
 
     <section>
-      <RedditToolbar v-if="reddit" :reddit="reddit" />
-      <Feed :fetching-fn="fetchReddit" />
+      <RedditToolbar v-if="reddit" :reddit="reddit" @search="search" />
+      <Feed :fetching-fn="fetchReddit" :query="query" />
     </section>
   </main>
 </template>
@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       fetchReddit: postService.getAllReddit(this.redditName),
+      query: "",
       reddit: null,
     };
   },
@@ -41,7 +42,10 @@ export default {
   methods: {
     setSubscribe(state) {
       redditService.setSubscribe(this.reddit.name, state);
-    }
+    },
+    search(query) {
+      this.query = query;
+    },
   }
 };
 </script>
@@ -52,7 +56,7 @@ main {
   grid-template: "feed";
   gap: 1em;
 
-  @media screen and (min-width: 800px) {
+  @media screen and (min-width: 875px) {
     grid-template: "feed aside";
     grid-template-columns: auto 300px;
     aside {

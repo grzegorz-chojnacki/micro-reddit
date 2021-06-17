@@ -9,14 +9,14 @@
           Post
         </button>
 
-        <label class="me-2" for="sorting">Sort:</label>
+        <label class="me-2" for="sortType">Sort:</label>
         <select
-          id="sorting"
+          id="sortType"
           v-model="sort"
           disabled
           class="form-select"
           aria-label="Default select example">
-          <option value="new" selected>
+          <option value="new">
             New
           </option>
           <option value="hot">
@@ -29,13 +29,32 @@
       </div>
 
       <form class="d-flex" @submit.prevent="">
-        <input
-          v-model="search"
-          class="form-control me-2"
-          type="search"
-          placeholder="Post title"
-          aria-label="Search">
-        <button class="btn" type="submit" :disabled="search == ''">
+        <div class="input-group">
+          <input
+            v-model="search"
+            class="form-control"
+            type="search"
+            placeholder="Search posts"
+            aria-label="Search">
+
+          <select v-model="searchType" class="form-select search-type">
+            <option value="title">
+              By title
+            </option>
+            <option value="content">
+              By content
+            </option>
+            <option value="both">
+              By both
+            </option>
+          </select>
+        </div>
+
+        <button
+          class="btn"
+          type="submit"
+          :disabled="search === ''"
+          @click="onSearch">
           <span class="material-icons search">search</span>
         </button>
       </form>
@@ -52,15 +71,20 @@ export default {
   props: {
     reddit: { type: Object, required: true }
   },
+  emits: [ "search" ],
   data() {
     return {
       sort: "new",
+      searchType: "title",
       search: "",
     };
   },
   methods: {
     openPostDialog() {
       dialogService.open(PostDialog, { ...this.reddit });
+    },
+    onSearch() {
+      this.$emit("search", this.search);
     }
   }
 };
@@ -70,5 +94,12 @@ export default {
   button.btn {
     display: inline-flex;
     align-items: center;
+  }
+
+  form {
+    .input-group {
+      input  { flex-grow: 2 }
+      select { flex-grow: 1 }
+    }
   }
 </style>

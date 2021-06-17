@@ -1,5 +1,12 @@
 <template>
   <div>
+    <h2 v-if="query" class="my-3">
+      <router-link :to="{ name: 'reddit' }" class="text-reset">
+        <span class="material-icons clear">clear</span>
+      </router-link>
+      Results for "{{ queryStr }}":
+    </h2>
+
     <section>
       <Post v-for="post of posts" :key="post.id" :post="post" />
     </section>
@@ -21,10 +28,17 @@ export default {
   data() {
     return {
       page: 0,
-      query: "",
+      query: this.$route.query.q || "",
       posts: [],
       sourceExhausted: false,
     };
+  },
+  computed: {
+    queryStr() {
+      return this.query ?
+        this.query.replace(/(.*);(.*)/, (_, search) => search )
+        : "";
+    }
   },
   watch: {
     $route() {
@@ -56,6 +70,9 @@ export default {
       const pages = Range(this.page).map(page => this.fetchingFn(page, this.query));
       this.posts = (await Promise.all(pages)).flat();
     },
+    clearQuery() {
+      this.$router.push({ name: "reddit-list" });
+    }
   },
 };
 </script>

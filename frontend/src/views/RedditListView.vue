@@ -1,9 +1,9 @@
 <template>
   <main>
     <h2 v-if="query" class="my-3">
-      <button class="btn" @click="clearQuery">
+      <router-link :to="{ name: 'reddit-list' }" class="text-reset">
         <span class="material-icons clear">clear</span>
-      </button>
+      </router-link>
       Results for "{{ query }}":
     </h2>
 
@@ -54,9 +54,6 @@ export default {
           const reddit = this.reddits.find(reddit => reddit.name === redditName);
           reddit.subscribed = state;
         });
-    },
-    clearQuery() {
-      this.$router.push({ name: "reddit-list" });
     },
     fetchNext() {
       redditService.getAll(this.page, this.query).then((reddits) => {

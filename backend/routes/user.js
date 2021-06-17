@@ -26,7 +26,7 @@ router.route("/u").all(isAuthenticated)
     const userId = req.user.id;
     const { password, changes } = req.body;
 
-    userService.patch(password, changes, userId);
+    await userService.patch(password, changes, userId);
 
     res.json({ user: await userService.get(userId) });
   })

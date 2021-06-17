@@ -50,15 +50,27 @@ module.exports = ({
 
         if (usernameExists) throw ["username"];
 
-        await db.query(`UPDATE reddit_user SET nickname = '${username}'`);
+        await db.query(`
+          UPDATE reddit_user
+          SET nickname = '${username}'
+          WHERE id = ${userId}`
+        );
         return { username };
       },
       email: async email => {
-        await db.query(`UPDATE reddit_user SET email = '${email}'`);
+        await db.query(`
+          UPDATE reddit_user
+          SET email = '${email}'
+          WHERE id = ${userId}
+        `);
         return { email };
       },
       password: async password => {
-        await db.query(`UPDATE reddit_user SET password = '${password}'`);
+        await db.query(`
+          UPDATE reddit_user
+          SET password = '${password}'
+          WHERE id = ${userId}
+        `);
         return { };
       },
     };

@@ -7,7 +7,7 @@
 - [ ] Użytkownicy
   - [ ] **DST** Rejestracja
     > (prosty formularz - login w postaci adresu e-mail, hasło, powtórzone hasło + walidacja danych - login musi być unikatowy i poprawny "składniowo" jako adres e-mail, a hasła identyczne)
-  - [ ] **DST** Modyfikacja profilu użytkownika
+  - [x] **DST** Modyfikacja profilu użytkownika
     > (zmiana hasła)
   - [x] **DST** Obsługa logowania (zwykłe)
     > (w oparciu o zapamiętane w lokalnej bazie dane użytkownika)
@@ -64,7 +64,7 @@
 ## Wersja **DST**
 - [ ] Użytkownicy
   - [ ] Rejestracja
-  - [ ] Modyfikacja profilu użytkownika
+  - [x] Modyfikacja profilu użytkownika
   - [x] Obsługa logowania (zwykłe)
   - [x] Edycja metadanych subreddita przez moderatora
   - [x] Dołączanie do konkretnych subredditów
@@ -109,11 +109,11 @@
   - Dialog logowania
   - Dialog tworzenia reddita
   - Odnośnik do widoku ustawień użytkownika
-  - Wyszukiwarka redditów/postów
+  - Wyszukiwarka redditów
 
 - [MainView::public](/)
   - Pasek narzędziowy
-    - Pole wyszukiwania postów
+    - Pole wyszukiwania postów  (z przełącznikiem tytuł/treść)
     - Sortowanie
   - Lista postów ze wszystkich redditów
 
@@ -125,17 +125,18 @@
 
 - [AccountView](/account)
   - Ustawienia użytkownika
+    - Dialog zmiany dla każdej opcji
 
 - [RedditView](/r/:redditName)
   - Pasek narzędziowy reddita
-    - Pole wyszukiwania postów
-    - Dodanie postu
+    - Pole wyszukiwania postów (z przełącznikiem tytuł/treść)
+    - Przycisk na dodanie postu
+      - Dialog dodawania postu
     - Sortowanie
   - Boczny panel akcji dla użytkownika
     - Metadane reddita
-    - Subskrybowanie/odsubskrybowanie
-  - Boczny panel akcji dla administratora
-    - Usunięcie reddita
+      - Dialog zmiany metadanych dla moderatorów
+    - Przycisk subskrybowania/odsubskrybowania
   - Lista postów
 
 - [PostView](/r/:redditName/p/:postId)
@@ -223,10 +224,17 @@ type vote    = -1 | 0 | +1 // Downvote, brak głosu lub upvote przez użytkownik
 
 interface User {
   id:       number
-  admin:    boolean
   username: string
   password: Null<string> // Hasło nie jest null tylko po stronie backendu
-  email:    Null<string> // Podobnie jak wyżej
+  email:    string
+  admin:    boolean
+}
+
+// Jako autor postu, bazy danych lub moderator na liście moderatorów
+interface OtherUser {
+  id:       number
+  username: string
+  admin:    boolean
 }
 
 interface Reddit {

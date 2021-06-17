@@ -73,7 +73,7 @@ export default markRaw({
   },
   methods: {
     setEmail() {
-      userService.setEmail(this.email, this.password);
+      userService.patch(this.password, { email: this.email });
       this.$refs.dismiss.click();
     },
   },

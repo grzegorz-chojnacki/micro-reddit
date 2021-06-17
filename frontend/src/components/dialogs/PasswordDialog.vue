@@ -79,7 +79,7 @@ export default markRaw({
   },
   methods: {
     setPassword() {
-      userService.setPassword(this.passwordOld, this.passwordNew);
+      userService.patch(this.passwordOld, { password: this.passwordNew });
       this.$refs.dismiss.click();
     },
   },

@@ -149,24 +149,24 @@
     - Usunięcie użytkownika (administrator)
 
 ## Backend
-| Metoda | Publiczny                             | Payload | Opis             |
-| ------ | ------------------------------------- | ------- | ---------------- |
-| GET    | `/`                                   |         | Frontend         |
-| POST   | `/api/u`                              | user    | Rejestracja      |
-| POST   | `/api/login`                          | creds   | Logowanie        |
-| POST   | `/api/logout`                         |         | Wylogowanie      |
-| GET    | `/api/r?q=query&p=page`               |         | Paczka redditów  |
-| GET    | `/api/r/:redditName`                  |         | Metadane reddita |
-| GET    | `/api/r/:redditName/p?q=query&p=page` |         | Paczka postów    |
-| WS     | `/api/r/:redditName/p/:postId`        |         | Pokój postu      |
+| Metoda | Publiczny                             | Payload | Opis               |
+| ------ | ------------------------------------- | ------- | ------------------ |
+| GET    | `/`                                   |         | Frontend           |
+| POST   | `/api/u`                              | user    | Rejestracja        |
+| POST   | `/api/login`                          | creds   | Logowanie          |
+| POST   | `/api/logout`                         |         | Wylogowanie        |
+| POST   | `/api/u/password`                     | email   | Zresetowanie hasła |
+| GET    | `/api/r?q=query&p=page`               |         | Paczka redditów    |
+| GET    | `/api/r/:redditName`                  |         | Metadane reddita   |
+| GET    | `/api/r/:redditName/p?q=query&p=page` |         | Paczka postów      |
+| WS     | `/api/r/:redditName/p/:postId`        |         | Pokój postu        |
 
 | Metoda | Użytkownik                          | Payload | Opis               |
 | ------ | ----------------------------------- | ------- | ------------------ |
 | GET    | `/api/u`                            |         | Dane konta         |
 | GET    | `/api/u/home?q=query&p=page`        |         | Paczka redditów    |
-| PUT    | `/api/u/`                           | user    | Modyfikacja konta  |
-| DELETE | `/api/u/`                           |         | Usunięcie konta    |
-| POST   | `/api/u/password`                   | email   | Zresetowanie hasła |
+| PATCH  | `/api/u`                            | user    | Modyfikacja konta  |
+| DELETE | `/api/u`                            |         | Usunięcie konta    |
 | PATCH  | `/api/u/r/:redditName`              | state   | Zmiana subskrybcji |
 | POST   | `/api/r`                            | reddit  | Dodanie reddita    |
 | POST   | `/api/r/:redditName/p`              | post    | Dodanie postu      |

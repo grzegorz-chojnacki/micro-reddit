@@ -73,7 +73,7 @@ export default markRaw({
   },
   methods: {
     setUsername() {
-      userService.setUsername(this.username, this.password);
+      userService.patch(this.password, { username: this.username });
       this.$refs.dismiss.click();
     },
   },

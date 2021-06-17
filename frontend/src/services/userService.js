@@ -24,6 +24,17 @@ export const userService = {
     return errors || this.login(username, password);
   },
 
+  async patch(password, changes = {}) {
+    const { errors, user } = (await api.patch("/u", { changes, password })).data;
+
+    if (errors) {
+      return errors;
+    } else {
+      userSource.next(user);
+      return user;
+    }
+  },
+
   get isAuthenticated() {
     return isAuthenticatedSource.asObservable();
   },

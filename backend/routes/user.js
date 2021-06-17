@@ -22,13 +22,13 @@ router.route("/u").all(isAuthenticated)
   .get(async (req, res) => {
     res.json(await userService.get(req.user.id));
   })
-  .put(async (req, res) => {
+  .patch(async (req, res) => {
     const userId = req.user.id;
-    const user = {...req.body, id: userId};
+    const { password, changes } = req.body;
 
-    const updated = await userService.update(user);
+    userService.patch(password, changes, userId);
 
-    res.json(updated);
+    res.json({ user: await userService.get(userId) });
   })
   .delete(async (req, res) => {
     const userId = req.user.id;

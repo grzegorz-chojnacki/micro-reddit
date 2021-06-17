@@ -17,7 +17,7 @@ module.exports = ({
   async add(user) {
     const usernameExists = (await db.query(`
       SELECT * FROM reddit_user WHERE nickname = '${user.username}'
-    `)).rows[0];
+    `)).rows.length !== 0;
 
     if (usernameExists) {
       throw ["username"];
@@ -32,16 +32,42 @@ module.exports = ({
     `);
   },
 
-  async update(user) {
-    const rows = await db.query(`
-      UPDATE reddit_user SET
-        nickname = '${user.username}',
-        password = '${user.password}',
-        email = '${user.email}'
-      WHERE id = ${user.id}
-      RETURNING id, nickname AS username, email
-    `);
-    return rows[0];
+  async patch(password, changes, userId) {
+    const authorized = (await db.query(`
+      SELECT * FROM reddit_user
+      WHERE id = ${userId} AND password = '${password}'
+    `)).rows.length === 1;
+
+    if (!authorized) {
+      throw ["password"];
+    }
+
+    const handlers = {
+      username: async username => {
+        const usernameExists = (await db.query(`
+          SELECT * FROM reddit_user WHERE nickname = '${username}'
+        `)).rows.length !== 0;
+
+        if (usernameExists) throw ["username"];
+
+        await db.query(`UPDATE reddit_user SET nickname = '${username}'`);
+        return { username };
+      },
+      email: async email => {
+        await db.query(`UPDATE reddit_user SET email = '${email}'`);
+        return { email };
+      },
+      password: async password => {
+        await db.query(`UPDATE reddit_user SET password = '${password}'`);
+        return { };
+      },
+    };
+
+    const updates = Object.keys(changes)
+      .map(key => handlers[key](changes[key]));
+
+    return (await Promise.all(updates))
+      .reduce((obj, partial) => ({ ...obj, ...partial }));
   },
 
   async delete(userId) {

@@ -71,7 +71,6 @@ export default {
   props: {
     reddit: { type: Object, required: true }
   },
-  emits: [ "search" ],
   data() {
     return {
       sort: "new",
@@ -84,7 +83,11 @@ export default {
       dialogService.open(PostDialog, { ...this.reddit });
     },
     onSearch() {
-      this.$emit("search", this.search);
+      this.$router.push({
+        name: "reddit",
+        query: { q: `${this.search};${this.searchType}` }
+      });
+      this.search = "";
     }
   }
 };

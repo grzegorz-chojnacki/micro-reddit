@@ -17,19 +17,18 @@ import { Range, scrollToBottom } from "@/common.js";
 export default {
   name: "Feed",
   components: { Post, LoadingIndicator },
-  props: {
-    fetchingFn: { type: Function, required: true },
-    query: { type: String, default: "" },
-  },
+  props: { fetchingFn: { type: Function, required: true } },
   data() {
     return {
       page: 0,
+      query: "",
       posts: [],
       sourceExhausted: false,
     };
   },
   watch: {
-    query() {
+    $route() {
+      this.query = this.$route.query.q || "";
       this.page = 0;
       this.posts = [];
       this.sourceExhausted = false;

@@ -37,7 +37,10 @@ export default {
   },
   watch: {
     $route() {
-      this.reset();
+      this.query = this.$route.query.q || "";
+      this.reddits = [];
+      this.page = 0;
+      this.fetchNext();
     },
   },
   mounted() {
@@ -45,11 +48,6 @@ export default {
     window.onscroll = scrollToBottom(() => this.fetchNext());
   },
   methods: {
-    reset() {
-      this.reddits = [];
-      this.page = 0;
-      this.fetchNext();
-    },
     setSubscribe({ redditName, state }) {
       redditService.setSubscribe(redditName, state)
         .then(state => {
@@ -61,7 +59,6 @@ export default {
       this.$router.push({ name: "reddit-list" });
     },
     fetchNext() {
-      this.query = this.$route.query.q || "";
       redditService.getAll(this.page, this.query).then((reddits) => {
         this.sourceExhausted = reddits.length === 0;
         if (!this.sourceExhausted) {

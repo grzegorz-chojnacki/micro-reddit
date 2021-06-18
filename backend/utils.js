@@ -51,6 +51,8 @@ const v = {
   }
 };
 
+const socketIoWrap = middleware => (socket, next) => middleware(socket.request, {}, next);
+
 const mimeRegex = /^data:image\/(.*?);base64,/;
 
 module.exports = {
@@ -61,5 +63,6 @@ module.exports = {
   newestOrder: "ORDER BY creation_date DESC",
   md5: str => crypto.createHash("md5").update(str).digest("hex"),
   imageExt: str => str.match(mimeRegex)[1],
-  imageStripMime: str => str.replace(mimeRegex, "")
+  imageStripMime: str => str.replace(mimeRegex, ""),
+  socketIoWrap
 };

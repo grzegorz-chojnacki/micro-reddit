@@ -18,8 +18,8 @@
 import Post from "@/components/Post.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import Comment from "@/components/Comment.vue";
-
 import { postService } from "@/services/postService";
+import { userService } from "@/services/userService";
 import { baseURL } from "@/common";
 import { io } from "socket.io-client";
 
@@ -32,11 +32,14 @@ export default {
   },
   data() {
     return {
-      postService,
       comments: [],
       socket: null,
       post: null,
+      isAuthenticated: false
     };
+  },
+  created() {
+    userService.isAuthenticated.subscribe(status => this.isAuthenticated = status);
   },
   mounted() {
     this.fetchPost();
@@ -49,13 +52,11 @@ export default {
   },
   methods: {
     fetchPost() {
-      this.postService
-        .get(this.redditName, this.postId)
-        .then((post) => (this.post = post));
+      postService.get(this.redditName, this.postId).then(post => (this.post = post));
     },
 
     initializeSocket() {
-      this.socket = io.connect(`${baseURL}`);
+      this.socket = io.connect(`${baseURL}`, { withCredentials: true });
 
       this.socket.on("connect", () => {
         this.socket.emit("room", this.postId);

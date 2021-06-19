@@ -47,6 +47,9 @@ export default {
     this.fetchNext();
     window.onscroll = atPageBottom(() => this.fetchNext());
   },
+  unmounted() {
+    window.onscroll = null;
+  },
   methods: {
     setSubscribe({ redditName, state }) {
       redditService.setSubscribe(redditName, state)

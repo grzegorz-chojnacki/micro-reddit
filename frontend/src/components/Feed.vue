@@ -57,6 +57,7 @@ export default {
   },
   unmounted() {
     this.subscription.unsubscribe();
+    window.onscroll = null;
   },
   methods: {
     fetchNext() {

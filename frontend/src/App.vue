@@ -28,7 +28,7 @@ export default {
   margin: 0 auto;
 }
 
-main {
+main.with-aside {
   display: grid;
   grid-template: "feed";
   gap: 1em;

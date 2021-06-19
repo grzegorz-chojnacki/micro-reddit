@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="with-aside">
     <aside>
       <TopReddits title="users" :fetching-fn="redditService.getTopByUsers" />
       <TopReddits title="posts" :fetching-fn="redditService.getTopByPosts" />

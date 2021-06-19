@@ -35,8 +35,8 @@ export default {
   },
   computed: {
     queryStr() {
-      return this.query ?
-        this.query.replace(/(.*);(.*)/, (_, search) => search )
+      return this.query
+        ? this.query.replace(/(.*);(.*)/, (_, search) => search)
         : "";
     }
   },

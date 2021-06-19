@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="with-aside">
     <aside v-if="reddit">
       <RedditMeta :reddit="reddit" @subscription="setSubscribe" />
       <TopReddits title="users" :fetching-fn="redditService.getTopByUsers" />

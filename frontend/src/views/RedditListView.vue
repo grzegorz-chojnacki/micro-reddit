@@ -57,9 +57,10 @@ export default {
     },
     fetchNext() {
       redditService.getAll(this.page, this.query).then((reddits) => {
-        this.sourceExhausted = reddits.length === 0;
+        this.reddits = this.reddits.concat(reddits);
+        this.sourceExhausted = reddits.length < 10;
+
         if (!this.sourceExhausted) {
-          this.reddits = this.reddits.concat(reddits);
           this.page++;
         }
       });

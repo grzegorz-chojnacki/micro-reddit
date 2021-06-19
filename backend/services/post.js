@@ -82,10 +82,19 @@ module.exports = ({
   },
 
   async delete(redditId, postId) {
+    const { image_path } = (await db.query(`
+      SELECT image_path FROM post
+      WHERE id = ${postId} AND subreddit_id = ${redditId}
+    `)).rows[0];
+
     await db.query(`
       DELETE FROM post
-      WHERE id = ${postId} AND subreddit_id = ${redditId}`
-    );
+      WHERE id = ${postId} AND subreddit_id = ${redditId}
+    `);
+
+    // eslint-disable-next-line
+    try { await fsp.rm(`./storage/${image_path}`) } catch (_) { }
+
     return true;
   },
 

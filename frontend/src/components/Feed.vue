@@ -8,7 +8,7 @@
     </h2>
 
     <section>
-      <Post v-for="post of posts" :key="post.id" :post="post" />
+      <Post v-for="post of posts" :key="post.id" :post="post" @delete="onDelete" />
     </section>
 
     <footer><LoadingIndicator :done="sourceExhausted" /></footer>
@@ -72,7 +72,10 @@ export default {
     },
     clearQuery() {
       this.$router.push({ name: "reddit-list" });
-    }
+    },
+    onDelete(postId) {
+      this.posts = this.posts.filter(post => post.id !== postId);
+    },
   },
 };
 </script>

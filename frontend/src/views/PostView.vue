@@ -1,6 +1,6 @@
 <template>
   <main v-if="post">
-    <Post :post="post" />
+    <Post :post="post" @delete="$router.go(-1)" />
     <section id="comments">
       <div>
         <label class="mt-2" for="comment">Add comment</label>

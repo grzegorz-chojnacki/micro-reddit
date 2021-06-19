@@ -60,8 +60,8 @@ export default {
     };
   },
   created() {
-    this.fetchPost();
     this.subscription = userService.user.subscribe(user => {
+      this.fetchPost();
       this.isAuthenticated = user !== null;
 
       this.isMod = userService.isMod(this.redditName);

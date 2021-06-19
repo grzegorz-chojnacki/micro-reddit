@@ -2,6 +2,22 @@
   <main v-if="post">
     <Post :post="post" />
     <section id="comments">
+      <div>
+        <label class="mt-2" for="comment">Add comment</label>
+        <textarea
+          id="comment"
+          v-model="textarea"
+          name="comment"
+          class="form-control" />
+        <button
+          class="mt-2 btn btn-outline-secondary btn-sm"
+          type="button"
+          :disabled="!textarea"
+          @click="saveComment">
+          Save
+        </button>
+      </div>
+
       <Comment
         v-for="comment of comments"
         :key="comment.id"
@@ -32,6 +48,7 @@ export default {
   },
   data() {
     return {
+      textarea: "",
       comments: [],
       socket: null,
       post: null,
@@ -51,10 +68,13 @@ export default {
     }
   },
   methods: {
+    saveComment() {
+      this.socket.emit("comment", this.textarea);
+      this.textarea = "";
+    },
     fetchPost() {
       postService.get(this.redditName, this.postId).then(post => (this.post = post));
     },
-
     initializeSocket() {
       this.socket = io.connect(`${baseURL}`, { withCredentials: true });
 
@@ -62,7 +82,11 @@ export default {
         this.socket.emit("room", this.postId);
       });
 
-      this.socket.on("comments", (comments) => {
+      this.socket.on("comment", comment => {
+        this.comments = [comment, ...this.comments];
+      });
+
+      this.socket.on("comments", comments => {
         this.comments = comments;
       });
     },

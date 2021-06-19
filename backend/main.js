@@ -64,7 +64,7 @@ io.use(socketIoWrap(session));
 io.use(socketIoWrap(passport.initialize()));
 io.use(socketIoWrap(passport.session()));
 
-const commentService = require("./services/comment");
+const commentService = require("./services/comment")(io);
 io.on("connection", commentService);
 
 server.listen(port, () => {

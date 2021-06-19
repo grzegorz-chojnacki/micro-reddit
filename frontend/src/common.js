@@ -52,7 +52,6 @@ export const getYoutubeVideoId = url => {
 export const testYoutubeVideoId = async id => {
   const { data } = await axios.get(
     `https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=${id}`);
-  console.log(data);
   return data !== "Not Found";
 };
 

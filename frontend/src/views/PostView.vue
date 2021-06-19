@@ -66,6 +66,10 @@ export default {
 
       this.isMod = userService.isMod(this.redditName);
 
+      if (this.socket) {
+        this.socket.disconnect();
+      }
+
       this.initializeSocket();
     });
   },

@@ -27,7 +27,10 @@
           id="video"
           v-model="video"
           type="text"
-          class="form-control">
+          :class="invalidControlClass(invalidYoutubeLink)">
+        <div class="invalid-feedback">
+          This YouTube link seems to be invalid
+        </div>
       </div>
 
       <div class="mb-3">
@@ -74,7 +77,7 @@
 
 <script>
 import { postService } from "@/services/postService.js";
-import { getYoutubeVideoId, testYoutubeVideoId } from "@/common.js";
+import { getYoutubeVideoId, testYoutubeVideoId, invalidControlClass } from "@/common.js";
 import { markRaw } from "vue";
 
 export default markRaw({
@@ -83,12 +86,19 @@ export default markRaw({
   props: { data: { type: Object, default: () => ({}) }},
   data() {
     return {
+      invalidControlClass,
+      invalidYoutubeLink: false,
       title: "",
       content: "",
       video: "",
       link: "",
       image: null
     };
+  },
+  watch: {
+    video() {
+      this.invalidYoutubeLink = false;
+    }
   },
   computed: {
     isInvalid() {
@@ -102,7 +112,8 @@ export default markRaw({
           const id = getYoutubeVideoId(this.video);
           await testYoutubeVideoId(id);
         } catch (e) {
-          console.error(e);
+          this.invalidYoutubeLink = true;
+          return;
         }
       }
 
@@ -115,6 +126,12 @@ export default markRaw({
       };
 
       const postId = await postService.add(this.data.name, post);
+
+      this.title = "";
+      this.content = "";
+      this.video = "";
+      this.link = "";
+      this.image = null;
 
       this.$refs.dismiss.click();
       this.$router.push({

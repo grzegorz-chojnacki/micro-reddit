@@ -17,7 +17,7 @@ router.route("/r")
     res.json({ name });
   });
 
-// For top reddits by user count
+// For top reddits
 router.route("/tr/users")
   .get(async (_req, res) => res.json(await redditService.getTopByUsers()));
 

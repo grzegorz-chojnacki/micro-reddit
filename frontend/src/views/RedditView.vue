@@ -2,7 +2,8 @@
   <main>
     <aside v-if="reddit">
       <RedditMeta :reddit="reddit" @subscription="setSubscribe" />
-      <TopReddits />
+      <TopReddits title="users" :fetching-fn="redditService.getTopByUsers" />
+      <TopReddits title="posts" :fetching-fn="redditService.getTopByPosts" />
     </aside>
 
     <section>
@@ -32,6 +33,7 @@ export default {
   data() {
     return {
       fetchReddit: postService.getAllReddit(this.redditName),
+      redditService,
       reddit: null,
     };
   },

@@ -8,7 +8,7 @@ export const redditService = {
   },
 
   async add(name, description) {
-    return (await api.post("/r", { name, description })).data.name;
+    return (await api.post("/r", { name, description })).data;
   },
 
   async update(reddit) {

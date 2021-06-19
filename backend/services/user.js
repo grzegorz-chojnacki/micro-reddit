@@ -43,7 +43,7 @@ module.exports = ({
   async patch(password, changes, userId) {
     const authorized = (await db.query(`
       SELECT * FROM reddit_user
-      WHERE id = ${userId} AND password = '${password}'
+      WHERE id = ${userId} AND password = '${escapeQuotes(password)}'
     `)).rows.length !== 0;
 
     if (!authorized) throw new Error("password");

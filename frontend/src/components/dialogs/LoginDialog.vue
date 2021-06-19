@@ -13,22 +13,27 @@
 
     <form class="modal-body" @submit.prevent="">
       <div class="mb-3">
-        <label for="usernameLogin" class="form-label">Username</label>
+        <label for="username" class="form-label">Username</label>
         <input
-          id="usernameLogin"
+          id="username"
+          ref="username"
           v-model="username"
           type="text"
           class="form-control"
           autocomplete="username">
       </div>
       <div class="mb-3">
-        <label for="passwordLogin" class="form-label">Password</label>
+        <label for="password" class="form-label">Password</label>
         <input
-          id="passwordLogin"
+          id="password"
+          ref="password"
           v-model="password"
           type="password"
           class="form-control"
           autocomplete="current-password">
+        <div class="invalid-feedback">
+          Username or password is invalid
+        </div>
       </div>
     </form>
 
@@ -49,6 +54,7 @@
 
 <script>
 import { userService } from "@/services/userService.js";
+import { markForm, invalidControlClass } from "@/common.js";
 import { markRaw } from "vue";
 
 export default markRaw({
@@ -56,8 +62,9 @@ export default markRaw({
   emits: ["close"],
   data() {
     return {
-      username: "flutherhole",
-      password: "flutherhole",
+      invalidControlClass,
+      username: "",
+      password: "",
     };
   },
   computed: {
@@ -66,9 +73,16 @@ export default markRaw({
     }
   },
   methods: {
-    login() {
-      userService.login(this.username, this.password);
-      this.$refs.dismiss.click();
+    async login() {
+      try {
+        await userService.login(this.username, this.password);
+        markForm(this.$refs, []);
+        this.username = "",
+        this.password = "",
+        this.$refs.dismiss.click();
+      } catch (e) {
+        markForm(this.$refs, ["password", "username"]);
+      }
     },
   },
 });

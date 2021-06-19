@@ -16,16 +16,21 @@
         <label for="passwordOld" class="form-label">Current password</label>
         <input
           id="passwordOld"
+          ref="password"
           v-model="passwordOld"
           type="password"
           class="form-control"
           autocomplete="current-password">
+        <div class="invalid-feedback">
+          Password is not valid
+        </div>
       </div>
 
       <div class="mb-3">
         <label for="passwordNew" class="form-label">New password</label>
         <input
           id="passwordNew"
+          ref="passwordNew"
           v-model="passwordNew"
           type="password"
           class="form-control"
@@ -36,10 +41,14 @@
         <label for="passwordRetype" class="form-label">Retype password</label>
         <input
           id="passwordRetype"
+          ref="passwordRetype"
           v-model="passwordRetype"
           type="password"
-          class="form-control"
+          :class="invalidControlClass(passwordRetype && passwordNew !== passwordRetype)"
           autocomplete="new-password">
+        <div class="invalid-feedback">
+          Passwords doesn't match
+        </div>
       </div>
     </form>
 
@@ -60,6 +69,7 @@
 
 <script>
 import { userService } from "@/services/userService.js";
+import { markForm, invalidControlClass } from "@/common.js";
 import { markRaw } from "vue";
 
 export default markRaw({
@@ -67,6 +77,7 @@ export default markRaw({
   emits: ["close"],
   data() {
     return {
+      invalidControlClass,
       passwordOld: "",
       passwordNew: "",
       passwordRetype: "",
@@ -78,9 +89,14 @@ export default markRaw({
     }
   },
   methods: {
-    setPassword() {
-      userService.patch(this.passwordOld, { password: this.passwordNew });
-      this.$refs.dismiss.click();
+    async setPassword() {
+      const errors = await userService.patch(this.passwordOld, { password: this.passwordNew });
+      if (markForm(this.$refs, errors)) {
+        this.passwordOld = "";
+        this.passwordNew = "";
+        this.passwordRetype = "";
+        this.$refs.dismiss.click();
+      }
     },
   },
 });

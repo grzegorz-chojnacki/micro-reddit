@@ -31,7 +31,7 @@
           ref="email"
           v-model="email"
           type="email"
-          class="form-control"
+          :class="invalidControlClass(email && !testEmail(email))"
           autocomplete="email">
         <div class="invalid-feedback">
           Email is not valid
@@ -46,9 +46,6 @@
           type="password"
           class="form-control"
           autocomplete="new-password">
-        <div class="invalid-feedback">
-          Passwords didn't match
-        </div>
       </div>
       <div class="mb-3">
         <label for="passwordRetypeRegister" class="form-label">Confirm password</label>
@@ -57,8 +54,11 @@
           ref="passwordRetype"
           v-model="passwordRetype"
           type="password"
-          class="form-control"
+          :class="invalidControlClass(password !== passwordRetype)"
           autocomplete="nope">
+        <div class="invalid-feedback">
+          Passwords doesn't match
+        </div>
       </div>
     </form>
 
@@ -79,7 +79,7 @@
 
 <script>
 import { userService } from "@/services/userService.js";
-import { testEmail } from "@/common.js";
+import { testEmail, markForm, invalidControlClass } from "@/common.js";
 import { markRaw } from "vue";
 
 export default markRaw({
@@ -87,6 +87,8 @@ export default markRaw({
   emits: ["close"],
   data() {
     return {
+      invalidControlClass,
+      testEmail,
       username: "",
       password: "",
       passwordRetype: "",
@@ -98,30 +100,21 @@ export default markRaw({
       return !(this.username
         && this.password
         && this.password === this.passwordRetype
-        && testEmail(this.email));
+        && this.testEmail(this.email));
     },
+    retypePasswordClass() {
+      return "form-control " +
+        (this.password !== this.passwordRetype ? "is-invalid" : "");
+    }
   },
   methods: {
     async register() {
-      for (const input in this.$refs) {
-        this.$refs[input].classList.remove("is-invalid");
-      }
-
-      if (this.password !== this.passwordRetype) {
-        this.$refs.password.classList.add("is-invalid");
-        this.password = this.passwordRetype = "";
-        return;
-      }
-
       const errors = await userService.register(this.username, this.password, this.email);
-      if (errors) {
-        for (const input of errors) {
-          this.$refs[input].classList.add("is-invalid");
-        }
-      } else {
-        for (const input in this.$refs) {
-          this.$refs[input].value = "";
-        }
+      if (markForm(this.$refs, errors)) {
+        this.username = "";
+        this.password = "";
+        this.passwordRetype = "";
+        this.email = "";
         this.$refs.dismiss.click();
       }
     },

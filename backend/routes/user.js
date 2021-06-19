@@ -26,9 +26,12 @@ router.route("/u").all(isAuthenticated)
     const userId = req.user.id;
     const { password, changes } = req.body;
 
-    await userService.patch(password, changes, userId);
-
-    res.json({ user: await userService.get(userId) });
+    try {
+      const updated = await userService.patch(password, changes, userId);
+      res.json({ user: {...updated, ...await userService.get(userId) }});
+    } catch (e) {
+      res.json({ errors: [e.message] });
+    }
   })
   .delete(async (req, res) => {
     const userId = req.user.id;

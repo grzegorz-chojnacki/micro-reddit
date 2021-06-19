@@ -16,19 +16,27 @@
         <label for="username" class="form-label">New username</label>
         <input
           id="username"
+          ref="username"
           v-model="username"
           type="text"
           class="form-control"
           autocomplete="username">
+        <div class="invalid-feedback">
+          Username already taken
+        </div>
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
         <input
           id="password"
+          ref="password"
           v-model="password"
           type="password"
           class="form-control"
           autocomplete="current-password">
+        <div class="invalid-feedback">
+          Password is invalid
+        </div>
       </div>
     </form>
 
@@ -49,6 +57,7 @@
 
 <script>
 import { userService } from "@/services/userService.js";
+import { markForm } from "@/common.js";
 import { markRaw } from "vue";
 
 export default markRaw({
@@ -72,9 +81,13 @@ export default markRaw({
     }
   },
   methods: {
-    setUsername() {
-      userService.patch(this.password, { username: this.username });
-      this.$refs.dismiss.click();
+    async setUsername() {
+      const errors = await userService.patch(this.password, { username: this.username });
+      if (markForm(this.$refs, errors)) {
+        this.username = "";
+        this.password = "";
+        this.$refs.dismiss.click();
+      }
     },
   },
 });

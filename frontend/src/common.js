@@ -63,3 +63,20 @@ export const urlify = str => str
   .normalize("NFKD")                 // Normalize diacritics
   .replace(/[^\w\s.\-_/]/g, "")      // Remove diacritic modifiers
   .replace(/[^a-zA-Z0-9.~_-]/g, ""); // Remove all unallowed characters
+
+export const markForm = (refs = {}, errors = []) => {
+  for (const ref in refs) {
+    refs[ref].classList.remove("is-invalid");
+  }
+
+  if (errors.length > 0) {
+    for (const input of errors) {
+      refs[input].classList.add("is-invalid");
+    }
+    return false;
+  } else {
+    return true;
+  }
+};
+
+export const invalidControlClass = b => `form-control ${b ? "is-invalid" : ""}`;

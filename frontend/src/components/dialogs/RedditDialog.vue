@@ -16,10 +16,14 @@
         <label for="nameReddit" class="form-label">Name</label>
         <input
           id="nameReddit"
+          ref="name"
           v-model="name"
           autocomplete="off"
           type="text"
           class="form-control">
+        <div class="invalid-feedback">
+          This reddit already exists
+        </div>
       </div>
 
       <div class="mb-3">
@@ -60,7 +64,7 @@
 <script>
 import { redditService } from "@/services/redditService.js";
 import { markRaw } from "vue";
-import { urlify } from "@/common.js";
+import { urlify, markForm } from "@/common.js";
 
 export default markRaw({
   name: "RedditDialog",
@@ -81,9 +85,13 @@ export default markRaw({
   },
   methods: {
     async create() {
-      const redditName = await redditService.add(this.urlified, this.description);
-      this.$refs.dismiss.click();
-      this.$router.push({ name: "reddit", params: { redditName } });
+      const { name, errors } = await redditService.add(this.urlified, this.description);
+      if (markForm(this.$refs, errors)) {
+        this.name = "",
+        this.description = "",
+        this.$refs.dismiss.click();
+        this.$router.push({ name: "reddit", params: { redditName: name } });
+      }
     },
   },
 });

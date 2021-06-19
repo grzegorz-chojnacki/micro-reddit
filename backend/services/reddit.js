@@ -33,11 +33,15 @@ module.exports = ({
   },
 
   async add(reddit, userId) {
+    const redditNameExists = (await db.query(`
+      SELECT * FROM subreddit WHERE name = '${escapeQuotes(reddit.name)}'
+    `)).rows.length > 0;
+
+    if (redditNameExists) throw new Error("name");
+
     const redditId = (await db.query(`
       INSERT INTO subreddit (name, description)
       SELECT '${escapeQuotes(reddit.name)}', '${escapeQuotes(reddit.description)}'
-      WHERE NOT EXISTS
-        (SELECT * FROM subreddit WHERE name = '${escapeQuotes(reddit.name)}')
       RETURNING id
     `)).rows[0].id;
 

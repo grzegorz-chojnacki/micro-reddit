@@ -16,15 +16,20 @@
         <label for="email" class="form-label">New email address</label>
         <input
           id="email"
+          ref="email"
           v-model="email"
           type="text"
-          class="form-control"
+          :class="invalidControlClass(email && !testEmail(email))"
           autocomplete="email">
+        <div class="invalid-feedback">
+          Email is not valid
+        </div>
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
         <input
           id="password"
+          ref="password"
           v-model="password"
           type="password"
           class="form-control"
@@ -49,7 +54,8 @@
 
 <script>
 import { userService } from "@/services/userService.js";
-import { testEmail } from "@/common.js";
+import { testEmail, markForm, invalidControlClass } from "@/common.js";
+
 import { markRaw } from "vue";
 
 export default markRaw({
@@ -58,6 +64,7 @@ export default markRaw({
   props: { data: { type: Object, default: () => {}}},
   data() {
     return {
+      invalidControlClass, testEmail,
       email: "",
       password: "",
     };
@@ -73,9 +80,13 @@ export default markRaw({
     }
   },
   methods: {
-    setEmail() {
-      userService.patch(this.password, { email: this.email });
-      this.$refs.dismiss.click();
+    async setEmail() {
+      const errors = await userService.patch(this.password, { email: this.email });
+      if (markForm(this.$refs, errors)) {
+        this.email = "";
+        this.password = "";
+        this.$refs.dismiss.click();
+      }
     },
   },
 });

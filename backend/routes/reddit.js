@@ -13,8 +13,12 @@ router.route("/r")
     res.json(reddits);
   })
   .post(isAuthenticated, async (req, res) => {
-    const name = await redditService.add(req.body, req.user.id);
-    res.json({ name });
+    try {
+      const name = await redditService.add(req.body, req.user.id);
+      res.json({ name });
+    } catch (e) {
+      res.json({ errors: [ e.message ]});
+    }
   });
 
 // For top reddits

@@ -37,6 +37,11 @@ export default {
       reddit: null,
     };
   },
+  watch: {
+    $route() {
+      this.fetchReddit = postService.getAllReddit(this.redditName);
+    }
+  },
   created() {
     redditService.reddit.subscribe((reddit) => (this.reddit = reddit));
   },

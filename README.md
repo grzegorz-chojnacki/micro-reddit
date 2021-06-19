@@ -15,7 +15,7 @@
     - [x] **DST** Moderatorzy - zarządzają subredditami `/r/temat`:
       - [x] Edycja metadanych
         > (opis - obsługa edycji za pomocą pola tekstowego)
-      - [ ] Usuwanie postów/komentarzy
+      - [x] Usuwanie postów/komentarzy
     - [ ] Administratorzy
       - [ ] Usuwanie/banowanie "niegrzecznych" użytkowników
       - [ ] ***BDB*** Wgląd do statystyk (największe subreddity - hierarchia, hierachia polubień postów/suredditów)
@@ -67,6 +67,8 @@
   - [x] Modyfikacja profilu użytkownika
   - [x] Obsługa logowania (zwykłe)
   - [x] Edycja metadanych subreddita przez moderatora
+  - [x] Usuwanie postów przez moderatora
+  - [ ] Usuwanie komentarzy przez moderatora
   - [x] Dołączanie do konkretnych subredditów
 - [ ] Subreddity (`/r/nazwaSubreddita`)
   - [x] Tworzenie subredditów

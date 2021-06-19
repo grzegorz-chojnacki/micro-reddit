@@ -38,8 +38,12 @@ export default {
     };
   },
   watch: {
-    $route() {
-      this.fetchReddit = postService.getAllReddit(this.redditName);
+    async $route() {
+      const redditName = this.$route.params.redditName;
+      if (redditName) {
+        await redditService.get(redditName);
+        this.fetchReddit = postService.getAllReddit(redditName);
+      }
     }
   },
   created() {

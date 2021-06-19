@@ -4,8 +4,8 @@
 - Zarówno "przeglądarkowy" jak i (responsywny) "mobilny" (oparty o Vue.js 3 i SCSS)
 
 ## Funkcjonalność
-- [ ] Użytkownicy
-  - [ ] **DST** Rejestracja
+- [x] Użytkownicy
+  - [x] **DST** Rejestracja
     > (prosty formularz - login w postaci adresu e-mail, hasło, powtórzone hasło + walidacja danych - login musi być unikatowy i poprawny "składniowo" jako adres e-mail, a hasła identyczne)
   - [x] **DST** Modyfikacja profilu użytkownika
     > (zmiana hasła)
@@ -62,8 +62,8 @@
 <hr>
 
 ## Wersja **DST**
-- [ ] Użytkownicy
-  - [ ] Rejestracja
+- [x] Użytkownicy
+  - [x] Rejestracja
   - [x] Modyfikacja profilu użytkownika
   - [x] Obsługa logowania (zwykłe)
   - [x] Edycja metadanych subreddita przez moderatora

@@ -41,13 +41,13 @@ export default {
     }
   },
   watch: {
-    $route() {
+    fetchingFn() {
       this.query = this.$route.query.q || "";
       this.page = 0;
       this.posts = [];
       this.sourceExhausted = false;
       this.fetchNext();
-    }
+    },
   },
   created() {
     this.fetchNext();

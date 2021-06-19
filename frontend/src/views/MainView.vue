@@ -5,7 +5,9 @@
       <TopReddits title="posts" :fetching-fn="redditService.getTopByPosts" />
     </aside>
 
-    <Feed :fetching-fn="fetchMain" />
+    <section>
+      <Feed :fetching-fn="fetchMain" />
+    </section>
   </main>
 </template>
 

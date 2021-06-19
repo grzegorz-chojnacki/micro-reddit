@@ -32,7 +32,7 @@
   - [x] **DST** Głosowanie na posty
     > (głos za/przeciw - można oddać tylko jeden)
   - [x] **DST** Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
-  - [ ] **DST** Dynamiczny (***BDB*** i hierarchiczny) system komentarzy (socket.io)
+  - [x] **DST** Dynamiczny (***BDB*** i hierarchiczny) system komentarzy (socket.io)
     > (aktywni użytkownicy widzą komentarze w momencie ich dodania; komentarze/posty po usunięciu przez moderatora znikają)
 - [ ] Wymagane podstrony
   - [x] **DST** Home użytkownika
@@ -68,15 +68,15 @@
   - [x] Obsługa logowania (zwykłe)
   - [x] Edycja metadanych subreddita przez moderatora
   - [x] Usuwanie postów przez moderatora
-  - [ ] Usuwanie komentarzy przez moderatora
+  - [x] Usuwanie komentarzy przez moderatora
   - [x] Dołączanie do konkretnych subredditów
-- [ ] Subreddity (`/r/nazwaSubreddita`)
+- [x] Subreddity (`/r/nazwaSubreddita`)
   - [x] Tworzenie subredditów
   - [x] Tworzenie postów w ramach danego (sub)reddita
   - [x] Możliwość przechodzenia pomiędzy subredditami
   - [x] Głosowanie na posty
   - [x] Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
-  - [ ] Dynamiczny system komentarzy (socket.io)
+  - [x] Dynamiczny system komentarzy (socket.io)
 - [x] Home użytkownika
 - [x] Wyszukiwarka (postów według treści/subredditów według nazwy)
 - [x] Wybór popularnych (według liczby postów i liczby użytkowników) subredditów

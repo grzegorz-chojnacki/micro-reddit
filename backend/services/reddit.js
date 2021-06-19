@@ -1,5 +1,5 @@
 const db = require("../config/db");
-const { limit } = require("../utils");
+const { limit, escapeQuotes } = require("../utils");
 
 const isSubscribed = (redditId, userId = null) => `
 CASE WHEN EXISTS (
@@ -35,8 +35,9 @@ module.exports = ({
   async add(reddit, userId) {
     const redditId = (await db.query(`
       INSERT INTO subreddit (name, description)
-      SELECT '${reddit.name}', '${reddit.description}'
-      WHERE NOT EXISTS (SELECT * FROM subreddit WHERE name = '${reddit.name}')
+      SELECT '${escapeQuotes(reddit.name)}', '${escapeQuotes(reddit.description)}'
+      WHERE NOT EXISTS
+        (SELECT * FROM subreddit WHERE name = '${escapeQuotes(reddit.name)}')
       RETURNING id
     `)).rows[0].id;
 
@@ -56,7 +57,7 @@ module.exports = ({
   async update(reddit) {
     await db.query(`
       UPDATE subreddit SET
-        description = '${reddit.description}'
+        description = '${escapeQuotes(reddit.description)}'
       WHERE id = ${reddit.id}
       RETURNING id, name, description
     `);
@@ -66,7 +67,7 @@ module.exports = ({
   async addMod(redditId, username) {
     const modId = (await db.query(`
       SELECT id FROM reddit_user
-      WHERE nickname = '${username}'
+      WHERE nickname = '${escapeQuotes(username)}'
     `)).rows[0].id;
 
     return await db.query(`
@@ -112,5 +113,3 @@ module.exports = ({
     `)).rows;
   },
 });
-
-// current_timestamp

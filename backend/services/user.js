@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const { escapeQuotes } = require("../utils");
 
 module.exports = ({
   async get(userId) {
@@ -35,7 +36,8 @@ module.exports = ({
       INSERT INTO reddit_user
         (nickname, activation_guid, activation_expire_date, password, email)
       VALUES
-        ('${user.username}', NULL, NULL, '${user.password}', '${user.email}')
+        ('${escapeQuotes(user.username)}', NULL, NULL,
+         '${escapeQuotes(user.password)}', '${escapeQuotes(user.email)}')
       RETURNING id
     `);
   },
@@ -60,7 +62,7 @@ module.exports = ({
 
         await db.query(`
           UPDATE reddit_user
-          SET nickname = '${username}'
+          SET nickname = '${escapeQuotes(username)}'
           WHERE id = ${userId}`
         );
         return { username };
@@ -68,7 +70,7 @@ module.exports = ({
       email: async email => {
         await db.query(`
           UPDATE reddit_user
-          SET email = '${email}'
+          SET email = '${escapeQuotes(email)}'
           WHERE id = ${userId}
         `);
         return { email };
@@ -76,7 +78,7 @@ module.exports = ({
       password: async password => {
         await db.query(`
           UPDATE reddit_user
-          SET password = '${password}'
+          SET password = '${escapeQuotes(password)}'
           WHERE id = ${userId}
         `);
         return { };

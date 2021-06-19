@@ -64,5 +64,6 @@ module.exports = {
   md5: str => crypto.createHash("md5").update(str).digest("hex"),
   imageExt: str => str.match(mimeRegex)[1],
   imageStripMime: str => str.replace(mimeRegex, ""),
+  escapeQuotes: str => str.replaceAll("'", "''"),
   socketIoWrap
 };

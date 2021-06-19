@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const { escapeQuotes } = require("../utils");
 
 const commentMapper = ({ id, content, user_id, username }) => ({
   id, content, user: { username, id: user_id }
@@ -24,7 +25,7 @@ module.exports = io => socket => {
     socket.on("comment", async content => {
       const { id } = (await db.query(`
         INSERT INTO comment (content, parent_comment_id, user_id, post_id)
-        VALUES ('${content.replaceAll("'", "''")}', NULL, ${user.id}, ${postId})
+        VALUES ('${escapeQuotes(content)}', NULL, ${user.id}, ${postId})
         RETURNING id
       `)).rows[0];
 

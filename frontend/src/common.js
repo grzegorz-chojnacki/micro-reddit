@@ -49,6 +49,8 @@ export const getYoutubeVideoId = url => {
     : split[0];
 };
 
+export const testEmail = email => /^\S+@\S+$/.test(email);
+
 export const testYoutubeVideoId = async id => {
   const { data } = await axios.get(
     `https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=${id}`);

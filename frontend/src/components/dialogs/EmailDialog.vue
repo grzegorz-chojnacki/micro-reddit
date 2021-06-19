@@ -49,6 +49,7 @@
 
 <script>
 import { userService } from "@/services/userService.js";
+import { testEmail } from "@/common.js";
 import { markRaw } from "vue";
 
 export default markRaw({
@@ -68,7 +69,7 @@ export default markRaw({
   },
   computed: {
     isInvalid() {
-      return !(this.email && this.password);
+      return !(testEmail(this.email) && this.password);
     }
   },
   methods: {

@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const { escapeQuotes } = require("../utils");
 const fsp = require("fs").promises;
 const { limit, newestOrder, md5, imageExt, imageStripMime } = require("../utils");
 
@@ -60,7 +61,6 @@ module.exports = ({
   },
 
   async add(redditId, userId, post) {
-    const timestamp = new Date().toLocaleString("en-US");
     let imageUrl = "";
 
     if (post.image) {
@@ -73,8 +73,9 @@ module.exports = ({
         (title, content, image_path, video_url, link, creation_date,
          subreddit_id, user_id)
       VALUES
-        ('${post.title}', '${post.content}', '${imageUrl}', '${post.video}',
-        '${post.link}', '${timestamp}', ${redditId}, ${userId})
+        ('${escapeQuotes(post.title)}', '${escapeQuotes(post.content)}',
+         '${imageUrl}', '${escapeQuotes(post.video)}',
+         '${escapeQuotes(post.link)}', current_timestamp, ${redditId}, ${userId})
       RETURNING id
     `)).rows[0].id;
 

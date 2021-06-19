@@ -19,7 +19,7 @@ module.exports = io => socket => {
       WHERE c.post_id = ${postId}
     `)).rows.map(commentMapper);
 
-    socket.emit("comments", comments.reverse());
+    socket.emit("comments", comments);
 
     socket.on("comment", async content => {
       await db.query(`

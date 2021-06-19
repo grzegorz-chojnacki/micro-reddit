@@ -2,7 +2,7 @@
   <main v-if="post">
     <Post :post="post" @delete="$router.go(-1)" />
     <section id="comments">
-      <div>
+      <div v-if="isAuthenticated" class="mb-3">
         <label class="mt-2" for="comment">Add comment</label>
         <textarea
           id="comment"
@@ -56,11 +56,17 @@ export default {
     };
   },
   created() {
-    userService.isAuthenticated.subscribe(status => this.isAuthenticated = status);
+    userService.isAuthenticated.subscribe(status => {
+      this.isAuthenticated = status;
+      if (this.socket) {
+        this.socket.disconnect();
+      }
+
+      this.initializeSocket();
+    });
   },
   mounted() {
     this.fetchPost();
-    this.initializeSocket();
   },
   unmounted() {
     if (this.socket) {
@@ -76,6 +82,7 @@ export default {
       postService.get(this.redditName, this.postId).then(post => (this.post = post));
     },
     initializeSocket() {
+      console.log("asdasd");
       this.socket = io.connect(`${baseURL}`, { withCredentials: true });
 
       this.socket.on("connect", () => {

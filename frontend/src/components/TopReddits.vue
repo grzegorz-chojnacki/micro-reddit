@@ -36,7 +36,7 @@ export default {
       reddits: [],
     };
   },
-  async mounted() {
+  async created() {
     this.reddits = await this.fetchingFn();
   }
 };

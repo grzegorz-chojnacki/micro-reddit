@@ -43,7 +43,7 @@ export default {
       this.fetchNext();
     },
   },
-  mounted() {
+  created() {
     this.fetchNext();
     window.onscroll = atPageBottom(() => this.fetchNext());
   },

@@ -11,7 +11,15 @@ module.exports = ({
       WHERE ru.id = ${userId}
     `)).rows[0];
 
-    return { id, username, email, admin: role === "administrator" };
+    const modding = (await db.query(`
+      SELECT s.id, s.name
+      FROM subreddit AS s
+      INNER JOIN subreddit_moderator AS sm
+        ON s.id = sm.subreddit_id
+      WHERE sm.user_id = ${userId}
+    `)).rows;
+
+    return { id, username, email, modding, admin: role === "administrator" };
   },
 
   async add(user) {

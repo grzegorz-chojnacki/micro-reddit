@@ -228,6 +228,7 @@ interface User {
   password: Null<string> // Hasło nie jest null tylko po stronie backendu
   email:    string
   admin:    boolean
+  modding:  Reddit[]
 }
 
 // Jako autor postu, bazy danych lub moderator na liście moderatorów

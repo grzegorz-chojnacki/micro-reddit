@@ -1,15 +1,24 @@
 <template>
   <section class="card">
     <header class="card-header">
-      <h5 class="card-title">
-        <router-link
-          :to="{
-            name: 'post',
-            params: { redditName: post.reddit.name, postId: post.id },
-          }">
-          {{ post.title }}
-        </router-link>
-      </h5>
+      <div class="d-flex justify-content-between">
+        <h5 class="card-title">
+          <router-link
+            :to="{
+              name: 'post',
+              params: { redditName: post.reddit.name, postId: post.id },
+            }">
+            {{ post.title }}
+          </router-link>
+        </h5>
+
+        <button v-if="modView" class="btn btn-sm" @click="deletePost">
+          <span class="material-icons">
+            block
+          </span>
+        </button>
+      </div>
+
       <h6 class="card-subtitle">
         <span class="post-author">
           Posted by <strong>{{ post.user?.username }}</strong> at
@@ -59,6 +68,7 @@
 <script>
 import VoteGroup from "@/components/VoteGroup.vue";
 import { postService } from "@/services/postService.js";
+import { userService } from "@/services/userService.js";
 import { getYoutubeVideoId, baseURL } from "@/common.js";
 
 const urlMapper = url => url.match(/^http.*/) ? url : `${baseURL}/s/${url}`;
@@ -67,11 +77,13 @@ export default {
   name: "Post",
   components: { VoteGroup },
   props: { post: { type: Object, required: true } },
+  emits: ["delete"],
   data() {
     return {
       imageUrl: this.post.image ? urlMapper(this.post.image) : "",
       score: this.post.score,
       voted: this.post.voted,
+      modView: userService.isMod(this.post.reddit.name)
     };
   },
   watch: {
@@ -88,6 +100,10 @@ export default {
       const { score } = await postService.vote(this.post.reddit.name, this.post.id, state);
       this.score = score;
       this.voted = state;
+    },
+    async deletePost() {
+      await postService.delete(this.post.reddit.name, this.post.id);
+      this.$emit("delete", this.post.id);
     }
   },
 };
@@ -112,10 +128,16 @@ section {
 
 .post-author { opacity: 0.7 }
 
-header > * {
-  a {
-    text-decoration: none;
-    color: initial;
+header {
+  // button {
+//
+  // }
+
+  & > * {
+    a {
+      text-decoration: none;
+      color: initial;
+    }
   }
 }
 

@@ -35,6 +35,10 @@ export const userService = {
     }
   },
 
+  isMod(redditName) {
+    return userSource.value.modding.find(reddit => reddit.name === redditName);
+  },
+
   get isAuthenticated() {
     return isAuthenticatedSource.asObservable();
   },

@@ -22,7 +22,9 @@
         v-for="comment of comments"
         :key="comment.id"
         class="my-2"
-        :comment="comment" />
+        :comment="comment"
+        :mod-view="isMod"
+        @delete="deleteComment" />
     </section>
   </main>
   <div v-else>
@@ -52,12 +54,16 @@ export default {
       comments: [],
       socket: null,
       post: null,
-      isAuthenticated: false
+      isAuthenticated: false,
+      isMod: false
     };
   },
   created() {
-    userService.isAuthenticated.subscribe(status => {
-      this.isAuthenticated = status;
+    userService.user.subscribe(user => {
+      this.isAuthenticated = user !== null;
+
+      this.isMod = userService.isMod(this.redditName);
+
       if (this.socket) {
         this.socket.disconnect();
       }
@@ -78,11 +84,13 @@ export default {
       this.socket.emit("comment", this.textarea);
       this.textarea = "";
     },
+    deleteComment(id) {
+      this.socket.emit("deleteComment", id);
+    },
     fetchPost() {
       postService.get(this.redditName, this.postId).then(post => (this.post = post));
     },
     initializeSocket() {
-      console.log("asdasd");
       this.socket = io.connect(`${baseURL}`, { withCredentials: true });
 
       this.socket.on("connect", () => {
@@ -91,6 +99,10 @@ export default {
 
       this.socket.on("comment", comment => {
         this.comments = [comment, ...this.comments];
+      });
+
+      this.socket.on("deleteComment", id => {
+        this.comments = this.comments.filter(comment => comment.id !== id);
       });
 
       this.socket.on("comments", comments => {

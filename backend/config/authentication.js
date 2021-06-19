@@ -8,8 +8,16 @@ passport.use(new passportLocal.Strategy(async (username, password, done) => {
       SELECT id, email FROM reddit_user
       WHERE nickname = '${username}' AND password = '${password}'
     `)).rows[0];
-    done(null, { id, username, email });
-    //  return done(null, false, { message: 'Incorrect credentials.' });
+
+    const modding = (await db.query(`
+      SELECT s.id, s.name
+      FROM subreddit AS s
+      INNER JOIN subreddit_moderator AS sm
+        ON s.id = sm.subreddit_id
+      WHERE sm.user_id = ${id}
+    `)).rows;
+
+    done(null, { id, username, email, modding });
   } catch (err) {
     done(err);
   }

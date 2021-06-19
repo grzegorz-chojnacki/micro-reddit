@@ -13,9 +13,7 @@
         </h5>
 
         <button v-if="modView" class="btn btn-sm" @click="deletePost">
-          <span class="material-icons">
-            block
-          </span>
+          <span class="material-icons">block</span>
         </button>
       </div>
 

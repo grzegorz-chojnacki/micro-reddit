@@ -22,11 +22,18 @@ module.exports = io => socket => {
     socket.emit("comments", comments);
 
     socket.on("comment", async content => {
-      await db.query(`
+      const { id } = (await db.query(`
         INSERT INTO comment (content, parent_comment_id, user_id, post_id)
         VALUES ('${content.replaceAll("'", "''")}', NULL, ${user.id}, ${postId})
-      `);
-      io.to(postId).emit("comment", { user, content });
+        RETURNING id
+      `)).rows[0];
+
+      io.to(postId).emit("comment", { user, content, id });
+    });
+
+    socket.on("deleteComment", async id => {
+      await db.query(`DELETE FROM comment WHERE id = ${id}`);
+      io.to(postId).emit("deleteComment", id);
     });
   });
 

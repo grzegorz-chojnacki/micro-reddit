@@ -197,16 +197,16 @@
 | ---------- | ------- | ------------------ |
 | `comment`  | comment | Dodanie komentarza |
 
-| Moderator | Payload    | Opis                 |
-| --------- | ---------- | -------------------- |
-| `delete`  | comment-id | Usunięcie komentarza |
-| `delete`  | post-id    | Usunięcie postu      |
+| Moderator       | Payload    | Opis                 |
+| --------------- | ---------- | -------------------- |
+| `deleteComment` | comment-id | Usunięcie komentarza |
+| `deletePost`    | post-id    | Usunięcie postu      |
 
-| Serwer    | Payload    | Opis                             |
-| --------- | ---------- | -------------------------------- |
-| `comment` | comment    | Dodanie komentarza do listy      |
-| `delete`  | post-id    | Usunięcie postu                  |
-| `delete`  | comment-id | Usunięcie komentarza użytkownika |
+| Serwer          | Payload    | Opis                             |
+| --------------- | ---------- | -------------------------------- |
+| `comment`       | comment    | Dodanie komentarza do listy      |
+| `deletePost`    | post-id    | Usunięcie postu                  |
+| `deleteComment` | comment-id | Usunięcie komentarza użytkownika |
 
 ### Usuwanie użytkownika
 - Dla danego użytkownika

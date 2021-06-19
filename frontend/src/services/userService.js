@@ -36,7 +36,12 @@ export const userService = {
   },
 
   isMod(redditName) {
-    return userSource.value.modding.find(reddit => reddit.name === redditName);
+    const user = userSource.value;
+    if (user?.modding) {
+      return !!user.modding.find(reddit => reddit.name === redditName);
+    } else {
+      return false;
+    }
   },
 
   get isAuthenticated() {

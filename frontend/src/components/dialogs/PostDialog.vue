@@ -31,6 +31,15 @@
       </div>
 
       <div class="mb-3">
+        <label for="link" class="form-label">Link</label>
+        <input
+          id="link"
+          v-model="link"
+          type="text"
+          class="form-control">
+      </div>
+
+      <div class="mb-3">
         <label for="content" class="form-label">Text content</label>
         <textarea
           id="content"
@@ -77,6 +86,7 @@ export default markRaw({
       title: "",
       content: "",
       video: "",
+      link: "",
       image: null
     };
   },
@@ -100,6 +110,7 @@ export default markRaw({
         title: this.title,
         content: this.content,
         video: this.video,
+        link: this.link,
         image: this.image,
       };
 

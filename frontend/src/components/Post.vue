@@ -33,6 +33,12 @@
         <img :src="imageUrl" :alt="post.title">
       </div>
 
+      <p v-if="post.link" class="card-text">
+        <a :href="post.link">
+          {{ post.link }}
+        </a>
+      </p>
+
       <p v-if="post.content" class="card-text">
         {{ post.content }}
       </p>

@@ -65,6 +65,7 @@ CREATE TABLE post (
     content varchar,
     image_path varchar,
     video_url varchar,
+    link varchar,
     creation_date TIMESTAMP NOT NULL,
     subreddit_id integer NOT NULL,
     user_id integer NOT NULL,

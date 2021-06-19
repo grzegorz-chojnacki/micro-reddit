@@ -50,23 +50,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-main {
-  display: grid;
-  grid-template: "feed";
-  gap: 1em;
-
-  @media screen and (min-width: 875px) {
-    grid-template: "feed aside";
-    grid-template-columns: auto 300px;
-    aside {
-      grid-area: aside;
-    }
-  }
-
-  section {
-    grid-area: feed;
-  }
-}
-</style>

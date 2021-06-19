@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       page: 0,
-      query: "",
+      query: this.$route.query.q,
       reddits: [],
       sourceExhausted: false,
     };

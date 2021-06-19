@@ -84,15 +84,15 @@ import { dialogService } from "@/services/dialogService";
 export default {
   name: "Toolbar",
   data() {
-    return { search: "", isAuthenticated: false, user: {} };
+    return {
+      search: "",
+      isAuthenticated: false,
+      user: {}
+    };
   },
   created() {
-    userService.isAuthenticated.subscribe((status) => {
-      this.isAuthenticated = status;
-    });
-    userService.user.subscribe((user) => {
-      this.user = user;
-    });
+    userService.isAuthenticated.subscribe(status => this.isAuthenticated = status);
+    userService.user.subscribe(user => this.user = user);
   },
   methods: {
     onSubmit() {

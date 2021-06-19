@@ -15,7 +15,10 @@ import { dialogService } from "@/services/dialogService.js";
 export default {
   name: "DialogRoot",
   data() {
-    return { component: null, data: null };
+    return {
+      component: null,
+      data: null
+    };
   },
   created() {
     dialogService.component.subscribe(({ component, data }) => {

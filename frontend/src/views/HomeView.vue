@@ -22,14 +22,21 @@ export default {
   name: "HomeView",
   components: { Feed, TopReddits },
   data() {
-    return { fetchHome: postService.getHome, redditService };
+    return {
+      redditService,
+      subscription: null,
+      fetchHome: postService.getHome,
+    };
   },
   created() {
-    userService.isAuthenticated.subscribe(authenticated => {
+    this.subscription = userService.isAuthenticated.subscribe(authenticated => {
       if (!authenticated) {
         this.$router.push({ name: "main" });
       }
     });
+  },
+  unmounted() {
+    this.subscription.unsubscribe();
   }
 };
 </script>

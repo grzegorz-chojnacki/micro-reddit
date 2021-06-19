@@ -1,6 +1,4 @@
-import { api, Subject } from "@/common";
-
-let redditSource = Subject();
+import { api } from "@/common";
 
 export const redditService = {
   async getAll(page = 0, query = "") {
@@ -12,35 +10,20 @@ export const redditService = {
   },
 
   async update(reddit) {
-    const { data } = (await api.put(`/r/${reddit.name}`, reddit));
-    redditSource.next(data);
-    return data;
+    return (await api.put(`/r/${reddit.name}`, reddit)).data;
   },
 
   async get(redditName) {
-    const { data } = await api.get(`/r/${redditName}`);
-    redditSource.next(data);
-    return data;
+    return (await api.get(`/r/${redditName}`)).data;
   },
 
   async setSubscribe(redditName, state = false) {
     await api.patch(`/u/r/${redditName}`, { state });
-
-    const reddit = redditSource.value;
-    if (reddit && redditName === reddit.name) {
-      redditSource.next({ ...reddit, subscribed: state });
-    }
-
     return state;
   },
 
   async addMod(redditName, username) {
     await api.post(`/r/${redditName}/m/${username}`);
-    this.get(redditName);
-  },
-
-  get reddit() {
-    return redditSource.asObservable();
   },
 
   async getTopByPosts() {

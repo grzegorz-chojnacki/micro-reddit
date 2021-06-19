@@ -63,8 +63,9 @@ export default markRaw({
   },
   methods: {
     async update() {
-      this.$refs.dismiss.click();
       await redditService.update({ ...this.data, description: this.description });
+      this.$emit("close");
+      this.$refs.dismiss.click();
     },
   },
 });

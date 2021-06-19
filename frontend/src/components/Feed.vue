@@ -27,6 +27,7 @@ export default {
   props: { fetchingFn: { type: Function, required: true } },
   data() {
     return {
+      subscription: null,
       page: 0,
       query: this.$route.query.q || "",
       posts: [],
@@ -52,9 +53,10 @@ export default {
   created() {
     this.fetchNext();
     window.onscroll = atPageBottom(() => this.fetchNext());
-    userService.isAuthenticated.subscribe(() => {
-      this.refetch();
-    });
+    this.subscription = userService.isAuthenticated.subscribe(() => this.refetch());
+  },
+  unmounted() {
+    this.subscription.unsubscribe();
   },
   methods: {
     fetchNext() {

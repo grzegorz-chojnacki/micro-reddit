@@ -44,11 +44,15 @@ export default {
   name: "AccountView",
   data() {
     return {
+      subscription: null,
       user: null,
     };
   },
   created() {
-    userService.user.subscribe(user => this.user = user);
+    this.subscription = userService.user.subscribe(user => this.user = user);
+  },
+  unmounted() {
+    this.subscription.unsubscribe();
   },
   methods: {
     openUsernameDialog() {

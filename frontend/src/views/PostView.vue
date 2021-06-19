@@ -50,6 +50,7 @@ export default {
   },
   data() {
     return {
+      subscription: null,
       textarea: "",
       comments: [],
       socket: null,
@@ -59,25 +60,18 @@ export default {
     };
   },
   created() {
-    userService.user.subscribe(user => {
+    this.fetchPost();
+    this.subscription = userService.user.subscribe(user => {
       this.isAuthenticated = user !== null;
 
       this.isMod = userService.isMod(this.redditName);
 
-      if (this.socket) {
-        this.socket.disconnect();
-      }
-
       this.initializeSocket();
     });
   },
-  mounted() {
-    this.fetchPost();
-  },
   unmounted() {
-    if (this.socket) {
-      this.socket.disconnect();
-    }
+    this.subscription.unsubscribe();
+    this.socket.disconnect();
   },
   methods: {
     saveComment() {

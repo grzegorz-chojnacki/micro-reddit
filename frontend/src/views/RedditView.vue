@@ -1,7 +1,7 @@
 <template>
   <main class="with-aside">
     <aside v-if="reddit">
-      <RedditMeta :reddit="reddit" @subscription="setSubscribe" />
+      <RedditMeta :reddit="reddit" @subscription="setSubscribe" @update="refetch" />
       <TopReddits title="users" :fetching-fn="redditService.getTopByUsers" />
       <TopReddits title="posts" :fetching-fn="redditService.getTopByPosts" />
     </aside>
@@ -38,23 +38,23 @@ export default {
     };
   },
   watch: {
-    async $route() {
-      const redditName = this.$route.params.redditName;
-      if (redditName) {
-        await redditService.get(redditName);
-        this.fetchReddit = postService.getAllReddit(redditName);
-      }
+    $route() {
+      this.refetch();
     }
   },
-  created() {
-    redditService.reddit.subscribe((reddit) => (this.reddit = reddit));
-  },
-  async mounted() {
-    await redditService.get(this.redditName);
+  async created() {
+    this.reddit = await redditService.get(this.redditName);
   },
   methods: {
-    setSubscribe(state) {
-      redditService.setSubscribe(this.reddit.name, state);
+    async refetch() {
+      const redditName = this.$route.params.redditName;
+      if (redditName) {
+        this.reddit = await redditService.get(redditName);
+        this.fetchReddit = postService.getAllReddit(redditName);
+      }
+    },
+    async setSubscribe(state) {
+      this.reddit.subscribed = await redditService.setSubscribe(this.reddit.name, state);
     },
   }
 };

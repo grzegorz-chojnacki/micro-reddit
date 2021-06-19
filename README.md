@@ -32,7 +32,7 @@
   - [x] **DST** Głosowanie na posty
     > (głos za/przeciw - można oddać tylko jeden)
   - [x] **DST** Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
-  - [x] **DST** Dynamiczny (***BDB*** i hierarchiczny) system komentarzy (socket.io)
+  - [ ] **DST** Dynamiczny (***BDB*** i hierarchiczny) system komentarzy (socket.io)
     > (aktywni użytkownicy widzą komentarze w momencie ich dodania; komentarze/posty po usunięciu przez moderatora znikają)
 - [ ] Wymagane podstrony
   - [x] **DST** Home użytkownika
@@ -42,7 +42,7 @@
 - [x] **DST** Wyszukiwarka (postów według treści/subredditów według nazwy)
   > (pole/pola tekstowe z ewentualnym "przełącznikiem" treść/nazwa)
 - [ ] ***BDB*** Powiadomienia o odpowiedziach lub zmianach w trendach dotyczący postów danego użytkownika (socket.io)
-- [ ] **DST** Wybór popularnych (według liczby postów i liczby użytkowników) subredditów
+- [x] **DST** Wybór popularnych (według liczby postów i liczby użytkowników) subredditów
   > (Top-Five najlepszych względem wybranego kryterium)
 
 ## Strona serwerowa
@@ -74,10 +74,10 @@
   - [x] Możliwość przechodzenia pomiędzy subredditami
   - [x] Głosowanie na posty
   - [x] Post może zawierać: tekst, link, wideo (z Youtube), obrazek (na serwerze)
-  - [x] Dynamiczny system komentarzy (socket.io)
+  - [ ] Dynamiczny system komentarzy (socket.io)
 - [x] Home użytkownika
 - [x] Wyszukiwarka (postów według treści/subredditów według nazwy)
-- [ ] Wybór popularnych (według liczby postów i liczby użytkowników) subredditów
+- [x] Wybór popularnych (według liczby postów i liczby użytkowników) subredditów
 
 ## Wersja **DB**
 - [ ] Administratorzy

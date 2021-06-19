@@ -12,8 +12,8 @@ router.route("/u")
       const user = req.body;
       await userService.add(user);
       res.sendStatus(200);
-    } catch (errors) {
-      res.json({ errors });
+    } catch (e) {
+      res.json({ errors: [e.message] });
     }
   });
 

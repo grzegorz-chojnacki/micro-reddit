@@ -28,9 +28,7 @@ module.exports = ({
       SELECT * FROM reddit_user WHERE nickname = '${user.username}'
     `)).rows.length !== 0;
 
-    if (usernameExists) {
-      throw ["username"];
-    }
+    if (usernameExists) throw new Error("username");
 
     await db.query(`
       INSERT INTO reddit_user
@@ -46,11 +44,9 @@ module.exports = ({
     const authorized = (await db.query(`
       SELECT * FROM reddit_user
       WHERE id = ${userId} AND password = '${password}'
-    `)).rows.length === 1;
+    `)).rows.length !== 0;
 
-    if (!authorized) {
-      throw ["password"];
-    }
+    if (!authorized) throw new Error("password");
 
     const handlers = {
       username: async username => {
@@ -58,7 +54,7 @@ module.exports = ({
           SELECT * FROM reddit_user WHERE nickname = '${username}'
         `)).rows.length !== 0;
 
-        if (usernameExists) throw ["username"];
+        if (usernameExists) throw new Error("username");
 
         await db.query(`
           UPDATE reddit_user
@@ -89,7 +85,7 @@ module.exports = ({
       .map(key => handlers[key](changes[key]));
 
     return (await Promise.all(updates))
-      .reduce((obj, partial) => ({ ...obj, ...partial }));
+      .reduce((obj, partial) => ({ ...obj, ...partial }), {});
   },
 
   async delete(userId) {

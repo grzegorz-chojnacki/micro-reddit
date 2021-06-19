@@ -17,6 +17,13 @@ router.route("/r")
     res.json({ name });
   });
 
+// For top reddits by user count
+router.route("/tr/users")
+  .get(async (_req, res) => res.json(await redditService.getTopByUsers()));
+
+router.route("/tr/posts")
+  .get(async (_req, res) => res.json(await redditService.getTopByPosts()));
+
 // For reddit
 router.route("/r/:redditName").all(redditNameToId)
   .get(async (req, res) => {

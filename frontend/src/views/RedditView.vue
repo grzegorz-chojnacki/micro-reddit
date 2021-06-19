@@ -2,6 +2,7 @@
   <main>
     <aside v-if="reddit">
       <RedditMeta :reddit="reddit" @subscription="setSubscribe" />
+      <TopReddits />
     </aside>
 
     <section>
@@ -13,6 +14,7 @@
 
 <script>
 import RedditMeta from "@/components/RedditMeta.vue";
+import TopReddits from "@/components/TopReddits.vue";
 import RedditToolbar from "@/components/RedditToolbar.vue";
 import Feed from "@/components/Feed.vue";
 import { postService } from "@/services/postService.js";
@@ -22,6 +24,7 @@ export default {
   name: "RedditView",
   components: {
     RedditMeta,
+    TopReddits,
     RedditToolbar,
     Feed,
   },

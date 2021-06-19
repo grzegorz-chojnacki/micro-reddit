@@ -87,4 +87,30 @@ module.exports = ({
       ${limit(page)}
     `)).rows.map(subscribedBooleanCast);
   },
+
+  async getTopByPosts() {
+    return (await db.query(`
+      SELECT s.name, s.description, s.id, count(su.id)
+      FROM subreddit AS s
+      INNER JOIN subreddit_user AS su
+        ON s.id = su.subreddit_id
+      GROUP BY s.name, s.description, s.id
+      ORDER BY count DESC
+      LIMIT 5
+    `)).rows;
+  },
+
+  async getTopByUsers() {
+    return (await db.query(`
+      SELECT s.name, s.description, s.id, count(p.id)
+      FROM subreddit AS s
+      INNER JOIN post AS p
+        ON s.id = p.subreddit_id
+      GROUP BY s.name, s.description, s.id
+      ORDER BY count DESC
+      LIMIT 5
+    `)).rows;
+  },
 });
+
+// current_timestamp

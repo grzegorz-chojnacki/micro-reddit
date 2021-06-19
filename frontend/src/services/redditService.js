@@ -42,4 +42,12 @@ export const redditService = {
   get reddit() {
     return redditSource.asObservable();
   },
+
+  async getTopByPosts() {
+    return (await api.get("/tr/posts")).data;
+  },
+
+  async getTopByUsers() {
+    return (await api.get("/tr/users")).data;
+  },
 };

@@ -2,7 +2,7 @@
   <div class="d-flex flex-column gap-3">
     <section class="card mt-3">
       <header class="card-header">
-        <h5 class="card-title">
+        <h5 class="card-title m-0">
           <router-link
             :to="{
               name: 'reddit',
@@ -33,7 +33,7 @@
 
     <section class="card">
       <header class="card-header">
-        <h5 class="card-title">
+        <h5 class="card-title m-0">
           Moderators
         </h5>
       </header>

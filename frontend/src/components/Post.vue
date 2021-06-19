@@ -127,14 +127,11 @@ section {
 .post-author { opacity: 0.7 }
 
 header {
-  // button {
-//
-  // }
-
   & > * {
     a {
       text-decoration: none;
       color: initial;
+      overflow-wrap: anywhere;
     }
   }
 }

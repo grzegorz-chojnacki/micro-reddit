@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
     <div class="container-fluid">
       <router-link class="navbar-brand" :to="{ name: 'main' }">
         Reddit
@@ -51,7 +51,7 @@
           <ul v-if="isAuthenticated" class="navbar-nav me-auto mb-2 mb-sm-0">
             <li class="nav-item">
               <router-link id="username" class="nav-link" :to="{ name: 'account' }">
-                {{ user.username }}
+                {{ (user.username.length > 16) ? "Account" : user.username }}
               </router-link>
             </li>
           </ul>

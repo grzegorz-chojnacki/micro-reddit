@@ -20,12 +20,14 @@
       </div>
     </section>
 
-    <button v-if="reddit.subscribed" class="btn btn-secondary" @click="setSubscribe(false)">
-      Unsubscribe
-    </button>
-    <button v-else class="btn btn-primary" @click="setSubscribe(true)">
-      Subscribe
-    </button>
+    <template v-if="isAuthenticated">
+      <button v-if="reddit.subscribed" class="btn btn-secondary" @click="setSubscribe(false)">
+        Unsubscribe
+      </button>
+      <button v-else class="btn btn-primary" @click="setSubscribe(true)">
+        Subscribe
+      </button>
+    </template>
 
     <button v-if="isMod" class="btn btn-secondary" @click="openMetadataDialog">
       Change metadata
@@ -62,7 +64,11 @@ export default {
   props: { reddit: { type: Object, required: true } },
   emits: ["subscription", "update"],
   data() {
-    return { subscription: null, user: null };
+    return {
+      subscription: null,
+      user: null,
+      isAuthenticated: false
+    };
   },
   computed: {
     isMod() {
@@ -74,7 +80,10 @@ export default {
     }
   },
   created() {
-    this.subscription = userService.user.subscribe(user => this.user = user);
+    this.subscription = userService.user.subscribe(user => {
+      this.user = user;
+      this.isAuthenticated = user !== null;
+    });
   },
   unmounted() {
     this.subscription.unsubscribe();

@@ -95,6 +95,9 @@ module.exports = ({
       WHERE id = ${postId} AND subreddit_id = ${redditId}
     `)).rows[0];
 
+    await db.query(`DELETE FROM comment WHERE post_id = ${postId}`);
+    await db.query(`DELETE FROM post_vote WHERE post_id = ${postId}`);
+
     await db.query(`
       DELETE FROM post
       WHERE id = ${postId} AND subreddit_id = ${redditId}

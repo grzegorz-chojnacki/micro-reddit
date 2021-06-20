@@ -25,7 +25,7 @@
 - [ ] Subreddity (`/r/nazwaSubreddita`)
   - [x] **DST** Tworzenie subredditów
     > (twórca automatycznie zostaje moderatorem)
-  - [ ] Opcje wyświetlania postów w ramach subreddita
+  - [x] Opcje wyświetlania postów w ramach subreddita
     > (np. karty/lista/...)
   - [x] **DST** Tworzenie postów w ramach danego (sub)reddita
   - [x] **DST** Możliwość przechodzenia pomiędzy subredditami
@@ -36,7 +36,7 @@
     > (aktywni użytkownicy widzą komentarze w momencie ich dodania; komentarze/posty po usunięciu przez moderatora znikają)
 - [ ] Wymagane podstrony
   - [x] **DST** Home użytkownika
-     - [ ] Opcje sortowania (Best, Hot - Tempo przyrostu polubień, New)
+     - [x] Opcje sortowania (Best, Hot - Tempo przyrostu polubień, New)
 
 ## Pozostałe funkcjonalności
 - [x] **DST** Wyszukiwarka (postów według treści/subredditów według nazwy)
@@ -86,7 +86,7 @@
   - [ ] Usuwanie/banowanie "niegrzecznych" użytkowników
 - [ ] Przypominanie hasła
 - [x] Opcje wyświetlania postów w ramach subreddita (karty/lista)
-- [ ] Opcjami sortowania home użytkownika (Best, Hot - Tempo przyrostu polubień, New)
+- [x] Opcjami sortowania home użytkownika (Best, Hot - Tempo przyrostu polubień, New)
 
 # Reddit API
 ## Frontend

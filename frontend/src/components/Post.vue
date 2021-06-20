@@ -81,13 +81,14 @@ export default {
       imageUrl: this.post.image ? urlMapper(this.post.image) : "",
       score: this.post.score,
       voted: this.post.voted,
-      modView: userService.isMod(this.post.reddit.name)
+      modView: userService.isMod(this.post.reddit.name),
     };
   },
   watch: {
     post() {
       this.score = this.post.score;
       this.voted = this.post.voted;
+      this.modView = userService.isMod(this.post.reddit.name);
     }
   },
   methods: {

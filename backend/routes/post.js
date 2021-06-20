@@ -67,7 +67,7 @@ module.exports = io => {
       try {
         await postService.delete(redditId, postId);
         io.to(`p/${postId}`).emit("deletePost");
-        io.to(`r/${redditId}`).emit("deletePost", { postId });
+        io.to(`r/${redditId}`).emit("deletePost", postId);
         res.sendStatus(200);
       } catch (e) {
         res.sendStatus(404);

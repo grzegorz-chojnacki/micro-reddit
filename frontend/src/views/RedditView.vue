@@ -8,7 +8,7 @@
 
     <section>
       <RedditToolbar v-if="reddit" :reddit="reddit" />
-      <Feed :fetching-fn="fetchReddit" />
+      <Feed :fetching-fn="fetchReddit" :deleted-post="deletedPost" />
     </section>
   </main>
 </template>
@@ -37,6 +37,7 @@ export default {
       fetchReddit: postService.getAllReddit(this.redditName),
       socket: null,
       redditService,
+      deletedPost: null,
       reddit: null,
     };
   },
@@ -82,7 +83,7 @@ export default {
       });
 
       this.socket.on("deletePost", postId => {
-        console.log(postId);
+        this.deletedPost = { id: Number(postId) };
       });
     },
   }

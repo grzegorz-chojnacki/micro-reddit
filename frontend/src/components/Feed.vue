@@ -52,7 +52,10 @@ import { Range, atPageBottom } from "@/common.js";
 export default {
   name: "Feed",
   components: { Post, PostMinimal, LoadingIndicator },
-  props: { fetchingFn: { type: Function, required: true } },
+  props: {
+    fetchingFn: { type: Function, required: true },
+    deletedPost: { type: Object, default: () => ({ id: null })}
+  },
   data() {
     return {
       showCards: true,
@@ -71,6 +74,12 @@ export default {
     }
   },
   watch: {
+    deletedPost() {
+      console.log(this.deletedPost);
+      if (this.deletedPost.id) {
+        this.posts = this.posts.filter(post => post.id !== this.deletedPost.id);
+      }
+    },
     fetchingFn() {
       this.query = this.$route.query.q || "";
       this.page = 0;

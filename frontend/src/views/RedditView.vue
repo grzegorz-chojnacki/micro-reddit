@@ -42,7 +42,7 @@ export default {
       try {
         await this.refetch();
       } catch (e) {
-        this.$router.go(-1);
+        this.$router.push({ name: "main" });
       }
     }
   },
@@ -50,7 +50,7 @@ export default {
     try {
       this.reddit = await redditService.get(this.redditName);
     } catch (e) {
-      this.$router.go(-1);
+      this.$router.push({ name: "main" });
     }
   },
   methods: {

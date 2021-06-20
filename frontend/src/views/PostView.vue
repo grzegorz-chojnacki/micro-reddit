@@ -69,7 +69,7 @@ export default {
       } catch (e) {
         this.subscription && this.subscription.unsubscribe();
         this.socket && this.socket.disconnect();
-        this.$router.go(-1);
+        this.$router.push({ name: "reddit", params: { redditName: this.redditName }});
       }
 
       if (this.socket) {
@@ -110,7 +110,7 @@ export default {
       });
 
       this.socket.on("deletePost", () => {
-        this.$router.go(-1);
+        this.$router.push({ name: "reddit", params: { redditName: this.redditName }});
       });
 
       this.socket.on("comments", comments => {

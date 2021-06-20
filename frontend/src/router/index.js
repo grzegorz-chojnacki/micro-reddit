@@ -8,44 +8,50 @@ import RedditListView from "@/views/RedditListView.vue";
 import { userService } from "@/services/userService";
 
 let isAuthenticated = false;
-userService.isAuthenticated.subscribe(status => isAuthenticated = status);
+userService.isAuthenticated.subscribe(status => (isAuthenticated = status));
 
-const isAuthenticatedGuard = (to, from, next) => isAuthenticated ? next() : next({ name: "main" });
+const isAuthenticatedGuard = (_to, _from, next) => isAuthenticated
+  ? next()
+  : next({ name: "main" });
 
 const routes = [
   {
     path: "/",
     name: "main",
-    component: MainView
+    component: MainView,
   },
   {
     path: "/home",
     name: "home",
     component: HomeView,
-    beforeEnter: isAuthenticatedGuard
+    beforeEnter: isAuthenticatedGuard,
   },
   {
     path: "/account",
     name: "account",
     component: AccountView,
-    beforeEnter: isAuthenticatedGuard
+    beforeEnter: isAuthenticatedGuard,
   },
   {
     path: "/r",
     name: "reddit-list",
-    component: RedditListView
+    component: RedditListView,
   },
   {
     path: "/r/:redditName",
     name: "reddit",
     props: true,
-    component: RedditView
+    component: RedditView,
   },
   {
     path: "/r/:redditName/p/:postId",
     name: "post",
     props: true,
-    component: PostView
+    component: PostView,
+  },
+  {
+    path: "/:catchAll(.*)",
+    redirect: { name: "main" },
   },
 ];
 
@@ -54,7 +60,7 @@ const router = createRouter({
   routes,
   scrollBehavior(to) {
     if (to.hash) {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         setTimeout(() => resolve({ el: to.hash }), 300);
       });
     } else {

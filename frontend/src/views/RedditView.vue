@@ -38,12 +38,20 @@ export default {
     };
   },
   watch: {
-    $route() {
-      this.refetch();
+    async $route() {
+      try {
+        await this.refetch();
+      } catch (e) {
+        this.$router.go(-1);
+      }
     }
   },
   async created() {
-    this.reddit = await redditService.get(this.redditName);
+    try {
+      this.reddit = await redditService.get(this.redditName);
+    } catch (e) {
+      this.$router.go(-1);
+    }
   },
   methods: {
     async refetch() {

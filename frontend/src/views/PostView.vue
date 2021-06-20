@@ -60,11 +60,17 @@ export default {
     };
   },
   created() {
-    this.subscription = userService.user.subscribe(user => {
-      this.fetchPost();
-      this.isAuthenticated = user !== null;
+    this.subscription = userService.user.subscribe(async user => {
+      try {
+        this.post = await this.fetchPost();
+        this.isAuthenticated = user !== null;
 
-      this.isMod = userService.isMod(this.redditName);
+        this.isMod = userService.isMod(this.redditName);
+      } catch (e) {
+        this.subscription && this.subscription.unsubscribe();
+        this.socket && this.socket.disconnect();
+        this.$router.go(-1);
+      }
 
       if (this.socket) {
         this.socket.disconnect();
@@ -74,8 +80,8 @@ export default {
     });
   },
   unmounted() {
-    this.subscription.unsubscribe();
-    this.socket.disconnect();
+    this.subscription && this.subscription.unsubscribe();
+    this.socket && this.socket.disconnect();
   },
   methods: {
     saveComment() {
@@ -85,8 +91,8 @@ export default {
     deleteComment(id) {
       this.socket.emit("deleteComment", id);
     },
-    fetchPost() {
-      postService.get(this.redditName, this.postId).then(post => (this.post = post));
+    async fetchPost() {
+      return await postService.get(this.redditName, this.postId);
     },
     initializeSocket() {
       this.socket = io.connect(`${baseURL}`, { withCredentials: true });

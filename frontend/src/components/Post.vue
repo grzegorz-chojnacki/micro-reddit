@@ -112,6 +112,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/variables";
+
 $maxHeight: 500px;
 
 section {
@@ -130,7 +132,7 @@ section {
   }
 }
 
-.post-author { opacity: 0.7 }
+.post-author { opacity: $hazy }
 
 .yt-player {
   width: 100%;

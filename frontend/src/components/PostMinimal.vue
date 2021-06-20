@@ -69,7 +69,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "@/variables";
+
 .post-author, .post-score {
-  opacity: 0.7
+  opacity: $hazy;
 }
 </style>

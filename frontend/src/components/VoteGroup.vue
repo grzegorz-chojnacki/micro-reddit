@@ -47,7 +47,9 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import "@/variables";
+
 button {
   display: inline-flex;
   justify-content: center;
@@ -64,8 +66,8 @@ button {
   }
 
   &.selected {
-    color: var(--bs-light);
-    background-color: var(--bs-dark);
+    color: $light;
+    background-color: $dark;
   }
 }
 

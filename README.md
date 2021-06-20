@@ -4,7 +4,7 @@
 - Zarówno "przeglądarkowy" jak i (responsywny) "mobilny" (oparty o Vue.js 3 i SCSS)
 
 ## Funkcjonalność
-- [x] Użytkownicy
+- [ ] Użytkownicy
   - [x] **DST** Rejestracja
     > (prosty formularz - login w postaci adresu e-mail, hasło, powtórzone hasło + walidacja danych - login musi być unikatowy i poprawny "składniowo" jako adres e-mail, a hasła identyczne)
   - [x] **DST** Modyfikacja profilu użytkownika
@@ -20,7 +20,7 @@
       - [ ] Usuwanie/banowanie "niegrzecznych" użytkowników
       - [ ] ***BDB*** Wgląd do statystyk (największe subreddity - hierarchia, hierachia polubień postów/suredditów)
   - [ ] ***BDB*** Aktywacja konta po kliknięciu na "ograniczony czasowo link aktywacyjny"
-  - [ ] Przypominanie hasła
+  - [x] Przypominanie hasła
   - [x] **DST** Dołączanie do konkretnych subredditów
 - [ ] Subreddity (`/r/nazwaSubreddita`)
   - [x] **DST** Tworzenie subredditów
@@ -84,7 +84,7 @@
 ## Wersja **DB**
 - [ ] Administratorzy
   - [ ] Usuwanie/banowanie "niegrzecznych" użytkowników
-- [ ] Przypominanie hasła
+- [x] Przypominanie hasła
 - [x] Opcje wyświetlania postów w ramach subreddita (karty/lista)
 - [x] Opcjami sortowania home użytkownika (Best, Hot - Tempo przyrostu polubień, New)
 

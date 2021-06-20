@@ -42,6 +42,7 @@ main.with-aside {
   }
 
   section {
+    overflow: hidden;
     grid-area: feed;
   }
 }

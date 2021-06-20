@@ -63,6 +63,7 @@
 
 <script>
 import { redditService } from "@/services/redditService.js";
+import { userService } from "@/services/userService.js";
 import { markRaw } from "vue";
 import { urlify, markForm } from "@/common.js";
 
@@ -89,6 +90,9 @@ export default markRaw({
       if (markForm(this.$refs, errors)) {
         this.name = "",
         this.description = "",
+
+        userService.addModding({ name });
+
         this.$refs.dismiss.click();
         this.$router.push({ name: "reddit", params: { redditName: name } });
       }

@@ -19,6 +19,12 @@ export const userService = {
     userSource.next(user);
   },
 
+  addModding(redditName) {
+    const user = { ...userSource.value };
+    user.modding.push(redditName);
+    userSource.next(user);
+  },
+
   async register(username, password, email) {
     const { errors } = (await api.post("/u", { username, password, email })).data;
     return errors || this.login(username, password);

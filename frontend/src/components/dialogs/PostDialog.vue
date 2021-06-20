@@ -39,7 +39,7 @@
           id="link"
           v-model="link"
           type="text"
-          class="form-control">
+          :class="invalidControlClass(link && !isWebLink(link))">
       </div>
 
       <div class="mb-3">
@@ -77,7 +77,7 @@
 
 <script>
 import { postService } from "@/services/postService.js";
-import { getYoutubeVideoId, testYoutubeVideoId, invalidControlClass } from "@/common.js";
+import { getYoutubeVideoId, testYoutubeVideoId, invalidControlClass, isWebLink } from "@/common.js";
 import { markRaw } from "vue";
 
 export default markRaw({
@@ -86,7 +86,7 @@ export default markRaw({
   props: { data: { type: Object, default: () => ({}) }},
   data() {
     return {
-      invalidControlClass,
+      invalidControlClass, isWebLink,
       invalidYoutubeLink: false,
       title: "",
       content: "",

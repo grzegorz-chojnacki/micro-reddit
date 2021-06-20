@@ -1,7 +1,7 @@
 const db = require("../config/db");
 const { escapeQuotes } = require("../utils");
 const fsp = require("fs").promises;
-const { limit, newestOrder, md5, imageExt, imageStripMime, isYoutubeVideoUrl } = require("../utils");
+const { limit, newestOrder, md5, imageExt, imageStripMime, isYoutubeVideoUrl, isWebLink } = require("../utils");
 
 const getScoreQuery = postId => `
   SELECT sum(vote) FROM post_vote WHERE post_id = ${postId}
@@ -63,9 +63,9 @@ module.exports = ({
   async add(redditId, userId, post) {
     let imageUrl = "";
 
-    if (post.video && !(await isYoutubeVideoUrl(post.video))) {
-      throw new Error("video");
-    }
+    if (post.link && !(isWebLink(post.link))) throw new Error("link");
+
+    if (post.video && !(await isYoutubeVideoUrl(post.video))) throw new Error("video");
 
     if (post.image) {
       imageUrl = `${md5(post.image)}.${imageExt(post.image)}`;

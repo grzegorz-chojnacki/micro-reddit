@@ -64,6 +64,8 @@ export const urlify = str => str
   .replace(/[^\w\s.\-_/]/g, "")      // Remove diacritic modifiers
   .replace(/[^a-zA-Z0-9.~_-]/g, ""); // Remove all unallowed characters
 
+export const isWebLink = str => /^http[s]?:\/\/([a-zA-Z0-9.~_-])+/g.test(str);
+
 export const markForm = (refs = {}, errors = []) => {
   for (const ref in refs) {
     refs[ref].classList.remove("is-invalid");

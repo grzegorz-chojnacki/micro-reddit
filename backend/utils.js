@@ -73,6 +73,7 @@ const isYoutubeVideoUrl = async url => {
 };
 
 const isUrlSafe = str => !(/[^a-zA-Z0-9.~_-]/g.test(str));
+const isWebLink = str => /^http[s]?:\/\/([a-zA-Z0-9.~_-])+/g.test(str);
 
 module.exports = {
   pagination: req => ({ query: req.query.q || "", page: req.query.p  || 0 }),
@@ -88,4 +89,5 @@ module.exports = {
   isEmail,
   isYoutubeVideoUrl,
   isUrlSafe,
+  isWebLink
 };

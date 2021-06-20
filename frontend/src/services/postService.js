@@ -10,7 +10,7 @@ export const postService = {
   async add(redditName, post) {
     return (await api.post(`/r/${redditName}/p`, post)).data.id;
   },
-  async getHome(page = 0, query = "") {
+  getHome: (query = "new") => async (page = 0) => {
     return (await api.get(`/u/home?p=${page}&q=${query}`)).data;
   },
   async get(redditName, postId) {

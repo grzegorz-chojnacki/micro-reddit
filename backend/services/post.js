@@ -1,7 +1,8 @@
 const db = require("../config/db");
 const { escapeQuotes } = require("../utils");
 const fsp = require("fs").promises;
-const { limit, newestOrder, md5, imageExt, imageStripMime, isYoutubeVideoUrl, isWebLink } = require("../utils");
+const { limit, newestOrder, mostVotedOrder, md5, imageExt } = require("../utils");
+const { imageStripMime, isYoutubeVideoUrl, isWebLink }      = require("../utils");
 
 const getScoreQuery = postId => `
   SELECT sum(vote) FROM post_vote WHERE post_id = ${postId}
@@ -10,7 +11,7 @@ const getScoreQuery = postId => `
 const getPostQuery = (postId, userId = null) => `
   SELECT p.id, title, p.subreddit_id AS reddit_id, content,
         image_path AS image, video_url AS video, link,
-        (${getScoreQuery(postId)}) AS score,
+        COALESCE((${getScoreQuery(postId)}), 0) AS score,
         vote AS voted,
         s.name AS reddit_name, p.subreddit_id AS reddit_id,
         ru.nickname AS username, p.user_id
@@ -22,6 +23,8 @@ const getPostQuery = (postId, userId = null) => `
   LEFT JOIN post_vote AS pv
     ON p.id = pv.post_id AND pv.user_id = ${userId}
 `;
+
+const queryMap = { new: newestOrder, best: mostVotedOrder };
 
 const postMapper = ({
     id, title, reddit_id, content, image, video, link, reddit_name, username,
@@ -145,7 +148,7 @@ module.exports = ({
     return rows.map(postMapper);
   },
 
-  async getMain(userId, page, /* query */) {
+  async getMain(userId, page) {
     const { rows } = await db.query(`
       ${getPostQuery("p.id", userId)}
       ${newestOrder}
@@ -155,15 +158,19 @@ module.exports = ({
     return rows.map(postMapper);
   },
 
-  async getHome(userId, page, /* query */) {
+  async getHome(userId, page, query) {
+    const order = queryMap[query] || newestOrder;
+
     const { rows } = await db.query(`
       ${getPostQuery("p.id", userId)}
       INNER JOIN subreddit_user as su
         ON su.subreddit_id = s.id
       WHERE su.user_id = ${userId}
-      ${newestOrder}
+      ${order}
       ${limit(page)}
     `);
+
+    console.log(rows);
 
     return rows.map(postMapper);
   },

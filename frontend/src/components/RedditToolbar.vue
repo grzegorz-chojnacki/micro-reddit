@@ -1,32 +1,12 @@
 <template>
   <nav class="card bg-light mt-3">
     <div class="card-body p-2 d-flex justify-content-between">
-      <div class="d-flex align-items-center">
-        <button v-if="reddit.subscribed" class="btn btn-secondary me-3" @click="openPostDialog">
-          <span class="material-icons add">
-            add
-          </span>
-          Post
-        </button>
-
-        <label class="me-2" for="sortType">Sort:</label>
-        <select
-          id="sortType"
-          v-model="sort"
-          disabled
-          class="form-select"
-          aria-label="Default select example">
-          <option value="new">
-            New
-          </option>
-          <option value="hot">
-            Hot
-          </option>
-          <option value="best">
-            Best
-          </option>
-        </select>
-      </div>
+      <button v-if="reddit.subscribed" class="btn btn-secondary me-3" @click="openPostDialog">
+        <span class="material-icons add">
+          add
+        </span>
+        Post
+      </button>
 
       <form class="d-flex" @submit.prevent="">
         <div class="input-group">
@@ -73,7 +53,6 @@ export default {
   },
   data() {
     return {
-      sort: "new",
       searchType: "title",
       search: "",
     };

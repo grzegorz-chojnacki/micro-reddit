@@ -6,6 +6,7 @@
     </aside>
 
     <section>
+      <HomeToolbar @sort="onSort" />
       <Feed :fetching-fn="fetchHome" />
     </section>
   </main>
@@ -14,18 +15,19 @@
 <script>
 import Feed from "@/components/Feed.vue";
 import TopReddits from "@/components/TopReddits.vue";
+import HomeToolbar from "@/components/HomeToolbar.vue";
 import { userService } from "@/services/userService.js";
 import { postService } from "@/services/postService.js";
 import { redditService } from "@/services/redditService.js";
 
 export default {
   name: "HomeView",
-  components: { Feed, TopReddits },
+  components: { Feed, TopReddits, HomeToolbar },
   data() {
     return {
       redditService,
       subscription: null,
-      fetchHome: postService.getHome,
+      fetchHome: postService.getHome(),
     };
   },
   created() {
@@ -37,6 +39,11 @@ export default {
   },
   unmounted() {
     this.subscription.unsubscribe();
+  },
+  methods: {
+    onSort(type) {
+      this.fetchHome = postService.getHome(type);
+    }
   }
 };
 </script>

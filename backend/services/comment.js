@@ -5,6 +5,19 @@ const commentMapper = ({ id, content, user_id, username }) => ({
   id, content, user: { username, id: user_id }
 });
 
+const isPostMod = async (PostId, userId) => {
+  if (!userId) return false;
+
+  const isAuthorized = (await db.query(`
+    SELECT * FROM subreddit_moderator AS sm
+    INNER JOIN post AS p
+      ON p.subreddit_id = sm.subreddit_id
+    WHERE p.id = ${PostId} AND sm.user_id = ${userId};
+  `)).rows.length === 1;
+
+  return isAuthorized;
+};
+
 module.exports = io => socket => {
   const session = socket.request.session;
   const user = socket.request.user;
@@ -23,6 +36,8 @@ module.exports = io => socket => {
     socket.emit("comments", comments.reverse());
 
     socket.on("comment", async content => {
+      if (!user) return;
+
       const { id } = (await db.query(`
         INSERT INTO comment (content, parent_comment_id, user_id, post_id)
         VALUES ('${escapeQuotes(content)}', NULL, ${user.id}, ${postId})
@@ -33,10 +48,10 @@ module.exports = io => socket => {
     });
 
     socket.on("deleteComment", async id => {
+      if (!isPostMod(postId, user.id)) return;
+
       await db.query(`DELETE FROM comment WHERE id = ${id}`);
       io.to(postId).emit("deleteComment", id);
     });
   });
-
-  session.save();
 };

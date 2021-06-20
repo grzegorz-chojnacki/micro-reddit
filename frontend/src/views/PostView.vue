@@ -24,6 +24,8 @@
         class="my-2"
         :comment="comment"
         :mod-view="isMod"
+        :admin-view="isAdmin"
+        @ban="banUser"
         @delete="deleteComment" />
     </section>
   </main>
@@ -56,7 +58,8 @@ export default {
       socket: null,
       post: null,
       isAuthenticated: false,
-      isMod: false
+      isMod: false,
+      isAdmin: false,
     };
   },
   created() {
@@ -66,6 +69,7 @@ export default {
         this.isAuthenticated = user !== null;
 
         this.isMod = userService.isMod(this.redditName);
+        this.isAdmin = user?.admin || false;
       } catch (e) {
         this.subscription && this.subscription.unsubscribe();
         this.socket && this.socket.disconnect();
@@ -91,6 +95,13 @@ export default {
     deleteComment(id) {
       this.socket.emit("deleteComment", id);
     },
+    banUser(user) {
+      this.socket.emit("banUser", {
+        redditName: this.redditName,
+        postId: this.postId,
+        userId: user.id
+      });
+    },
     async fetchPost() {
       return await postService.get(this.redditName, this.postId);
     },
@@ -107,6 +118,17 @@ export default {
 
       this.socket.on("deleteComment", id => {
         this.comments = this.comments.filter(comment => comment.id !== id);
+      });
+
+      this.socket.on("banUser", userId => {
+        if (userService.user.value.id === userId) {
+          userService.logout();
+          this.$router.push({ name: "main" });
+        } else if (userId === this.post.user.id) {
+          this.$router.push({ name: "reddit", params: { redditName: this.redditName }});
+        } else {
+          this.comments = this.comments.filter(comment => comment.user.id !== userId);
+        }
       });
 
       this.socket.on("deletePost", () => {

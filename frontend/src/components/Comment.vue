@@ -9,6 +9,10 @@
         <button v-if="modView" class="btn btn-sm" @click="$emit('delete', comment.id)">
           <span class="material-icons">block</span>
         </button>
+
+        <button v-if="adminView" class="btn btn-sm" @click="$emit('ban', comment.user)">
+          <span class="material-icons">person_off</span>
+        </button>
       </div>
 
       <p class="card-text">
@@ -23,9 +27,10 @@ export default {
   name: "Comment",
   props: {
     comment: { type: Object, required: true },
-    modView: { type: Boolean, required: true }
+    modView: { type: Boolean, default: false },
+    adminView: { type: Boolean, default: false }
   },
-  emits: ["delete"],
+  emits: ["delete", "ban"],
 };
 </script>
 

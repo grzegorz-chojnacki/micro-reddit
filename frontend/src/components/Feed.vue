@@ -54,7 +54,8 @@ export default {
   components: { Post, PostMinimal, LoadingIndicator },
   props: {
     fetchingFn: { type: Function, required: true },
-    deletedPost: { type: Object, default: () => ({ id: null })}
+    deletedPost: { type: Object, default: () => ({ id: null })},
+    bannedUser: { type: Object, default: () => ({ id: null })},
   },
   data() {
     return {
@@ -75,9 +76,13 @@ export default {
   },
   watch: {
     deletedPost() {
-      console.log(this.deletedPost);
       if (this.deletedPost.id) {
         this.posts = this.posts.filter(post => post.id !== this.deletedPost.id);
+      }
+    },
+    bannedUser() {
+      if (this.bannedUser.id) {
+        this.posts = this.posts.filter(post => post.user.id !== this.bannedUser.id);
       }
     },
     fetchingFn() {

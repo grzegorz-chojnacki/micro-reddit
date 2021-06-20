@@ -8,7 +8,10 @@
 
     <section>
       <RedditToolbar v-if="reddit" :reddit="reddit" />
-      <Feed :fetching-fn="fetchReddit" :deleted-post="deletedPost" />
+      <Feed
+        :fetching-fn="fetchReddit"
+        :deleted-post="deletedPost"
+        :banned-user="bannedUser" />
     </section>
   </main>
 </template>
@@ -22,6 +25,7 @@ import { io } from "socket.io-client";
 import { baseURL } from "@/common";
 import { postService } from "@/services/postService.js";
 import { redditService } from "@/services/redditService.js";
+import { userService } from "@/services/userService.js";
 
 export default {
   name: "RedditView",
@@ -38,6 +42,7 @@ export default {
       socket: null,
       redditService,
       deletedPost: null,
+      bannedUser: null,
       reddit: null,
     };
   },
@@ -84,6 +89,15 @@ export default {
 
       this.socket.on("deletePost", postId => {
         this.deletedPost = { id: Number(postId) };
+      });
+
+      this.socket.on("banUser", userId => {
+        if (userService.user.value.id === userId) {
+          userService.logout();
+          this.$router.push({ name: "main" });
+        } else {
+          this.bannedUser = { id: Number(userId) };
+        }
       });
     },
   }

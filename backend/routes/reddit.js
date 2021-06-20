@@ -61,7 +61,7 @@ router.route("/r/:redditName/m/:username").all(redditNameToId)
       await redditService.addMod(redditId, username);
       res.sendStatus(200);
     } catch (e) {
-      res.sendStatus(404);
+      res.json({ errors: ["username"] });
     }
   });
 

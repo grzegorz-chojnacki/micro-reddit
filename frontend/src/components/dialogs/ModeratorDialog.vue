@@ -16,10 +16,14 @@
         <label for="usernameMod" class="form-label">Username</label>
         <input
           id="usernameMod"
+          ref="username"
           v-model="username"
           type="text"
           class="form-control"
           autocomplete="nope">
+        <div class="invalid-feedback">
+          Invalid username
+        </div>
       </div>
     </form>
 
@@ -40,6 +44,7 @@
 
 <script>
 import { redditService } from "@/services/redditService.js";
+import { markForm } from "@/common.js";
 import { markRaw } from "vue";
 
 export default markRaw({
@@ -60,10 +65,14 @@ export default markRaw({
     }
   },
   methods: {
-    add() {
-      redditService.addMod(this.data.name , this.username);
-      this.$emit("close");
-      this.$refs.dismiss.click();
+    async add() {
+      const { errors } = await redditService.addMod(this.data.name , this.username);
+
+      if (markForm(this.$refs, errors)) {
+        this.username = "";
+        this.$emit("close");
+        this.$refs.dismiss.click();
+      }
     },
   },
 });

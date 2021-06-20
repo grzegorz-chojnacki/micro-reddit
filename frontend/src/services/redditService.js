@@ -23,7 +23,7 @@ export const redditService = {
   },
 
   async addMod(redditName, username) {
-    await api.post(`/r/${redditName}/m/${username}`);
+    return (await api.post(`/r/${redditName}/m/${username}`)).data;
   },
 
   async getTopByPosts() {

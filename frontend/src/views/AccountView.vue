@@ -49,7 +49,13 @@ export default {
     };
   },
   created() {
-    this.subscription = userService.user.subscribe(user => this.user = user);
+    this.subscription = userService.user.subscribe(user => {
+      if (user) {
+        this.user = user;
+      } else {
+        this.$router.push({ name: "main" });
+      }
+    });
   },
   unmounted() {
     this.subscription.unsubscribe();

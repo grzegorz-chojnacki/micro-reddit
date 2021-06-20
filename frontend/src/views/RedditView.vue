@@ -35,6 +35,7 @@ export default {
   data() {
     return {
       fetchReddit: postService.getAllReddit(this.redditName),
+      socket: null,
       redditService,
       reddit: null,
     };
@@ -42,6 +43,7 @@ export default {
   watch: {
     async $route() {
       try {
+        this.initializeSocket();
         await this.refetch();
       } catch (e) {
         this.$router.push({ name: "main" });
@@ -51,6 +53,8 @@ export default {
   async created() {
     try {
       this.reddit = await redditService.get(this.redditName);
+
+      this.initializeSocket();
     } catch (e) {
       this.$router.push({ name: "main" });
     }
@@ -67,6 +71,10 @@ export default {
       this.reddit.subscribed = await redditService.setSubscribe(this.reddit.name, state);
     },
     initializeSocket() {
+      if (this.socket) {
+        this.socket.disconnect();
+      }
+
       this.socket = io.connect(`${baseURL}`, { withCredentials: true });
 
       this.socket.on("connect", () => {

@@ -91,9 +91,8 @@ export default {
     fetchNext() {
       this.fetchingFn(this.page, this.query).then((posts) => {
         this.sourceExhausted = posts.length < 10;
-        this.posts = this.posts.concat(posts);
-
-        if (!this.sourceExhausted) {
+        if (posts.length > 0) {
+          this.posts = this.posts.concat(posts);
           this.page++;
         }
       });

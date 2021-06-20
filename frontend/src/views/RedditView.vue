@@ -18,6 +18,8 @@ import RedditMeta from "@/components/RedditMeta.vue";
 import TopReddits from "@/components/TopReddits.vue";
 import RedditToolbar from "@/components/RedditToolbar.vue";
 import Feed from "@/components/Feed.vue";
+import { io } from "socket.io-client";
+import { baseURL } from "@/common";
 import { postService } from "@/services/postService.js";
 import { redditService } from "@/services/redditService.js";
 
@@ -63,6 +65,17 @@ export default {
     },
     async setSubscribe(state) {
       this.reddit.subscribed = await redditService.setSubscribe(this.reddit.name, state);
+    },
+    initializeSocket() {
+      this.socket = io.connect(`${baseURL}`, { withCredentials: true });
+
+      this.socket.on("connect", () => {
+        this.socket.emit("reddit", this.reddit.id);
+      });
+
+      this.socket.on("deletePost", postId => {
+        console.log(postId);
+      });
     },
   }
 };

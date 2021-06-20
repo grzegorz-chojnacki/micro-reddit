@@ -60,7 +60,7 @@ io.use(socketIoWrap(session));
 io.use(socketIoWrap(passport.initialize()));
 io.use(socketIoWrap(passport.session()));
 
-const commentService = require("./services/comment")(io);
+const commentService = require("./services/socket")(io);
 io.on("connection", commentService);
 
 // Routes

@@ -21,8 +21,10 @@ const isPostMod = async (PostId, userId) => {
 module.exports = io => socket => {
   const user = socket.request.user;
 
-  socket.on("room", async postId => {
-    socket.join(postId);
+  socket.on("reddit", redditId => socket.join(`r/${redditId}`));
+
+  socket.on("post", async postId => {
+    socket.join(`p/${postId}`);
 
     const comments = (await db.query(`
       SELECT c.id, content, user_id, nickname AS username
@@ -43,14 +45,14 @@ module.exports = io => socket => {
         RETURNING id
       `)).rows[0];
 
-      io.to(postId).emit("comment", { user, content, id });
+      io.to(`p/${postId}`).emit("comment", { user, content, id });
     });
 
     socket.on("deleteComment", async id => {
       if (!isPostMod(postId, user.id)) return;
 
       await db.query(`DELETE FROM comment WHERE id = ${id}`);
-      io.to(postId).emit("deleteComment", id);
+      io.to(`p/${postId}`).emit("deleteComment", id);
     });
   });
 };

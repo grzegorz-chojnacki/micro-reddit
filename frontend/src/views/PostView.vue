@@ -98,7 +98,7 @@ export default {
       this.socket = io.connect(`${baseURL}`, { withCredentials: true });
 
       this.socket.on("connect", () => {
-        this.socket.emit("room", this.postId);
+        this.socket.emit("post", this.postId);
       });
 
       this.socket.on("comment", comment => {

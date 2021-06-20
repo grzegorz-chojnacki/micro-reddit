@@ -52,7 +52,7 @@ const queryResolver = (query = "") => {
   }
 };
 
-module.exports = io => ({
+module.exports = ({
   async get(redditId, postId, userId) {
     const data = (await db.query(`
       ${getPostQuery(postId, userId)}
@@ -99,8 +99,6 @@ module.exports = io => ({
       DELETE FROM post
       WHERE id = ${postId} AND subreddit_id = ${redditId}
     `);
-
-    io.to(postId).emit("deletePost");
 
     // eslint-disable-next-line
     try { await fsp.rm(`./storage/${image_path}`) } catch (_) { }

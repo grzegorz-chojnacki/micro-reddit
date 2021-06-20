@@ -63,11 +63,10 @@ io.use(socketIoWrap(passport.session()));
 const commentService = require("./services/comment")(io);
 io.on("connection", commentService);
 
-// Routes & services
-const postService = require("./services/post")(io);
+// Routes
 app.use("/api", require("./routes/user"));
 app.use("/api", require("./routes/reddit"));
-app.use("/api", require("./routes/post")(postService));
+app.use("/api", require("./routes/post")(io));
 
 server.listen(port, () => {
   console.log(`Server started on port ${port}`);

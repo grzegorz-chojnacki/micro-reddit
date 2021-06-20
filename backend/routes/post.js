@@ -1,4 +1,5 @@
 const express = require("express");
+const postService = require("../services/post.js");
 const router = express.Router();
 const { isAuthenticated, isSubscribed, isRedditMod } = require("../config/authentication");
 const { pagination, redditNameToId } = require("../utils.js");
@@ -9,7 +10,7 @@ const oneify = n => {
   else return -1;
 };
 
-module.exports = postService => {
+module.exports = io => {
   // For main page posts
   router.route("/p")
     .get(async (req, res) => {
@@ -65,6 +66,8 @@ module.exports = postService => {
 
       try {
         await postService.delete(redditId, postId);
+        io.to(postId).emit("deletePost");
+        io.to(redditId).emit("deletePost", { postId });
         res.sendStatus(200);
       } catch (e) {
         res.sendStatus(404);

@@ -1,6 +1,6 @@
 import { api, Subject } from "@/common";
 
-let userSource = Subject({});
+let userSource = Subject(null);
 let isAuthenticatedSource = Subject(false);
 
 api
@@ -55,6 +55,6 @@ export const userService = {
   async logout() {
     await api.post("/logout");
     isAuthenticatedSource.next(false);
-    userSource.next({});
+    userSource.next(null);
   },
 };

@@ -31,6 +31,16 @@ const { passport } = require("./config/authentication");
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Handle passport session errors
+app.use((err, req, res, next) => {
+  if (err) {
+    req.logout();
+    res.sendStatus(401);
+  } else {
+    next();
+  }
+});
+
 app.post("/api/login", passport.authenticate("local"), (req, res) => {
   const { user } = req;
   req.login(user, () => {});

@@ -13,7 +13,7 @@ router.route("/r")
       const reddits = await redditService.getAll(req.user?.id, page, query);
       res.json(reddits);
     } catch (e) {
-      res.status(404);
+      res.sendStatus(404);
     }
   })
   .post(isAuthenticated, async (req, res) => {
@@ -41,7 +41,7 @@ router.route("/r/:redditName").all(redditNameToId)
       const reddit = await redditService.get(redditId, req.user?.id);
       res.json(reddit);
     } catch (e) {
-      res.status(400);
+      res.sendStatus(400);
     }
   })
   .put(isRedditMod, async (req, res) => {

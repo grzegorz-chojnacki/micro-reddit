@@ -19,7 +19,6 @@ const isPostMod = async (PostId, userId) => {
 };
 
 module.exports = io => socket => {
-  const session = socket.request.session;
   const user = socket.request.user;
 
   socket.on("room", async postId => {

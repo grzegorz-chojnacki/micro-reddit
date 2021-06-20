@@ -23,7 +23,7 @@ router.route("/u").all(isAuthenticated)
     try {
       res.json(await userService.get(req.user.id));
     } catch (e) {
-      res.status(404);
+      res.sendStatus(404);
     }
   })
   .patch(async (req, res) => {
@@ -44,7 +44,7 @@ router.route("/u").all(isAuthenticated)
       await userService.delete(userId);
       res.sendStatus(200);
     } catch (e) {
-      res.status(404);
+      res.sendStatus(404);
     }
   });
 
@@ -59,7 +59,7 @@ router.route("/u/r/:redditName").all(redditNameToId)
       await userService.setSubscribe(redditId, userId, state);
       res.json({ state });
     } catch (e) {
-      res.status(404);
+      res.sendStatus(404);
     }
   }),
 
@@ -75,7 +75,7 @@ router.route("/u/password").all(isAuthenticated)
       // emailService.sendEmail(email, passwordResetEmail);
       res.sendStatus(200);
     } catch (e) {
-      res.status(404);
+      res.sendStatus(404);
     }
   });
 
@@ -89,7 +89,7 @@ router.route("/u/home").all(isAuthenticated)
       const reddits = await postService.getHome(userId, page, query);
       res.json(reddits);
     } catch (e) {
-      res.status(404);
+      res.sendStatus(404);
     }
   });
 

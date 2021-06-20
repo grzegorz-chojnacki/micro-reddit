@@ -19,7 +19,7 @@ router.route("/p")
       const posts = await postService.getMain(req.user?.id, page, query);
       res.json(posts);
     } catch (e) {
-      res.status(400);
+      res.sendStatus(400);
     }
   });
 
@@ -33,7 +33,7 @@ router.route("/r/:redditName/p").all(redditNameToId)
       const posts = await postService.getAll(redditId, req.user?.id, page, query);
       res.json(posts);
     } catch (e) {
-      res.status(400);
+      res.sendStatus(400);
     }
   })
   .post(isSubscribed, async (req, res) => {
@@ -57,7 +57,7 @@ router.route("/r/:redditName/p/:postId").all(redditNameToId)
       const post = await postService.get(redditId, postId, req.user?.id);
       res.json(post);
     } catch (e) {
-      res.status(404);
+      res.sendStatus(404);
     }
   })
   .delete(isRedditMod, async (req, res) => {
@@ -67,7 +67,7 @@ router.route("/r/:redditName/p/:postId").all(redditNameToId)
       await postService.delete(redditId, postId);
       res.sendStatus(200);
     } catch (e) {
-      res.status(404);
+      res.sendStatus(404);
     }
   })
   .patch(isAuthenticated, async (req, res) => {
@@ -78,7 +78,7 @@ router.route("/r/:redditName/p/:postId").all(redditNameToId)
       const score = await postService.vote(postId, req.user.id, vote);
       res.json(score);
     } catch (e) {
-      res.status(400);
+      res.sendStatus(400);
     }
   });
 

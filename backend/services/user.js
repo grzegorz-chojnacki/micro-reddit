@@ -1,5 +1,5 @@
 const db = require("../config/db");
-const { escapeQuotes } = require("../utils");
+const { escapeQuotes, isEmail } = require("../utils");
 
 module.exports = ({
   async get(userId) {
@@ -24,6 +24,8 @@ module.exports = ({
   },
 
   async add(user) {
+    if (!isEmail(user.email)) throw new Error("email");
+
     const usernameExists = (await db.query(`
       SELECT * FROM reddit_user WHERE nickname = '${user.username}'
     `)).rows.length !== 0;
@@ -64,6 +66,8 @@ module.exports = ({
         return { username };
       },
       email: async email => {
+        if (!isEmail(email)) throw new Error("email");
+
         await db.query(`
           UPDATE reddit_user
           SET email = '${escapeQuotes(email)}'

@@ -1,5 +1,5 @@
 const db = require("../config/db");
-const { limit, escapeQuotes } = require("../utils");
+const { limit, escapeQuotes, isUrlSafe } = require("../utils");
 
 const isSubscribed = (redditId, userId = null) => `
 CASE WHEN EXISTS (
@@ -33,11 +33,15 @@ module.exports = ({
   },
 
   async add(reddit, userId) {
+    if (!isUrlSafe(reddit.name)) throw new Error("name");
+
     const redditNameExists = (await db.query(`
       SELECT * FROM subreddit WHERE name = '${escapeQuotes(reddit.name)}'
-    `)).rows.length > 0;
+      `)).rows.length > 0;
 
     if (redditNameExists) throw new Error("name");
+
+    if (reddit.description.length >= 256) throw new Error("description");
 
     const redditId = (await db.query(`
       INSERT INTO subreddit (name, description)
@@ -59,6 +63,8 @@ module.exports = ({
   },
 
   async update(reddit) {
+    if (reddit.description.length >= 256) throw new Error("description");
+
     await db.query(`
       UPDATE subreddit SET
         description = '${escapeQuotes(reddit.description)}'

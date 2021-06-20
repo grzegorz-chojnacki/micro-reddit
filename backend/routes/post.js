@@ -15,8 +15,12 @@ router.route("/p")
   .get(async (req, res) => {
     const { query, page } = pagination(req);
 
-    const posts = await postService.getMain(req.user?.id, page, query);
-    res.json(posts);
+    try {
+      const posts = await postService.getMain(req.user?.id, page, query);
+      res.json(posts);
+    } catch (e) {
+      res.status(400);
+    }
   });
 
 // For posts
@@ -25,15 +29,23 @@ router.route("/r/:redditName/p").all(redditNameToId)
     const { redditId } = req.params;
     const { query, page } = pagination(req);
 
-    const posts = await postService.getAll(redditId, req.user?.id, page, query);
-    res.json(posts);
+    try {
+      const posts = await postService.getAll(redditId, req.user?.id, page, query);
+      res.json(posts);
+    } catch (e) {
+      res.status(400);
+    }
   })
   .post(isSubscribed, async (req, res) => {
     const { redditId } = req.params;
     const post = req.body;
 
-    const id = await postService.add(redditId, req.user.id, post);
-    res.json({ id });
+    try {
+      const id = await postService.add(redditId, req.user.id, post);
+      res.json({ id });
+    } catch (e) {
+      res.json({ errors: [e.message] });
+    }
   });
 
 // For post
@@ -41,21 +53,33 @@ router.route("/r/:redditName/p/:postId").all(redditNameToId)
   .get(async (req, res) => {
     const { redditId, postId } = req.params;
 
-    const post = await postService.get(redditId, postId, req.user?.id);
-    res.json(post);
+    try {
+      const post = await postService.get(redditId, postId, req.user?.id);
+      res.json(post);
+    } catch (e) {
+      res.status(404);
+    }
   })
   .delete(isRedditMod, async (req, res) => {
     const { redditId, postId } = req.params;
 
-    await postService.delete(redditId, postId);
-    res.sendStatus(200);
+    try {
+      await postService.delete(redditId, postId);
+      res.sendStatus(200);
+    } catch (e) {
+      res.status(404);
+    }
   })
   .patch(isAuthenticated, async (req, res) => {
     const { postId } = req.params;
     const vote = oneify(Number.parseInt(req.body.vote) || 0);
 
-    const score = await postService.vote(postId, req.user.id, vote);
-    res.json(score);
+    try {
+      const score = await postService.vote(postId, req.user.id, vote);
+      res.json(score);
+    } catch (e) {
+      res.status(400);
+    }
   });
 
 module.exports = router;

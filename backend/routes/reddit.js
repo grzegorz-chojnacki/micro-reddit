@@ -9,8 +9,12 @@ router.route("/r")
   .get(async (req, res) => {
     const { query, page } = pagination(req);
 
-    const reddits = await redditService.getAll(req.user?.id, page, query);
-    res.json(reddits);
+    try {
+      const reddits = await redditService.getAll(req.user?.id, page, query);
+      res.json(reddits);
+    } catch (e) {
+      res.status(404);
+    }
   })
   .post(isAuthenticated, async (req, res) => {
     try {
@@ -32,21 +36,20 @@ router.route("/tr/posts")
 router.route("/r/:redditName").all(redditNameToId)
   .get(async (req, res) => {
     const { redditId } = req.params;
-    const reddit = await redditService.get(redditId, req.user?.id);
-    res.json(reddit);
+
+    try {
+      const reddit = await redditService.get(redditId, req.user?.id);
+      res.json(reddit);
+    } catch (e) {
+      res.status(400);
+    }
   })
   .put(isRedditMod, async (req, res) => {
     try {
-      const reddit = req.body;
-
-      if (reddit.description.length >= 256) {
-        throw new Error();
-      }
-
-      const updated = await redditService.update(reddit);
+      const updated = await redditService.update(req.body);
       res.json(updated);
     } catch (e) {
-      res.sendStatus(400);
+      res.sendStatus(404);
     }
   });
 
@@ -58,7 +61,7 @@ router.route("/r/:redditName/m/:username").all(redditNameToId)
       await redditService.addMod(redditId, username);
       res.sendStatus(200);
     } catch (e) {
-      res.sendStatus(400);
+      res.sendStatus(404);
     }
   });
 

@@ -1,9 +1,9 @@
 const db = require("./config/db");
 const crypto = require("crypto");
+const axios = require("axios");
 
 const redditNameToId = async (req, res, next) => {
   const { redditName } = req.params;
-
   const { rows } = await db.query(`
     SELECT id FROM subreddit WHERE name = '${redditName}'
   `);
@@ -12,7 +12,7 @@ const redditNameToId = async (req, res, next) => {
     req.params.redditId = rows[0].id;
     next();
   } else {
-    res.sendStatus(400);
+    res.sendStatus(404);
   }
 };
 
@@ -55,6 +55,25 @@ const socketIoWrap = middleware => (socket, next) => middleware(socket.request, 
 
 const mimeRegex = /^data:image\/(.*?);base64,/;
 
+const isEmail = email => /^\S+@\S+$/.test(email);
+
+const isYoutubeVideoUrl = async url => {
+  try {
+    const split = url.split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/|\/e\/)/);
+    const id = (split[2] !== undefined)
+      ? split[2].split(/[^0-9a-z_-]/i)[0]
+      : split[0];
+
+    const { data } = await axios.get(
+      `https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=${id}`);
+    return data !== "Not Found";
+  } catch (e) {
+    return false;
+  }
+};
+
+const isUrlSafe = str => !(/[^a-zA-Z0-9.~_-]/g.test(str));
+
 module.exports = {
   pagination: req => ({ query: req.query.q || "", page: req.query.p  || 0 }),
   redditNameToId,
@@ -65,5 +84,8 @@ module.exports = {
   imageExt: str => str.match(mimeRegex)[1],
   imageStripMime: str => str.replace(mimeRegex, ""),
   escapeQuotes: str => str.replaceAll("'", "''"),
-  socketIoWrap
+  socketIoWrap,
+  isEmail,
+  isYoutubeVideoUrl,
+  isUrlSafe,
 };

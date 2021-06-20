@@ -47,29 +47,37 @@ const isAuthenticated = (req, res, next) => {
 const isRedditMod = async (req, res, next) => {
   if (!req.isAuthenticated()) return res.sendStatus(401);
 
-  const redditId = req.params.redditId;
-  const userId = req.user.id;
+  try {
+    const redditId = req.params.redditId;
+    const userId = req.user.id;
 
-  const { rows } = await db.query(`
-    SELECT * FROM subreddit_moderator
-    WHERE user_id = ${userId} AND subreddit_id = ${redditId}
-  `);
+    const { rows } = await db.query(`
+      SELECT * FROM subreddit_moderator
+      WHERE user_id = ${userId} AND subreddit_id = ${redditId}
+    `);
 
-  return rows.length === 1 ? next() : res.sendStatus(403);
+    return rows.length === 1 ? next() : res.sendStatus(403);
+  } catch (e) {
+    res.sendStatus(404);
+  }
 };
 
 const isSubscribed = async (req, res, next) => {
   if (!req.isAuthenticated()) return res.sendStatus(401);
 
-  const redditId = req.params.redditId;
-  const userId = req.user.id;
+  try {
+    const redditId = req.params.redditId;
+    const userId = req.user.id;
 
-  const { rows } = await db.query(`
-    SELECT * FROM subreddit_user
-    WHERE user_id = ${userId} AND subreddit_id = ${redditId}
-  `);
+    const { rows } = await db.query(`
+      SELECT * FROM subreddit_user
+      WHERE user_id = ${userId} AND subreddit_id = ${redditId}
+    `);
 
-  return rows.length === 1 ? next() : res.sendStatus(403);
+    return rows.length === 1 ? next() : res.sendStatus(403);
+  } catch (e) {
+    res.sendStatus(404);
+  }
 };
 
 module.exports = { passport, isAuthenticated, isRedditMod, isSubscribed };

@@ -20,7 +20,11 @@ router.route("/u")
 // For logged user
 router.route("/u").all(isAuthenticated)
   .get(async (req, res) => {
-    res.json(await userService.get(req.user.id));
+    try {
+      res.json(await userService.get(req.user.id));
+    } catch (e) {
+      res.status(404);
+    }
   })
   .patch(async (req, res) => {
     const userId = req.user.id;
@@ -36,8 +40,12 @@ router.route("/u").all(isAuthenticated)
   .delete(async (req, res) => {
     const userId = req.user.id;
 
-    await userService.delete(userId);
-    res.sendStatus(200);
+    try {
+      await userService.delete(userId);
+      res.sendStatus(200);
+    } catch (e) {
+      res.status(404);
+    }
   });
 
 // For logged user subscriptions
@@ -47,8 +55,12 @@ router.route("/u/r/:redditName").all(redditNameToId)
     const { redditId } = req.params;
     const { state } = req.body;
 
-    userService.setSubscribe(redditId, userId, state);
-    res.json({ state });
+    try {
+      await userService.setSubscribe(redditId, userId, state);
+      res.json({ state });
+    } catch (e) {
+      res.status(404);
+    }
   }),
 
 // For logged user password
@@ -58,10 +70,13 @@ router.route("/u/password").all(isAuthenticated)
     // const email = req.body;
     const randomPassword = "";
 
-    userService.setPassword(userId, randomPassword);
-    // emailService.sendEmail(email, passwordResetEmail);
-
-    res.sendStatus(200);
+    try {
+      userService.setPassword(userId, randomPassword);
+      // emailService.sendEmail(email, passwordResetEmail);
+      res.sendStatus(200);
+    } catch (e) {
+      res.status(404);
+    }
   });
 
 // For logged user homepage posts
@@ -70,9 +85,12 @@ router.route("/u/home").all(isAuthenticated)
     const userId = req.user.id;
     const { query, page } = pagination(req);
 
-    const reddits = await postService.getHome(userId, page, query);
-
-    res.json(reddits);
+    try {
+      const reddits = await postService.getHome(userId, page, query);
+      res.json(reddits);
+    } catch (e) {
+      res.status(404);
+    }
   });
 
 module.exports = router;

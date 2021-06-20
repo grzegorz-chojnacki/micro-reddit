@@ -17,7 +17,7 @@
         > (opis - obsługa edycji za pomocą pola tekstowego)
       - [x] Usuwanie postów/komentarzy
     - [ ] Administratorzy
-      - [ ] Usuwanie/banowanie "niegrzecznych" użytkowników
+      - [x] Usuwanie/banowanie "niegrzecznych" użytkowników
       - [ ] ***BDB*** Wgląd do statystyk (największe subreddity - hierarchia, hierachia polubień postów/suredditów)
   - [ ] ***BDB*** Aktywacja konta po kliknięciu na "ograniczony czasowo link aktywacyjny"
   - [x] Przypominanie hasła
@@ -82,8 +82,8 @@
 - [x] Wybór popularnych (według liczby postów i liczby użytkowników) subredditów
 
 ## Wersja **DB**
-- [ ] Administratorzy
-  - [ ] Usuwanie/banowanie "niegrzecznych" użytkowników
+- [x] Administratorzy
+  - [x] Usuwanie/banowanie "niegrzecznych" użytkowników
 - [x] Przypominanie hasła
 - [x] Opcje wyświetlania postów w ramach subreddita (karty/lista)
 - [x] Opcjami sortowania home użytkownika (Best, Hot - Tempo przyrostu polubień, New)

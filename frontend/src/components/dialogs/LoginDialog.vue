@@ -35,9 +35,16 @@
           Username or password is invalid
         </div>
       </div>
+      <span v-if="reminded">Email sent to inbox of {{ reminded }}!</span>
     </form>
 
     <div class="modal-footer">
+      <button
+        class="btn btn-small text-primary"
+        :disabled="!username"
+        @click="remindPassword">
+        Remind my password
+      </button>
       <button
         ref="dismiss"
         type="button"
@@ -65,6 +72,7 @@ export default markRaw({
       invalidControlClass,
       username: "",
       password: "",
+      reminded: ""
     };
   },
   computed: {
@@ -79,11 +87,16 @@ export default markRaw({
         markForm(this.$refs, []);
         this.username = "",
         this.password = "",
+        this.reminded = "";
         this.$refs.dismiss.click();
       } catch (e) {
         markForm(this.$refs, ["password", "username"]);
       }
     },
+    remindPassword() {
+      userService.remindPassword(this.username);
+      this.reminded = this.username;
+    }
   },
 });
 </script>

@@ -35,6 +35,10 @@ export const userService = {
     }
   },
 
+  async remindPassword(username) {
+    api.post("/u/password", { username });
+  },
+
   isMod(redditName) {
     const user = userSource.value;
     if (user?.modding) {

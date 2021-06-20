@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userService = require("../services/user");
 const postService = require("../services/post");
+const emailService = require("../services/email");
 const { isAuthenticated } = require("../config/authentication");
 const { pagination, redditNameToId } = require("../utils.js");
 
@@ -63,16 +64,12 @@ router.route("/u/r/:redditName").all(redditNameToId)
     }
   }),
 
-// For logged user password
-router.route("/u/password").all(isAuthenticated)
+// For sending password to username email
+router.route("/u/password")
   .post(async (req, res) => {
-    const userId = req.user.id;
-    // const email = req.body;
-    const randomPassword = "";
-
     try {
-      userService.setPassword(userId, randomPassword);
-      // emailService.sendEmail(email, passwordResetEmail);
+      const user = await userService.getUsername(req.body.username);
+      await emailService.remindPassword(user);
       res.sendStatus(200);
     } catch (e) {
       res.sendStatus(404);

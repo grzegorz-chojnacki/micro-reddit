@@ -23,6 +23,13 @@ module.exports = ({
     return { id, username, email, modding, admin: role === "administrator" };
   },
 
+  async getUsername(username) {
+    return (await db.query(`
+      SELECT id, nickname, email, password
+      FROM reddit_user WHERE nickname = '${username}'
+    `)).rows[0];
+  },
+
   async add(user) {
     if (!isEmail(user.email)) throw new Error("email");
 
@@ -97,8 +104,11 @@ module.exports = ({
     return true;
   },
 
-  async setPassword(/* userId, password */) {
-    return Promise.resolve(true);
+  async setPassword(username) {
+    const { id, email } = (await db.query(`
+      SELECT id, email FROM reddit_user
+      WHERE nickname = '${username}' AND password = '${password}'
+    `)).rows[0];
   },
 
   async setSubscribe(redditId, userId, subscribing = false) {

@@ -109,6 +109,10 @@ export default {
         this.comments = this.comments.filter(comment => comment.id !== id);
       });
 
+      this.socket.on("deletePost", () => {
+        this.$router.go(-1);
+      });
+
       this.socket.on("comments", comments => {
         this.comments = comments;
       });

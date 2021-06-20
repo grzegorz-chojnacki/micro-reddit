@@ -42,14 +42,10 @@ app.post("/api/logout", (req, res) => {
   res.sendStatus(200);
 });
 
-// Routes & services
+// Static files
 const path = require("path");
 app.use("/", express.static(path.join(__dirname, "../frontend/dist")));
 app.use("/api/s", express.static("./storage/"));
-
-app.use("/api", require("./routes/user"));
-app.use("/api", require("./routes/reddit"));
-app.use("/api", require("./routes/post"));
 
 // Socket.io
 const { socketIoWrap } = require("./utils");
@@ -66,6 +62,12 @@ io.use(socketIoWrap(passport.session()));
 
 const commentService = require("./services/comment")(io);
 io.on("connection", commentService);
+
+// Routes & services
+const postService = require("./services/post")(io);
+app.use("/api", require("./routes/user"));
+app.use("/api", require("./routes/reddit"));
+app.use("/api", require("./routes/post")(postService));
 
 server.listen(port, () => {
   console.log(`Server started on port ${port}`);

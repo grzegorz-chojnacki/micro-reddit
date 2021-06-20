@@ -1,6 +1,6 @@
 const db = require("../config/db");
-const { escapeQuotes } = require("../utils");
 const fsp = require("fs").promises;
+const { escapeQuotes } = require("../utils");
 const { limit, newestOrder, mostVotedOrder, md5, imageExt } = require("../utils");
 const { imageStripMime, isYoutubeVideoUrl, isWebLink }      = require("../utils");
 
@@ -52,7 +52,7 @@ const queryResolver = (query = "") => {
   }
 };
 
-module.exports = ({
+module.exports = io => ({
   async get(redditId, postId, userId) {
     const data = (await db.query(`
       ${getPostQuery(postId, userId)}
@@ -99,6 +99,8 @@ module.exports = ({
       DELETE FROM post
       WHERE id = ${postId} AND subreddit_id = ${redditId}
     `);
+
+    io.to(postId).emit("deletePost");
 
     // eslint-disable-next-line
     try { await fsp.rm(`./storage/${image_path}`) } catch (_) { }
@@ -169,8 +171,6 @@ module.exports = ({
       ${order}
       ${limit(page)}
     `);
-
-    console.log(rows);
 
     return rows.map(postMapper);
   },

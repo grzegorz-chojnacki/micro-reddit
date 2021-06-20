@@ -99,7 +99,7 @@ module.exports = ({
     `)).rows.map(subscribedBooleanCast);
   },
 
-  async getTopByPosts() {
+  async getTopByUsers() {
     return (await db.query(`
       SELECT s.name, s.description, s.id, count(su.id)
       FROM subreddit AS s
@@ -111,7 +111,7 @@ module.exports = ({
     `)).rows;
   },
 
-  async getTopByUsers() {
+  async getTopByPosts() {
     return (await db.query(`
       SELECT s.name, s.description, s.id, count(p.id)
       FROM subreddit AS s

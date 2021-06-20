@@ -21,6 +21,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/variables";
+
 #router {
   max-width: 1000px;
   min-height: 100vh;
@@ -39,6 +41,10 @@ main.with-aside {
 
   aside {
     grid-area: above;
+
+    .top {
+      display: none;
+    }
   }
 
   @media screen and (min-width: 875px) {
@@ -46,6 +52,10 @@ main.with-aside {
     grid-template-columns: auto 300px;
     aside {
       grid-area: aside;
+
+      .top {
+        display: flex;
+      }
     }
   }
 

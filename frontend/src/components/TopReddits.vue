@@ -1,5 +1,5 @@
 <template>
-  <section class="card mt-3">
+  <section class="top card mt-3">
     <header class="card-header">
       Top reddits by number of {{ title }}
     </header>

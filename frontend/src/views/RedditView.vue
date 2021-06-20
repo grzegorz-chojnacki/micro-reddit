@@ -2,8 +2,8 @@
   <main class="with-aside">
     <aside v-if="reddit">
       <RedditMeta :reddit="reddit" @subscription="setSubscribe" @update="refetch" />
-      <TopReddits class="top" title="users" :fetching-fn="redditService.getTopByUsers" />
-      <TopReddits class="top" title="posts" :fetching-fn="redditService.getTopByPosts" />
+      <TopReddits title="users" :fetching-fn="redditService.getTopByUsers" />
+      <TopReddits title="posts" :fetching-fn="redditService.getTopByPosts" />
     </aside>
 
     <section>
@@ -103,13 +103,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.top {
-  display: none;
-
-  @media screen and (min-width: 875px) {
-    display: flex;
-  }
-}
-</style>

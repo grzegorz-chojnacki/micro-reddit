@@ -30,8 +30,12 @@ export default {
 
 main.with-aside {
   display: grid;
-  grid-template: "feed";
+  grid-template: "above" "feed";
   gap: 1em;
+
+  aside {
+    grid-area: above;
+  }
 
   @media screen and (min-width: 875px) {
     grid-template: "feed aside";

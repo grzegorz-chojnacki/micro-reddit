@@ -85,7 +85,7 @@
 - [ ] Administratorzy
   - [ ] Usuwanie/banowanie "niegrzecznych" użytkowników
 - [ ] Przypominanie hasła
-- [ ] Opcje wyświetlania postów w ramach subreddita (karty/lista)
+- [x] Opcje wyświetlania postów w ramach subreddita (karty/lista)
 - [ ] Opcjami sortowania home użytkownika (Best, Hot - Tempo przyrostu polubień, New)
 
 # Reddit API

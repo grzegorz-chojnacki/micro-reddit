@@ -4,8 +4,12 @@ const db = require("./db");
 
 passport.use(new passportLocal.Strategy(async (username, password, done) => {
   try {
-    const { id, email } = (await db.query(`
-      SELECT id, email FROM reddit_user
+    const { id, email, role } = (await db.query(`
+      SELECT ru.id, email, role_name AS role
+      FROM reddit_user AS ru
+      LEFT JOIN user_role AS ur
+        ON ur.id = ru.id
+      LEFT JOIN role AS r ON r.id = role_id
       WHERE nickname = '${username}' AND password = '${password}'
     `)).rows[0];
 
@@ -17,7 +21,7 @@ passport.use(new passportLocal.Strategy(async (username, password, done) => {
       WHERE sm.user_id = ${id}
     `)).rows;
 
-    done(null, { id, username, email, modding });
+    done(null, { id, username, email, modding, admin: role === "administrator" });
   } catch (err) {
     done(err);
   }

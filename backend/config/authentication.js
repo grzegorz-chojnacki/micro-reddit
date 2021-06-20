@@ -55,12 +55,20 @@ const isRedditMod = async (req, res, next) => {
     const redditId = req.params.redditId;
     const userId = req.user.id;
 
-    const { rows } = await db.query(`
+    const isAdmin = (await db.query(`
+      SELECT * FROM reddit_user AS ru
+      LEFT JOIN user_role AS ur
+        ON ur.id = ru.id
+      LEFT JOIN role AS r ON r.id = role_id
+      WHERE ru.id = ${userId} AND role_name = 'administrator'
+    `)).rows.length === 1;
+
+    const isMod = (await db.query(`
       SELECT * FROM subreddit_moderator
       WHERE user_id = ${userId} AND subreddit_id = ${redditId}
-    `);
+    `)).rows.length === 1;
 
-    return rows.length === 1 ? next() : res.sendStatus(403);
+    return (isAdmin || isMod) ? next() : res.sendStatus(403);
   } catch (e) {
     res.sendStatus(404);
   }

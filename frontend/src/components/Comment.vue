@@ -6,13 +6,15 @@
           <strong>{{ comment.user.username }}</strong> wrote:
         </h6>
 
-        <button v-if="modView" class="btn btn-sm" @click="$emit('delete', comment.id)">
-          <span class="material-icons">block</span>
-        </button>
+        <div>
+          <button v-if="modView" class="btn btn-sm" @click="$emit('delete', comment.id)">
+            <span class="material-icons">block</span>
+          </button>
 
-        <button v-if="adminView" class="btn btn-sm" @click="$emit('ban', comment.user)">
-          <span class="material-icons">person_off</span>
-        </button>
+          <button v-if="adminView && notMyself" class="btn btn-sm" @click="$emit('ban', comment.user)">
+            <span class="material-icons">person_off</span>
+          </button>
+        </div>
       </div>
 
       <p class="card-text">
@@ -23,6 +25,8 @@
 </template>
 
 <script>
+import { userService } from "@/services/userService";
+
 export default {
   name: "Comment",
   props: {
@@ -31,5 +35,10 @@ export default {
     adminView: { type: Boolean, default: false }
   },
   emits: ["delete", "ban"],
+  computed: {
+    notMyself() {
+      return userService.user.value.username !== this.comment.user.username;
+    }
+  }
 };
 </script>

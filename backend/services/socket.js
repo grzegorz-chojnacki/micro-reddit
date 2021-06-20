@@ -18,6 +18,20 @@ const isPostMod = async (PostId, userId) => {
   return isAuthorized;
 };
 
+const isAdmin = async userId => {
+  if (!userId) return false;
+
+  const isAuthorized = (await db.query(`
+    SELECT * FROM reddit_user AS ru
+    LEFT JOIN user_role AS ur
+      ON ur.id = ru.id
+    LEFT JOIN role AS r ON r.id = role_id
+    WHERE ru.id = ${userId} AND role_name = 'administrator'
+  `)).rows.length === 1;
+
+  return isAuthorized;
+};
+
 module.exports = io => socket => {
   const user = socket.request.user;
 
@@ -53,6 +67,25 @@ module.exports = io => socket => {
 
       await db.query(`DELETE FROM comment WHERE id = ${id}`);
       io.to(`p/${postId}`).emit("deleteComment", id);
+    });
+
+    socket.on("banUser", async ({ redditName, postId, userId }) => {
+      if (!isAdmin(user.id)) return;
+
+      const redditId = (await db.query(`
+        SELECT id FROM subreddit WHERE name = '${redditName}'
+      `)).rows[0];
+
+      await db.query(`DELETE FROM comment WHERE user_id = ${userId}`);
+      await db.query(`DELETE FROM post_vote WHERE user_id = ${userId}`);
+      await db.query(`DELETE FROM post WHERE user_id = ${userId}`);
+      await db.query(`DELETE FROM subreddit_user WHERE user_id = ${userId}`);
+      await db.query(`DELETE FROM subreddit_moderator WHERE user_id = ${userId}`);
+      await db.query(`DELETE FROM user_role WHERE user_id = ${userId}`);
+      await db.query(`DELETE FROM reddit_user WHERE id = ${userId}`);
+
+      io.to(`p/${postId}`).emit("banUser", userId);
+      io.to(`r/${redditId}`).emit("banUser", userId);
     });
   });
 };

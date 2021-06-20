@@ -48,22 +48,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.btn {
+button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
   padding: 0 0.5em;
+
+  &[disabled] {
+    opacity: 1;
+  }
+
+  &.score {
+    box-sizing: content-box;
+    min-width: 3ch;
+  }
+
+  &.selected {
+    color: var(--bs-light);
+    background-color: var(--bs-dark);
+  }
 }
 
-.score {
-  box-sizing: content-box;
-  min-width: 3ch;
-}
-
-.selected {
-  color: var(--bs-light);
-  background-color: var(--bs-dark);
-}
-
-button[disabled] { opacity: 1 }
 </style>

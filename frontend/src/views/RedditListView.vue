@@ -72,9 +72,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h2 > button {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.5em;
+h2 {
+  button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5em;
+  }
 }
 </style>

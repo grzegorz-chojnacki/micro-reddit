@@ -4,6 +4,7 @@
       <div class="d-flex justify-content-between">
         <h5 class="card-title">
           <router-link
+            class="text-reset"
             :to="{
               name: 'post',
               params: { redditName: post.reddit.name, postId: post.id },
@@ -22,6 +23,7 @@
           Posted by <strong>{{ post.user?.username }}</strong> at
         </span>
         <router-link
+          class="text-reset"
           :to="{ name: 'reddit', params: { redditName: post.reddit.name } }">
           {{ post.reddit.name }}
         </router-link>
@@ -110,13 +112,15 @@ export default {
 </script>
 
 <style scoped lang="scss">
+$maxHeight: 500px;
+
 section {
   margin: 1em 0;
 }
 
 .img-container {
   overflow: hidden;
-  max-height: 800px;
+  max-height: $maxHeight;
 
   img {
     box-shadow: 0 0 1em black;
@@ -128,18 +132,8 @@ section {
 
 .post-author { opacity: 0.7 }
 
-header {
-  & > * {
-    a {
-      text-decoration: none;
-      color: initial;
-      overflow-wrap: anywhere;
-    }
-  }
-}
-
 .yt-player {
   width: 100%;
-  height: 500px;
+  height: $maxHeight;
 }
 </style>

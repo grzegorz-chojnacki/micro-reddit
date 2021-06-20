@@ -4,6 +4,7 @@
       <div class="d-flex justify-content-between">
         <h5>
           <router-link
+            class="text-reset"
             :to="{
               name: 'post',
               params: { redditName: post.reddit.name, postId: post.id },
@@ -22,6 +23,7 @@
           Posted by <strong>{{ post.user?.username }}</strong> at
         </span>
         <router-link
+          class="text-reset"
           :to="{ name: 'reddit', params: { redditName: post.reddit.name } }">
           {{ post.reddit.name }}
         </router-link>
@@ -67,15 +69,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.post-author, .post-score { opacity: 0.7 }
-
-header {
-  & > * {
-    a {
-      text-decoration: none;
-      color: initial;
-      overflow-wrap: anywhere;
-    }
-  }
+.post-author, .post-score {
+  opacity: 0.7
 }
 </style>

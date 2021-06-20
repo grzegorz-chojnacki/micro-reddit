@@ -4,6 +4,7 @@
       <header class="card-header">
         <h5 class="card-title m-0">
           <router-link
+            class="text-reset"
             :to="{
               name: 'reddit',
               params: { redditName: reddit.name },
@@ -105,12 +106,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-header > * {
-  a {
-    text-decoration: none;
-    color: initial;
-  }
-}
-</style>

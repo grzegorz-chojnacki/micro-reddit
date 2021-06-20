@@ -28,6 +28,10 @@ export default {
   margin: 0 auto;
 }
 
+a.text-reset {
+  text-decoration: none;
+}
+
 main.with-aside {
   display: grid;
   grid-template: "above" "feed";

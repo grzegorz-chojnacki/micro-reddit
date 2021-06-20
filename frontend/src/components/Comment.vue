@@ -33,6 +33,3 @@ export default {
   emits: ["delete", "ban"],
 };
 </script>
-
-<style scoped lang="scss">
-</style>

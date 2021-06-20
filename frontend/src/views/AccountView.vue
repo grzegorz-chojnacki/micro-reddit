@@ -79,17 +79,14 @@ section {
   margin: 1em 0;
 }
 
-.list-group-item {
+button.list-group-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
 
-.spacer {
-  flex-grow: 1;
-}
-
-span.text-secondary {
-  margin-right: 2em;
+  span {
+    &.spacer { flex-grow: 1; }
+    &.text-secondary { margin-right: 2em; }
+  }
 }
 </style>

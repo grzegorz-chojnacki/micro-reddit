@@ -104,13 +104,6 @@ module.exports = ({
     return true;
   },
 
-  async setPassword(username) {
-    const { id, email } = (await db.query(`
-      SELECT id, email FROM reddit_user
-      WHERE nickname = '${username}' AND password = '${password}'
-    `)).rows[0];
-  },
-
   async setSubscribe(redditId, userId, subscribing = false) {
     const unsubscribing = !subscribing;
     const subscriptionExists = (await db.query(`

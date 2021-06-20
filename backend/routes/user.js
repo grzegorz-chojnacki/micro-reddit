@@ -72,6 +72,7 @@ router.route("/u/password")
       await emailService.remindPassword(user);
       res.sendStatus(200);
     } catch (e) {
+      console.log(e);
       res.sendStatus(404);
     }
   });

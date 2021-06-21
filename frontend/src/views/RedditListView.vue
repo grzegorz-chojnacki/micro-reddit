@@ -10,6 +10,7 @@
     <Reddit
       v-for="reddit of reddits"
       :key="reddit.name"
+      :is-authenticated="isAuthenticated"
       class="my-2"
       :reddit="reddit"
       @subscription="setSubscribe" />
@@ -22,6 +23,7 @@
 import Reddit from "@/components/Reddit.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import { redditService } from "@/services/redditService";
+import { userService } from "@/services/userService";
 import { atPageBottom } from "@/common";
 
 export default {
@@ -29,6 +31,8 @@ export default {
   components: { Reddit, LoadingIndicator },
   data() {
     return {
+      subscription: null,
+      isAuthenticated: false,
       page: 0,
       query: this.$route.query.q,
       reddits: [],
@@ -45,10 +49,13 @@ export default {
   },
   created() {
     this.fetchNext();
+    this.subscription = userService.isAuthenticated
+      .subscribe(state => this.isAuthenticated = state);
     window.onscroll = atPageBottom(() => this.fetchNext());
   },
   unmounted() {
     window.onscroll = null;
+    this.subscription && this.subscription.unsubscribe();
   },
   methods: {
     setSubscribe({ redditName, state }) {

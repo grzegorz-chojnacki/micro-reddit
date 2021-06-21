@@ -11,13 +11,15 @@
           {{ reddit.name }}
         </router-link>
 
-        <button v-if="reddit.subscribed" class="btn p-0" @click="setSubscribe(false)">
-          Unsubscribe
-        </button>
+        <template v-if="isAuthenticated">
+          <button v-if="reddit.subscribed" class="btn p-0" @click="setSubscribe(false)">
+            Unsubscribe
+          </button>
 
-        <button v-else class="btn p-0" @click="setSubscribe(true)">
-          Subscribe
-        </button>
+          <button v-else class="btn p-0" @click="setSubscribe(true)">
+            Subscribe
+          </button>
+        </template>
       </h5>
 
       <p class="card-text">
@@ -30,7 +32,10 @@
 <script>
 export default {
   name: "Reddit",
-  props: { reddit: { type: Object, required: true } },
+  props: {
+    reddit: { type: Object, required: true },
+    isAuthenticated: { type: Boolean, default: false },
+  },
   emits: ["subscription"],
   methods: {
     setSubscribe(state) {

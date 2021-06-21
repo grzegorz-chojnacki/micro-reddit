@@ -45,9 +45,10 @@ module.exports = io => socket => {
         INNER JOIN reddit_user AS ru
           ON user_id = ru.id
         WHERE c.post_id = ${postId}
+        ORDER BY c.id DESC
       `)).rows.map(commentMapper);
 
-      socket.emit("comments", comments.reverse());
+      socket.emit("comments", comments);
     });
 
     socket.on("comment", async content => {

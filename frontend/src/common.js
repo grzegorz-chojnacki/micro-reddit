@@ -5,7 +5,6 @@ export const baseURL = `${process.env.VUE_APP_BACKEND}/api`;
 export const api = axios.create({ withCredentials: true, baseURL });
 
 export const Subject = value => {
-  console.log();
   let observers = [];
   return {
     asObservable: () => ({

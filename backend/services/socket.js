@@ -35,20 +35,20 @@ const isAdmin = async userId => {
 module.exports = io => socket => {
   const user = socket.request.user;
 
-  socket.on("reddit", redditId => socket.join(`r/${redditId}`));
-
   socket.on("post", async postId => {
     socket.join(`p/${postId}`);
 
-    const comments = (await db.query(`
-      SELECT c.id, content, user_id, nickname AS username
-      FROM comment AS c
-      INNER JOIN reddit_user AS ru
-        ON user_id = ru.id
-      WHERE c.post_id = ${postId}
-    `)).rows.map(commentMapper);
+    socket.on("comments", async () => {
+      const comments = (await db.query(`
+        SELECT c.id, content, user_id, nickname AS username
+        FROM comment AS c
+        INNER JOIN reddit_user AS ru
+          ON user_id = ru.id
+        WHERE c.post_id = ${postId}
+      `)).rows.map(commentMapper);
 
-    socket.emit("comments", comments.reverse());
+      socket.emit("comments", comments.reverse());
+    });
 
     socket.on("comment", async content => {
       if (!user) return;

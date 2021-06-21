@@ -24,6 +24,7 @@
           :key="post.id"
           :post="post"
           @vote="post.score = $event.score"
+          @ban="onBan"
           @delete="onDelete" />
       </template>
       <template v-else>
@@ -52,11 +53,7 @@ import { Range, atPageBottom } from "@/common.js";
 export default {
   name: "Feed",
   components: { Post, PostMinimal, LoadingIndicator },
-  props: {
-    fetchingFn: { type: Function, required: true },
-    deletedPost: { type: Object, default: () => ({ id: null })},
-    bannedUser: { type: Object, default: () => ({ id: null })},
-  },
+  props: { fetchingFn: { type: Function, required: true }},
   data() {
     return {
       showCards: true,
@@ -75,16 +72,6 @@ export default {
     }
   },
   watch: {
-    deletedPost() {
-      if (this.deletedPost.id) {
-        this.posts = this.posts.filter(post => post.id !== this.deletedPost.id);
-      }
-    },
-    bannedUser() {
-      if (this.bannedUser.id) {
-        this.posts = this.posts.filter(post => post.user.id !== this.bannedUser.id);
-      }
-    },
     fetchingFn() {
       this.query = this.$route.query.q || "";
       this.page = 0;
@@ -120,6 +107,9 @@ export default {
     },
     onDelete(postId) {
       this.posts = this.posts.filter(post => post.id !== postId);
+    },
+    onBan(userId) {
+      this.posts = this.posts.filter(post => post.user.id !== userId);
     },
   },
 };

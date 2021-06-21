@@ -1,34 +1,12 @@
 <template>
   <main v-if="post">
-    <Post :post="post" @delete="$router.go(-1)" />
-    <section id="comments">
-      <div v-if="isAuthenticated" class="mb-3">
-        <label class="mt-2" for="comment">Add comment</label>
-        <textarea
-          id="comment"
-          v-model="textarea"
-          name="comment"
-          class="form-control" />
-        <button
-          class="mt-2 btn btn-outline-secondary btn-sm"
-          type="button"
-          :disabled="!textarea"
-          @click="saveComment">
-          Save
-        </button>
-      </div>
-
-      <Comment
-        v-for="comment of comments"
-        :key="comment.id"
-        class="my-2"
-        :comment="comment"
-        :mod-view="isMod"
-        :admin-view="isAdmin"
-        @ban="banUser"
-        @delete="deleteComment" />
-    </section>
+    <Post
+      :post="post"
+      :with-comments="true"
+      @delete="returnToReddit"
+      @ban="onBan" />
   </main>
+
   <div v-else>
     <LoadingIndicator />
   </div>
@@ -37,107 +15,43 @@
 <script>
 import Post from "@/components/Post.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
-import Comment from "@/components/Comment.vue";
 import { postService } from "@/services/postService";
-import { userService } from "@/services/userService";
-import { baseURL } from "@/common";
-import { io } from "socket.io-client";
+import { userService } from "@/services/userService.js";
 
 export default {
   name: "PostView",
-  components: { Post, Comment, LoadingIndicator },
+  components: { Post, LoadingIndicator },
   props: {
     redditName: { type: String, required: true },
     postId: { type: String, required: true },
   },
   data() {
     return {
-      subscription: null,
-      textarea: "",
-      comments: [],
-      socket: null,
       post: null,
-      isAuthenticated: false,
-      isMod: false,
-      isAdmin: false,
+      subscription: null
     };
   },
   created() {
-    this.subscription = userService.user.subscribe(async user => {
-      try {
+    try {
+      this.subscription = userService.user.subscribe(async () => {
         this.post = await this.fetchPost();
-        this.isAuthenticated = user !== null;
-
-        this.isMod = userService.isMod(this.redditName);
-        this.isAdmin = user?.admin || false;
-      } catch (e) {
-        this.subscription && this.subscription.unsubscribe();
-        this.socket && this.socket.disconnect();
-        this.$router.push({ name: "reddit", params: { redditName: this.redditName }});
-      }
-
-      if (this.socket) {
-        this.socket.disconnect();
-      }
-
-      this.initializeSocket();
-    });
+      });
+    } catch (e) {
+      this.returnToReddit();
+    }
   },
   unmounted() {
     this.subscription && this.subscription.unsubscribe();
-    this.socket && this.socket.disconnect();
   },
   methods: {
-    saveComment() {
-      this.socket.emit("comment", this.textarea);
-      this.textarea = "";
+    returnToReddit() {
+      this.$router.push({ name: "reddit", params: { redditName: this.redditName }});
     },
-    deleteComment(id) {
-      this.socket.emit("deleteComment", id);
-    },
-    banUser(user) {
-      this.socket.emit("banUser", {
-        redditName: this.redditName,
-        postId: this.postId,
-        userId: user.id
-      });
+    onBan() {
+      this.returnToReddit();
     },
     async fetchPost() {
       return await postService.get(this.redditName, this.postId);
-    },
-    initializeSocket() {
-      this.socket = io.connect(`${baseURL}`, { withCredentials: true });
-
-      this.socket.on("connect", () => {
-        this.socket.emit("post", this.postId);
-      });
-
-      this.socket.on("comment", comment => {
-        this.comments = [comment, ...this.comments];
-      });
-
-      this.socket.on("deleteComment", id => {
-        this.comments = this.comments.filter(comment => comment.id !== id);
-      });
-
-      this.socket.on("banUser", userId => {
-        if (userService.user.value.id === userId) {
-          userService.logout();
-          this.$router.push({ name: "main" });
-        } else if (userId === this.post.user.id) {
-          this.$router.push({ name: "reddit", params: { redditName: this.redditName }});
-        } else {
-          this.comments = this.comments.filter(comment => comment.user.id !== userId);
-        }
-      });
-
-      this.socket.on("deletePost", () => {
-        this.$router.push({ name: "reddit", params: { redditName: this.redditName }});
-      });
-
-      this.socket.on("comments", comments => {
-        this.comments = comments;
-      });
     },
   },
 };

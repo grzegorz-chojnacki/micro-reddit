@@ -13,9 +13,9 @@
 
     <form class="modal-body" @submit.prevent="">
       <div class="mb-3">
-        <label for="namePost" class="form-label">Title</label>
+        <label for="title" class="form-label">Title</label>
         <input
-          id="namePost"
+          id="title"
           v-model="title"
           type="text"
           class="form-control">
@@ -53,6 +53,7 @@
 
       <div>
         <input
+          ref="imageInput"
           type="file"
           class="form-control-file"
           accept="image/*"
@@ -131,7 +132,7 @@ export default markRaw({
       this.content = "";
       this.video = "";
       this.link = "";
-      this.image = null;
+      this.image = this.$refs.imageInput.value = null;
 
       this.$refs.dismiss.click();
       this.$router.push({

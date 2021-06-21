@@ -1,11 +1,11 @@
 require("dotenv").config();
 const fs = require("fs");
 const port = process.env.PORT || 8080;
+const frontend = process.env.FRONTEND;
 
 // Server setup
 const express = require("express");
 const app = express();
-// const nodemailer = require("nodemailer");
 
 const server = require("https").createServer({
   key: fs.readFileSync("./ssl/key.pem"),
@@ -15,7 +15,7 @@ const server = require("https").createServer({
 // Express
 app.use(require("cors")({
   credentials: true,
-  origin: "http://localhost:4200",
+  origin: frontend,
   exposedHeaders: ["set-cookie"]
 }));
 app.use(express.json({ limit: "50mb" }));
@@ -54,7 +54,6 @@ app.post("/api/logout", (req, res) => {
 
 // Static files
 const path = require("path");
-app.use("/", express.static(path.join(__dirname, "../frontend/dist")));
 app.use("/api/s", express.static("./storage/"));
 
 // Socket.io
@@ -62,7 +61,7 @@ const { socketIoWrap } = require("./utils");
 const io = require("socket.io")(server, {
   cors: {
     credentials: true,
-    origin: "http://localhost:4200"
+    origin: frontend
   }
 }).of("/api");
 
@@ -77,6 +76,10 @@ io.on("connection", commentService);
 app.use("/api", require("./routes/user"));
 app.use("/api", require("./routes/reddit"));
 app.use("/api", require("./routes/post")(io));
+
+const staticFrontend = express.static(path.join(__dirname, "../frontend/dist"));
+app.use("/", staticFrontend);
+app.use("/*", staticFrontend);
 
 server.listen(port, () => {
   console.log(`Server started on port ${port}`);

@@ -1,8 +1,6 @@
 import axios from "axios";
 
-export const baseURL = (process.env.NODE_ENV === "development")
-? "https://localhost:8080/api"
-: "/api";
+export const baseURL = `${process.env.VUE_APP_BACKEND}/api`;
 
 export const api = axios.create({ withCredentials: true, baseURL });
 

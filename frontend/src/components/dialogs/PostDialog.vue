@@ -140,10 +140,12 @@ export default markRaw({
       });
     },
     loadImage({ target: { files } }) {
-      const reader = new FileReader();
-      reader.onload = ({ target: { result }}) => (this.image = result);
+      if (files.length === 1) {
+        const reader = new FileReader();
+        reader.onload = ({ target: { result }}) => (this.image = result);
 
-      reader.readAsDataURL(files[0]);
+        reader.readAsDataURL(files[0]);
+      }
     }
   },
 });

@@ -42,7 +42,7 @@ export const userService = {
   },
 
   async remindPassword(username) {
-    api.post("/u/password", { username });
+    await api.post("/u/password", { username });
   },
 
   isMod(redditName) {

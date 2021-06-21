@@ -35,7 +35,7 @@
           Username or password is invalid
         </div>
       </div>
-      <span v-if="reminded">Email sent to inbox of {{ reminded }}!</span>
+      <span v-if="reminded">{{ reminded }}!</span>
     </form>
 
     <div class="modal-footer">
@@ -45,16 +45,18 @@
         @click="remindPassword">
         Remind my password
       </button>
-      <button
-        ref="dismiss"
-        type="button"
-        class="btn btn-secondary"
-        data-bs-dismiss="modal">
-        Close
-      </button>
-      <button type="button" class="btn btn-primary" :disabled="isInvalid" @click="login">
-        Login
-      </button>
+      <div class="d-flex gap-2">
+        <button
+          ref="dismiss"
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal">
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" :disabled="isInvalid" @click="login">
+          Login
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -93,9 +95,13 @@ export default markRaw({
         markForm(this.$refs, ["password", "username"]);
       }
     },
-    remindPassword() {
-      userService.remindPassword(this.username);
-      this.reminded = this.username;
+    async remindPassword() {
+      try {
+        await userService.remindPassword(this.username);
+        this.reminded = `Email sent to inbox of ${this.username}`;
+      } catch (e) {
+        this.reminded = `User ${this.username} doesn't exist`;
+      }
     }
   },
 });

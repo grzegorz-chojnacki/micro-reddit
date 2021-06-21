@@ -13,7 +13,7 @@
           </router-link>
         </h5>
 
-        <button v-if="modView" class="btn btn-sm" @click="deletePost">
+        <button v-if="modView" class="btn btn-sm" @click="$emit('delete', post.id)">
           <span class="material-icons">block</span>
         </button>
       </div>
@@ -34,38 +34,16 @@
 </template>
 
 <script>
-import { postService } from "@/services/postService.js";
-import { userService } from "@/services/userService.js";
+import { markRaw } from "vue";
 
-export default {
-  name: "Post",
-  props: { post: { type: Object, required: true } },
-  emits: ["delete", "vote"],
-  data() {
-    return {
-      score: this.post.score,
-      modView: userService.isMod(this.post.reddit.name)
-    };
+export default markRaw({
+  name: "PostMinimal",
+  props: {
+    post: { type: Object, required: true },
+    modView: { type: Boolean, default: false },
   },
-  watch: {
-    post() {
-      this.score = this.post.score;
-      this.voted = this.post.voted;
-    }
-  },
-  methods: {
-    async onVote(state) {
-      const { score } = await postService.vote(this.post.reddit.name, this.post.id, state);
-      this.score = score;
-      this.voted = state;
-      this.$emit("vote", { score });
-    },
-    async deletePost() {
-      await postService.delete(this.post.reddit.name, this.post.id);
-      this.$emit("delete", this.post.id);
-    }
-  },
-};
+  emits: ["delete"],
+});
 </script>
 
 <style scoped lang="scss">

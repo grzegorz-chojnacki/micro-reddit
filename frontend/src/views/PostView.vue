@@ -4,6 +4,7 @@
       :post="post"
       :with-comments="true"
       @delete="returnToReddit"
+      @vote="onVote(post, $event)"
       @ban="onBan" />
   </main>
 
@@ -49,6 +50,10 @@ export default {
     },
     onBan() {
       this.returnToReddit();
+    },
+    onVote(post, { score, state }) {
+      post.score = score;
+      post.voted = state;
     },
     async fetchPost() {
       return await postService.get(this.redditName, this.postId);

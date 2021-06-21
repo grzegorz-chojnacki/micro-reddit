@@ -23,17 +23,20 @@
           v-for="post of posts"
           :key="post.id"
           :post="post"
-          @vote="post.score = $event.score"
+          :component="PostCard"
+          @vote="onVote(post, $event)"
           @ban="onBan"
           @delete="onDelete" />
       </template>
       <template v-else>
         <ul class="list-group list-group-flush">
-          <PostMinimal
+          <Post
             v-for="post of posts"
             :key="post.id"
             :post="post"
-            @vote="post.score = $event.score"
+            :component="PostMinimal"
+            @vote="onVote(post, $event)"
+            @ban="onBan"
             @delete="onDelete" />
         </ul>
       </template>
@@ -46,16 +49,18 @@
 <script>
 import Post from "@/components/Post.vue";
 import PostMinimal from "@/components/PostMinimal.vue";
+import PostCard from "@/components/PostCard.vue";
 import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import { userService } from "@/services/userService.js";
 import { Range, atPageBottom } from "@/common.js";
 
 export default {
   name: "Feed",
-  components: { Post, PostMinimal, LoadingIndicator },
+  components: { Post, LoadingIndicator },
   props: { fetchingFn: { type: Function, required: true }},
   data() {
     return {
+      PostCard, PostMinimal,
       showCards: true,
       subscription: null,
       page: 0,
@@ -69,7 +74,7 @@ export default {
       return this.query
         ? this.query.replace(/(.*);(.*)/, (_, search) => search)
         : "";
-    }
+    },
   },
   watch: {
     fetchingFn() {
@@ -110,6 +115,10 @@ export default {
     },
     onBan(userId) {
       this.posts = this.posts.filter(post => post.user.id !== userId);
+    },
+    onVote(post, { score, state }) {
+      post.score = score;
+      post.voted = state;
     },
   },
 };

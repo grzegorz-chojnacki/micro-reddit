@@ -1,68 +1,11 @@
 <template>
-  <section class="card">
-    <header class="card-header">
-      <div class="d-flex justify-content-between">
-        <h5 class="card-title">
-          <router-link
-            class="text-reset"
-            :to="{
-              name: 'post',
-              params: { redditName: post.reddit.name, postId: post.id },
-            }">
-            {{ post.title }}
-          </router-link>
-        </h5>
-
-        <button v-if="modView" class="btn btn-sm" @click="deletePost">
-          <span class="material-icons">block</span>
-        </button>
-      </div>
-
-      <h6 class="card-subtitle">
-        <span class="post-author">
-          Posted by <strong>{{ post.user?.username }}</strong> at
-        </span>
-        <router-link
-          class="text-reset"
-          :to="{ name: 'reddit', params: { redditName: post.reddit.name } }">
-          {{ post.reddit.name }}
-        </router-link>
-      </h6>
-    </header>
-
-    <div class="card-body">
-      <!-- <iframe
-        v-if="post.video"
-        :src="embedYoutube(post.video)"
-        class="yt-player"
-        type="text/html"
-        frameborder="0" /> -->
-
-      <div v-if="post.image" class="img-container rounded-2 bg-dark mb-3">
-        <img :src="imageUrl" :alt="post.title">
-      </div>
-
-      <p v-if="post.link" class="card-text">
-        <a :href="post.link">
-          {{ post.link }}
-        </a>
-      </p>
-
-      <p v-if="post.content" class="card-text">
-        {{ post.content }}
-      </p>
-    </div>
-
-    <footer class="card-footer">
-      <VoteGroup :score="score" :voted="voted" @vote="onVote" />
-
-      <router-link
-        class="btn mx-3"
-        :to="`/r/${post.reddit.name}/p/${post.id}#comments`">
-        Comments
-      </router-link>
-    </footer>
-  </section>
+  <component
+    :is="component"
+    :post="post"
+    :mod-view="modView"
+    :is-authenticated="isAuthenticated"
+    @delete="onDelete"
+    @vote="onVote" />
 
   <section v-if="withComments" id="comments">
     <div v-if="isAuthenticated" class="mb-3">
@@ -94,8 +37,8 @@
 </template>
 
 <script>
-import VoteGroup from "@/components/VoteGroup.vue";
 import Comment from "@/components/Comment.vue";
+import PostCard from "@/components/PostCard.vue";
 import { postService } from "@/services/postService.js";
 import { userService } from "@/services/userService.js";
 import { io } from "socket.io-client";
@@ -105,10 +48,11 @@ const urlMapper = url => url.match(/^http.*/) ? url : `${baseURL}/s/${url}`;
 
 export default {
   name: "Post",
-  components: { VoteGroup, Comment },
+  components: { Comment },
   props: {
     post: { type: Object, required: true },
-    withComments: { type: Boolean, default: false }
+    withComments: { type: Boolean, default: false },
+    component: { type: Object, default: PostCard },
   },
   emits: ["delete", "ban", "vote"],
   data() {
@@ -151,11 +95,9 @@ export default {
     },
     async onVote(state) {
       const { score } = await postService.vote(this.post.reddit.name, this.post.id, state);
-      this.score = score;
-      this.voted = state;
-      this.$emit("vote", { score });
+      this.$emit("vote", { score, state });
     },
-    async deletePost() {
+    async onDelete() {
       await postService.delete(this.post.reddit.name, this.post.id);
       this.$emit("delete", this.post.id);
     },

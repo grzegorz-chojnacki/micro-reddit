@@ -52,10 +52,6 @@ app.post("/api/logout", (req, res) => {
   res.sendStatus(200);
 });
 
-// Static files
-const path = require("path");
-app.use("/api/s", express.static("./storage/"));
-
 // Socket.io
 const { socketIoWrap } = require("./utils");
 const io = require("socket.io")(server, {
@@ -77,7 +73,10 @@ app.use("/api", require("./routes/user"));
 app.use("/api", require("./routes/reddit"));
 app.use("/api", require("./routes/post")(io));
 
+// Static files
+const path = require("path");
 const staticFrontend = express.static(path.join(__dirname, "../frontend/dist"));
+app.use("/api/s", express.static("./storage/"));
 app.use("/", staticFrontend);
 app.use("/*", staticFrontend);
 

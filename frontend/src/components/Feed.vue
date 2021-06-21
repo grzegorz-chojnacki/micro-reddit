@@ -16,7 +16,6 @@
       <label class="form-check-label" for="postComponent">Display cards</label>
     </div>
 
-
     <section>
       <template v-if="showCards">
         <Post
@@ -54,6 +53,10 @@ import LoadingIndicator from "@/components/LoadingIndicator.vue";
 import { userService } from "@/services/userService.js";
 import { Range, atPageBottom } from "@/common.js";
 
+const initShowCards = () => localStorage.getItem("showCards") !== null
+  ? localStorage.getItem("showCards") === "true"
+  : true;
+
 export default {
   name: "Feed",
   components: { Post, LoadingIndicator },
@@ -61,7 +64,7 @@ export default {
   data() {
     return {
       PostCard, PostMinimal,
-      showCards: true,
+      showCards: initShowCards(),
       subscription: null,
       page: 0,
       query: this.$route.query.q || "",
@@ -84,6 +87,9 @@ export default {
       this.sourceExhausted = false;
       this.fetchNext();
     },
+    showCards() {
+      localStorage.setItem("showCards", this.showCards);
+    }
   },
   created() {
     this.fetchNext();

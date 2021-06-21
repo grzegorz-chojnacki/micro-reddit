@@ -28,7 +28,7 @@
               Home
             </router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="!isAuthenticated" class="nav-item">
             <span class="nav-link" @click="register">
               Register
             </span>

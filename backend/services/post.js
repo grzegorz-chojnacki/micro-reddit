@@ -71,7 +71,7 @@ module.exports = ({
     if (post.video && !(await isYoutubeVideoUrl(post.video))) throw new Error("video");
 
     if (post.image) {
-      imageUrl = `${md5(post.image)}.${imageExt(post.image)}`;
+      imageUrl = `${md5(post.image + new Date().getTime())}.${imageExt(post.image)}`;
       await fsp.writeFile(`./storage/${imageUrl}`, imageStripMime(post.image), "base64");
     }
 

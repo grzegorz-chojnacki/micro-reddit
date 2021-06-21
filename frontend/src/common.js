@@ -1,10 +1,13 @@
 import axios from "axios";
 
-export const baseURL = "https://localhost:8080/api";
+export const baseURL = (process.env.NODE_ENV === "development")
+? "https://localhost:8080/api"
+: "/api";
 
 export const api = axios.create({ withCredentials: true, baseURL });
 
 export const Subject = value => {
+  console.log();
   let observers = [];
   return {
     asObservable: () => ({
